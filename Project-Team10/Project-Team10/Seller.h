@@ -1,7 +1,7 @@
 #pragma once
-#include "User.h"
-class Seller :
-    public User
+#include "Customer.h"
+class Seller: public Customer
 {
+
 };
 
