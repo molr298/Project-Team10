@@ -6,6 +6,9 @@
 
 class Admin: public AccountInfo
 {
+private:
+
+public:
 
 };
 #endif // !_ADMIN_H

@@ -9,10 +9,13 @@ private:
 	int ID;
 	string username;
 	string fullname;
-	int phoneNumber;
 	string DoB;
-	bool gender;
 	string address;
+	int phoneNumber;
+	bool gender;
+public:
+	AccountInfo loadAnAccountInfo(ifstream&);
+	void saveAnAccountInfor(ofstream&);
 };
 
 #endif // !_ACCOUNTINFO_H
