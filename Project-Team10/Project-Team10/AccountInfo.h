@@ -13,9 +13,12 @@ private:
 	string address;
 	int phoneNumber;
 	bool gender;
+protected:
+	//
 public:
 	AccountInfo loadAnAccountInfo(ifstream&);
 	void saveAnAccountInfor(ofstream&);
+	void displayAccountInfo();
 };
 
 #endif // !_ACCOUNTINFO_H

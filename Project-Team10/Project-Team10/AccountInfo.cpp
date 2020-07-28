@@ -24,3 +24,14 @@ void AccountInfo::saveAnAccountInfor(ofstream& fout)
 	fout << gender << endl << endl;
 }
 
+void AccountInfo::displayAccountInfo()
+{
+	cout << "--------------------------------------" << endl;
+	cout << "ID: " << ID << endl;
+	cout << "Full name: " << fullname << endl;
+	cout << "Day of birth: " << DoB << endl;
+	cout << "Address: " << address << endl;
+	cout << "Phone number: " << phoneNumber << endl;
+	cout << "Gender: "; (gender = 0) ? cout << "MALE" : cout << "FEMALE";
+}
+
