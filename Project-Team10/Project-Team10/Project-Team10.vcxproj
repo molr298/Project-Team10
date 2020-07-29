@@ -153,6 +153,7 @@
     <ClInclude Include="AccountInfo.h" />
     <ClInclude Include="Admin.h" />
     <ClInclude Include="Customer.h" />
+    <ClInclude Include="sha256.h" />
     <ClInclude Include="Lib.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Product.h" />

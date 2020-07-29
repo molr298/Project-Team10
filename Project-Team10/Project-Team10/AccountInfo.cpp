@@ -35,3 +35,13 @@ void AccountInfo::displayAccountInfo()
 	cout << "Gender: "; (gender = 0) ? cout << "MALE" : cout << "FEMALE";
 }
 
+int AccountInfo::getID()
+{
+	return ID;
+}
+
+string AccountInfo::getUserName()
+{
+	return username;
+}
+

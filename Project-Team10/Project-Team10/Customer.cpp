@@ -26,3 +26,25 @@ void Customer::saveListUser()
 		listUser[i].saveAnAccountInfor(fout);
 	fout.close();
 }
+
+AccountInfo Customer::findUser(const int& ID)
+{
+	for (int i = 0; i < listUser.size(); i++)
+		if (listUser[i].getID() == ID)
+			return listUser[i];
+}
+
+AccountInfo Customer::findUser(const string& Username)
+{
+	for (int i = 0; i < listUser.size(); i++)
+		if (listUser[i].getUserName() ==Username)
+			return listUser[i];
+}
+
+//AccountInfo Customer::findUser(const int& ID)
+//{
+//	for(int i=0;i<listUser.size();i++)
+//		if(listUser[i].)
+//}
+
+
