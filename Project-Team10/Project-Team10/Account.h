@@ -9,7 +9,4 @@ private:
 };
 
 
-class ListAccount {
-private:
-	vector<Account> listAccount;
-};
+

@@ -1,0 +1,8 @@
+2
+nttanh
+//password da hash :V
+000000001
+
+ntminhnghi
+//cung la password da hash :3
+000000002

@@ -7,9 +7,9 @@ AccountInfo AccountInfo::loadAnAccountInfo(ifstream& fin)
 	getline(fin, username);
 	getline(fin, fullname);
 	getline(fin, DoB);
-	getline(fin, address);
 	fin >> phoneNumber;
 	fin >> gender;
+	fin >> status;
 	return *this;
 }
 
@@ -19,20 +19,23 @@ void AccountInfo::saveAnAccountInfor(ofstream& fout)
 	fout << username << endl;
 	fout << fullname << endl;
 	fout << DoB << endl;
-	fout << address << endl;
 	fout << phoneNumber << endl;
-	fout << gender << endl << endl;
+	fout << gender << endl;
+	fout << status << endl << endl;
 }
 
 void AccountInfo::displayAccountInfo()
 {
 	cout << "--------------------------------------" << endl;
 	cout << "ID: " << ID << endl;
+	cout << "User name: " << username << endl;
 	cout << "Full name: " << fullname << endl;
 	cout << "Day of birth: " << DoB << endl;
-	cout << "Address: " << address << endl;
 	cout << "Phone number: " << phoneNumber << endl;
-	cout << "Gender: "; (gender = 0) ? cout << "MALE" : cout << "FEMALE";
+	cout << "Gender: "; (gender == 0) ? cout << "MALE" << endl : cout << "FEMALE" << endl;
+	if (status == 0) cout << "CUSTOMER" << endl;
+	else if (status == 1) cout << "SELLER" << endl;
+	else if (status == 2) cout << "ADMIN" << endl;
 }
 
 int AccountInfo::getID()
