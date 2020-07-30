@@ -10,9 +10,9 @@ private:
 	string username;
 	string fullname;
 	string DoB;
-	string address;
 	int phoneNumber;
 	int gender;
+	int status;
 protected:
 	//
 public:
@@ -26,6 +26,7 @@ public:
 	string getAddress() { return address; }
 	int getPhoneNumber() { return phoneNumber; }
 	int getGender() { return gender; }
+
 };
 
 #endif // !_ACCOUNTINFO_H

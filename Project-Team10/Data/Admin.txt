@@ -1,0 +1,16 @@
+2
+000000001
+nttanh
+Nguyen Tran Tuan Anh
+08/07/1987
+0983000123
+0
+2
+
+000000002
+ngtminhnghi
+Nguyen Tran Minh Nghi
+04/11/1996
+0387000112
+1
+2
