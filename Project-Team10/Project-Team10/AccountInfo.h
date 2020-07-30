@@ -16,14 +16,14 @@ private:
 protected:
 	//
 public:
-	AccountInfo loadAnAccountInfo(ifstream&);
+	void loadAnAccountInfo(ifstream&);
+	void inputAccount();
 	void saveAnAccountInfor(ofstream&);
 	void displayAccountInfo();
 	int getID() { return ID; }
 	string getUsername() { return username; }
 	string getFullname() { return fullname; }
 	string getDoB() { return DoB; }
-	string getAddress() { return address; }
 	int getPhoneNumber() { return phoneNumber; }
 	int getGender() { return gender; }
 

@@ -1,16 +1,15 @@
 #include "AccountInfo.h"
 
-AccountInfo AccountInfo::loadAnAccountInfo(ifstream& fin)
+void AccountInfo::loadAnAccountInfo(ifstream& fin)
 {
 	fin >> ID;
 	fin.ignore();
-	getline(fin, username);
-	getline(fin, fullname);
-	getline(fin, DoB);
+	getline(fin, username, '\n');
+	getline(fin, fullname, '\n');
+	getline(fin, DoB, '\n');
 	fin >> phoneNumber;
 	fin >> gender;
 	fin >> status;
-	return *this;
 }
 
 void AccountInfo::saveAnAccountInfor(ofstream& fout)
@@ -23,7 +22,20 @@ void AccountInfo::saveAnAccountInfor(ofstream& fout)
 	fout << gender << endl;
 	fout << status << endl << endl;
 }
-
+void AccountInfo::inputAccount()
+{
+	cout << "--------------------------------------" << endl;
+	cout << "Enter ID: ";
+	cin >> ID;
+	cout << "Enter User name: ";
+	cin >> username;
+	cout << "Enter Full name: ";
+	cin >> fullname;
+	cout << "Enter Day of birth: ";
+	cin >> DoB;
+	cout << "Enter Phone number: ";
+	cin >> phoneNumber;
+}
 void AccountInfo::displayAccountInfo()
 {
 	cout << "--------------------------------------" << endl;
@@ -38,13 +50,4 @@ void AccountInfo::displayAccountInfo()
 	else if (status == 2) cout << "ADMIN" << endl;
 }
 
-int AccountInfo::getID()
-{
-	return ID;
-}
-
-string AccountInfo::getUserName()
-{
-	return username;
-}
 
