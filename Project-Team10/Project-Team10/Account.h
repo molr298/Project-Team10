@@ -1,15 +1,12 @@
 #include "Lib.h"
-class Account
+#include "AccountInfo.h"
+
+class ListAccount 
 {
-private: 
-	int ID;
-	int phonenumber;
-	string username;
-
-};
-
-
-class ListAccount {
 private:
-	vector<Account> listAccount;
+	vector<AccountInfo*> listAccountAdmin;
+	vector<AccountInfo*> listAccountUser;
+	vector<AccountInfo*> listAccountAdmin;
+
+
 };

@@ -9,7 +9,9 @@ class Admin: public AccountInfo
 private:
 
 public:
-
+	void viewDataOfUser();
+	void editInfo();
+	void removeUser();
 };
 #endif // !_ADMIN_H
 

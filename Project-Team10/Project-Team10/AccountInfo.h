@@ -12,13 +12,20 @@ private:
 	string DoB;
 	string address;
 	int phoneNumber;
-	bool gender;
+	int gender;
 protected:
 	//
 public:
 	AccountInfo loadAnAccountInfo(ifstream&);
 	void saveAnAccountInfor(ofstream&);
 	void displayAccountInfo();
+	int getID() { return ID; }
+	string getUsername() { return username; }
+	string getFullname() { return fullname; }
+	string getDoB() { return DoB; }
+	string getAddress() { return address; }
+	int getPhoneNumber() { return phoneNumber; }
+	int getGender() { return gender; }
 };
 
 #endif // !_ACCOUNTINFO_H
