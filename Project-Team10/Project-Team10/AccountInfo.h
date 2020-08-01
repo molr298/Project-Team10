@@ -16,7 +16,7 @@ private:
 protected:
 	//
 public:
-	void loadAnAccountInfo(ifstream&);
+	AccountInfo loadAnAccountInfo(ifstream&);
 	void inputAccount();
 	void saveAnAccountInfor(ofstream&);
 	void displayAccountInfo();

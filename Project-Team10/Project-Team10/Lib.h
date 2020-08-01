@@ -7,6 +7,11 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
+#define ACCOUNT_PATH "Account/"
+#define DATA_PATH "Data/"
+#define PRODUCT_PATH "Product/"
+#define CART_PATH "Cart/"
+#define NOTI_PATH "Notification/"
 
 using namespace std;
 

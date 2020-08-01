@@ -1,15 +1,16 @@
 #include "AccountInfo.h"
 
-void AccountInfo::loadAnAccountInfo(ifstream& fin)
+AccountInfo AccountInfo::loadAnAccountInfo(ifstream& fin)
 {
 	fin >> ID;
 	fin.ignore();
-	getline(fin, username, '\n');
-	getline(fin, fullname, '\n');
-	getline(fin, DoB, '\n');
+	getline(fin, username);
+	getline(fin, fullname);
+	getline(fin, DoB);
 	fin >> phoneNumber;
 	fin >> gender;
 	fin >> status;
+	return *this;
 }
 
 void AccountInfo::saveAnAccountInfor(ofstream& fout)
@@ -24,7 +25,7 @@ void AccountInfo::saveAnAccountInfor(ofstream& fout)
 }
 void AccountInfo::inputAccount()
 {
-	cout << "--------------------------------------" << endl;
+	cout << "______________________________________" << endl;
 	cout << "Enter ID: ";
 	cin >> ID;
 	cout << "Enter User name: ";
@@ -38,16 +39,16 @@ void AccountInfo::inputAccount()
 }
 void AccountInfo::displayAccountInfo()
 {
-	cout << "--------------------------------------" << endl;
+	cout << "______________________________________" << endl;
 	cout << "ID: " << ID << endl;
 	cout << "User name: " << username << endl;
 	cout << "Full name: " << fullname << endl;
 	cout << "Day of birth: " << DoB << endl;
 	cout << "Phone number: " << phoneNumber << endl;
 	cout << "Gender: "; (gender == 0) ? cout << "MALE" << endl : cout << "FEMALE" << endl;
-	if (status == 0) cout << "CUSTOMER" << endl;
-	else if (status == 1) cout << "SELLER" << endl;
-	else if (status == 2) cout << "ADMIN" << endl;
+	if (status == 0)		cout << "CUSTOMER" << endl;
+	else if (status == 1)	cout << "SELLER" << endl;
+	else if (status == 2)	cout << "ADMIN" << endl;
 }
 
 

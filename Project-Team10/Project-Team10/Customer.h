@@ -11,9 +11,9 @@ private:
 public:
 	void loadListUser();
 	void saveListUser();
-	void findUser(const int&);		//find another user by ID
-	void findUser(const string&);	//find another user by user name
-	void outputInfo();
+	AccountInfo findUser(const int&);		//find another user by ID
+	AccountInfo findUser(const string&);	//find another user by user name
+	void displayListUser();
 };
 
 #endif // !_CUSTOMER_H
