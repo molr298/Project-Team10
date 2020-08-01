@@ -1,7 +1,13 @@
 #include "Menu.h"
-#include "Account.h"
+#include "AccountInfo.h"
+#include "Admin.h"
 int main() {
-	Customer tmp;
+	/*AccountInfo tmp;
 	tmp.loadListUser();
-	tmp.displayListUser();
+	tmp.displayListUser();*/
+	/*tmp.registerAccount();
+	tmp.editInfo();*/
+	Admin ad;
+	ad.loadListAdmin();
+	ad.displayListAdmin();
 }

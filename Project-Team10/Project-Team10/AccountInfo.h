@@ -6,29 +6,46 @@
 class AccountInfo
 {
 private:
-	int ID;
+	string ID;
 	string username;
 	string fullname;
 	string DoB;
 	int phoneNumber;
 	int gender;
 	int status;
+	vector<AccountInfo> listUser;
+	vector<AccountInfo> listAdmin;
 protected:
 	//
 public:
 	AccountInfo loadAnAccountInfo(ifstream&);
 	void inputAccount();
-	void saveAnAccountInfor(ofstream&);
+	void saveAnAccountInfor(fstream&);
 	void displayAccountInfo();
-	int getID() { return ID; }
+	string getID() { return ID; }
 	string getUsername() { return username; }
 	string getFullname() { return fullname; }
 	string getDoB() { return DoB; }
 	int getPhoneNumber() { return phoneNumber; }
 	int getGender() { return gender; }
-
+	void loadListUser();
+	void saveListUser();
+	void registerAccount();
+	AccountInfo findUser(const int&);		//find another user by ID
+	AccountInfo findUser(const string&);	//find another user by user name
+	void displayListUser();
+	void editInfo();
+	void operator=(const AccountInfo& aci)
+	{
+		ID = aci.ID;
+		username = aci.username;
+		fullname = aci.fullname;
+		DoB = aci.DoB;
+		phoneNumber = aci.phoneNumber;
+		gender = aci.gender;
+	}
 };
 
-#endif // !_ACCOUNTINFO_H
+#endif // !_ACCOUNTINFO_
 
 

@@ -7,9 +7,10 @@
 class Admin: public AccountInfo
 {
 private:
-
+	vector<AccountInfo> listAdmin;
 public:
-	void viewDataOfUser();
+	void loadListAdmin();
+	void displayListAdmin();
 	void editInfo();
 	void removeUser();
 };
