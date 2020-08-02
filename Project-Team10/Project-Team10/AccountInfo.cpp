@@ -12,8 +12,7 @@ AccountInfo AccountInfo::loadAnAccountInfo(ifstream& fin)
 	fin.ignore();
 	return *this;
 }
-
-void AccountInfo::saveAnAccountInfor(fstream& fout)
+void AccountInfo::saveAnAccountInfor(ofstream& fout)
 {
 	fout << ID << endl;
 	fout << username << endl;
@@ -80,7 +79,7 @@ void AccountInfo::registerAccount()
 void AccountInfo::saveListUser()
 {
 	remove("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Data/User.txt");
-	fstream fout("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Data/User.txt",ios::out);
+	ofstream fout("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Data/User.txt");
 	/*if (!fout.is_open()) {
 		cout << "Can't write user information!!" << endl;
 		return;

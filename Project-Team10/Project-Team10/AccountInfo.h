@@ -2,7 +2,7 @@
 #define _ACCOUNTINFO_H
 
 #include "Lib.h"
-
+using namespace std;
 class AccountInfo
 {
 private:
@@ -13,14 +13,14 @@ private:
 	int phoneNumber;
 	int gender;
 	int status;
-	vector<AccountInfo> listUser;
+	//vector<AccountInfo> listUser;
 	vector<AccountInfo> listAdmin;
 protected:
-	//
+	vector<AccountInfo> listUser;
 public:
 	AccountInfo loadAnAccountInfo(ifstream&);
 	void inputAccount();
-	void saveAnAccountInfor(fstream&);
+	void saveAnAccountInfor(ofstream&);
 	void displayAccountInfo();
 	string getID() { return ID; }
 	string getUsername() { return username; }
@@ -43,6 +43,10 @@ public:
 		DoB = aci.DoB;
 		phoneNumber = aci.phoneNumber;
 		gender = aci.gender;
+	}
+	vector <AccountInfo> getVecctor()
+	{
+		return listUser;
 	}
 };
 
