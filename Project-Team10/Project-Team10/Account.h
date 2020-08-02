@@ -16,22 +16,26 @@
 //	void loadListAdminAccount();
 //	void registerUserAccount();
 //};
-/*
+
 class Account {
 private:
 	string username;
 	string passHash;
-	int ID;
+	string ID;
 public:
 	Account loadAnAccount(ifstream&);
 	string inputPassword();
 	string HashPassword(string passWord);
+	string getPassHass() { return passHash; }
+	string getUsername() { return username; }
+	void saveAccount(ofstream&);
 };
 
 class ListAccount: public Account {
 private:
 	vector<Account> listAccount;
 public:
-	void loadListAccount(string, int);
+	void loadListAccount(string);
 	int login(string, string);
-};*/
+	void saveListAccount(const int&, string);
+};

@@ -1,8 +1,8 @@
 2
-nttanh
+197.000.001
 //password da hash :V
 000000001
 
-ntminhnghi
+197.000.002
 //cung la password da hash :3
 000000002
