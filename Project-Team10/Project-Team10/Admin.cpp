@@ -35,29 +35,13 @@ void Admin::saveUser()
 		return;
 	}*/
 
-	fout << listUser1.size() << endl;
-	for (int i = 0; i < listUser1.size(); i++)
-		listUser1[i].saveAnAccountInfor(fout);
+	fout << listUser.size() << endl;
+	for (int i = 0; i < listUser.size(); i++)
+		listUser[i].saveAnAccountInfor(fout);
 	fout.close();
 }
-void Admin::removeUser()
-{
-	string search;
-	cout << "Enter ID or name to remove: ";
-	getline(cin, search);
-	listUser1 = AccountInfo::getVecctor();
-	cout << AccountInfo::getVecctor().size();
-	for (int i = 0; i < listUser1.size(); i++)
-	{
-		if (listUser1[i].getUsername() == search || listUser1[i].getID() == search)
-		{
-			listUser1.erase(listUser1.begin() + i);
-		}
-	}
-	Admin::saveUser();
-}
 
-void Admin::removeUserAlt()
+void Admin::removeUser()
 {
 	string search;
 	cout << "Enter ID or name to remove: ";

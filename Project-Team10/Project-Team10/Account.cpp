@@ -40,12 +40,12 @@ string Account::inputPassword()
 	return passWord;
 }
 
-string Account::HashPassword(string passWord)
-{
-	SHA256 sha256;
-	string hashPass = sha256(passWord);
-	return hashPass;
-}
+//string Account::HashPassword(string passWord)
+//{
+//	SHA256 sha256;
+//	string hashPass = sha256(passWord);
+//	return hashPass;
+//}
 
 void Account::saveAccount(ofstream& fout)
 {
@@ -72,7 +72,7 @@ int ListAccount::login(string username, string password)
 {
 	string listFile[2] = { "Admin.txt", "User.txt" };
 	//0-Failed	1-User	2-Admin
-	password = Account::HashPassword(password);
+	//password = Account::HashPassword(password);
 	if (username.substr(0, 7) == "197.000") {
 		loadListAccount(listFile[0]);
 		for (int i = 0; i < listAccount.size(); i++)
