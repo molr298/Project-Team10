@@ -25,7 +25,7 @@ private:
 public:
 	Account loadAnAccount(ifstream&);
 	string inputPassword();
-	string HashPassword(string passWord);
+	/*string HashPassword(string passWord);*/
 	string getPassHass() { return passHash; }
 	string getUsername() { return username; }
 	void saveAccount(ofstream&);
