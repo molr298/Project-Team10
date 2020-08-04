@@ -1,14 +1,17 @@
 #include "Menu.h"
 #include "AccountInfo.h"
 #include "Admin.h"
+#include "Product.h"
 int main() {
-	AccountInfo tmp;
+	/*AccountInfo tmp;
 	tmp.loadListUser();
 	tmp.displayListUser();
 	/*tmp.registerAccount();
-	tmp.editInfo();*/
+	tmp.editInfo();
 	Admin ad;
 	ad.loadListAdmin();
 	ad.displayListAdmin();
-	ad.removeUser();
+	ad.removeUser();*/
+	Product a;
+	a.loadProductfile();
 }
