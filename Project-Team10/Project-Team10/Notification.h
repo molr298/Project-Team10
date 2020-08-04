@@ -1,5 +1,6 @@
 #pragma once
 #include "Admin.h"
+#include "Product.h"
 class Notif
 {
 private:
@@ -24,6 +25,30 @@ public:
 	void loadListNotif();
 	AdminNotif loadAnNotif(ifstream& fin);
 	void checkNotif(string adminID, string userID);
-	void displayNotif();
-	void displayListNotif();
+};
+class UserNotif : public Notif, public Admin, public AccountInfo, public Product
+{
+private:
+	string customerID;
+	string sellerID;
+	string productName;
+	double price;
+	int quantity;
+	double totalPrice;
+	int typeProduct;
+protected:
+	vector<UserNotif> usnv;
+public:
+	string getCustomerID() { return customerID; }
+	string getSellerID(){ return sellerID; }
+	string getProductName(){ return productName; }
+	double getPrice(){ return price; }
+	int getQuantity(){ return quantity; }
+	double getTotalPrice(){ return totalPrice; }
+	int getType(){ return typeProduct; }
+	void loadListNotif();
+	UserNotif loadOneNotif(ifstream& fin);
+	void checkNotif(string customerID, string sellerID);
+	void print();
+	void printList();
 };
