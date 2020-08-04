@@ -8,6 +8,7 @@ class Admin: public AccountInfo
 {
 private:
 	vector<AccountInfo> listAdmin;
+
 public:
 	void loadListAdmin();
 	void displayListAdmin();

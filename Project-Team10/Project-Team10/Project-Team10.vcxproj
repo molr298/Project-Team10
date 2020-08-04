@@ -148,12 +148,14 @@
     <ClCompile Include="Product.cpp" />
     <ClCompile Include="Seller.cpp" />
     <ClCompile Include="sha256.cpp" />
+    <ClCompile Include="Notification.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h" />
     <ClInclude Include="AccountInfo.h" />
     <ClInclude Include="Admin.h" />
     <ClInclude Include="Customer.h" />
+    <ClInclude Include="Notification.h" />
     <ClInclude Include="sha256.h" />
     <ClInclude Include="Lib.h" />
     <ClInclude Include="Menu.h" />
