@@ -12,9 +12,10 @@ private:
 	int stock;
 	int type; //1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other
 public:
-
+	void loadProduct(ifstream&, vector<Product>&,int&);
+	friend istream& operator>>(istream&, Product&);
+	friend ifstream& operator>> (ifstream&, Product&);
 };
-
 
 #endif // !_PRODUCT_H
 
