@@ -29,10 +29,9 @@ int main() {
 
 	UserNotif usn;
 	usn.loadListNotif();
-	usn.printList();
 	usn.checkNotif("19127003", "");
 	usn.checkNotif("", "19127002");
 	usn.checkNotif("19127001", "");
 	usn.checkNotif("", "19127004");
-	usn.checkNotif("", "");
+
 }

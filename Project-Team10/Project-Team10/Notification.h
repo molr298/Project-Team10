@@ -36,6 +36,7 @@ private:
 	int quantity;
 	double totalPrice;
 	int typeProduct;
+	int status;
 protected:
 	vector<UserNotif> usnv;
 public:
@@ -46,6 +47,7 @@ public:
 	int getQuantity(){ return quantity; }
 	double getTotalPrice(){ return totalPrice; }
 	int getType(){ return typeProduct; }
+	int getStatus() { return status; }
 	void loadListNotif();
 	UserNotif loadOneNotif(ifstream& fin);
 	void checkNotif(string customerID, string sellerID);
