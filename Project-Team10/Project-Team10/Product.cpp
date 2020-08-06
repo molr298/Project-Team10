@@ -132,3 +132,239 @@ void Product::display()
 	}
 
 }
+
+void Product::loadListProduct()
+{
+	prdv.clear();
+	ifstream fin;
+	fin.open("Product/Product.txt");
+	if (!fin.is_open()) {
+		cout << "Can't open Product.txt!!" << endl;
+		return;
+	}
+	int nProdcut;
+	fin >> nProdcut;
+	for (int i = 0; i < nProdcut; i++)
+	{
+		string line;
+		getline(fin, line);
+		prdv.push_back(Product::loadOneProduct(fin));
+	}
+	fin.close();
+}
+
+void Product::saveListProduct()
+{
+	ofstream fout("Product/Product.txt");
+	if (!fout.is_open()) {
+		cout << "Can't write user information!!" << endl;
+		return;
+	}
+	fout << prdv.size() << endl;
+	for (int i = 0; i < prdv.size(); i++)
+		prdv[i].saveOneProduct(fout);
+	fout.close();
+}
+
+Product Product::loadOneProduct(ifstream& fin)
+{
+	getline(fin, ID);
+	getline(fin, IDseller);
+	getline(fin, productName);
+	fin >> price;
+	fin >> stock;
+	fin >> type;
+	fin.ignore();
+	return*this;
+}
+void Product::saveOneProduct(ofstream& fout)
+{
+	fout << ID << endl;
+	fout << IDseller << endl;
+	fout << productName << endl;
+	fout << price << endl;
+	fout << stock << endl;
+	fout << type << endl << endl;
+}
+
+void Product::displayListProduct()
+{
+	for (int i = 0; i < prdv.size(); i++) 
+	{
+		prdv[i].display();
+		cout << endl;
+	}
+}
+
+void Product::inputProduct()
+{
+	cout << "Enter Product's ID: ";
+	getline(cin, ID);
+	cout << "Enter seller's ID: "; /////////////////////////// Review later
+	getline(cin, IDseller);
+	cout << "Enter Product's Name: ";
+	getline(cin, productName);
+	cout << "Enter price: ";
+	cin >> price;
+	cout << "Enter stock: ";
+	cin >> stock;
+	cout << "Enter type: ";
+	cin >> type;
+}
+
+void Product::addProduct()
+{
+	Product prd;
+	Product::loadListProduct();
+	prd.inputProduct();
+	prdv.push_back(prd);
+	Product::saveListProduct();
+}
+
+void Product::removeProduct()
+{
+	string search;
+	cout << "Enter ID or name of the Product to remove: ";
+	getline(cin, search);
+	Product::loadListProduct();
+	for (int i = 0; i < prdv.size(); i++)
+	{
+		if (prdv[i].getID() == search || prdv[i].getProductName() == search)
+		{
+			prdv.erase(prdv.begin() + i);
+			break;
+		}
+	}
+	Product::saveListProduct();
+}
+
+void Product::editProductInfo()
+{
+	int n = 1;
+	while (n != 0)
+	{
+		cout << "Edit your product for the store";
+		cout << "Enter 1 for the ID" << endl;
+		cout << "Enter 2 for the ID of the seller" << endl;
+		cout << "Enter 3 for the Name" << endl;
+		cout << "Enter 4 for the price" << endl;
+		cout << "Enter 5 for the stock" << endl;
+		cout << "Enter 6 for the type" << endl;
+		cin >> n;
+		switch (n)
+		{
+		case 1: {
+			cout << "New ID: ";
+			cin >> ID;
+			break;
+		}
+		case 2: {
+			cout << "New ID Seller: ";
+			cin >> IDseller;
+			break;
+		}
+		case 3: {
+			cout << "New Product Name: ";
+			cin >> productName;
+			break;
+		}
+		case 4: {
+			cout << "New Price: ";
+			cin >> price;
+			break;
+		}
+		case 5: {
+			cout << "New Stock: ";
+			cin >> stock;
+			break;
+		}
+		case 6: {
+			cout << "New Type: ";
+			cin >> type;
+			break;
+		}
+		default:
+			break;
+		}
+	}
+}
+void Product::editProduct()
+{
+	Product prd;
+	Product::loadListProduct();
+	string search;
+	cout << "Enter ID or name to edit: ";
+	getline(cin, search);
+	int n = 1;
+	while (n != 0)
+	{
+		cout << "Edit your product for the store";
+		cout << "Enter 1 for the ID" << endl;
+		cout << "Enter 2 for the ID of the seller" << endl;
+		cout << "Enter 3 for the Name" << endl;
+		cout << "Enter 4 for the price" << endl;
+		cout << "Enter 5 for the stock" << endl;
+		cout << "Enter 6 for the type" << endl;
+		cin >> n;
+		switch (n)
+		{
+		case 1: {
+			cout << "New ID: ";
+			cin >> ID;
+			break;
+		}
+		case 2: {
+			cout << "New ID Seller: ";
+			cin >> IDseller;
+			break;
+		}
+		case 3: {
+			cout << "New Product Name: ";
+			cin >> productName;
+			break;
+		}
+		case 4: {
+			cout << "New Price: ";
+			cin >> price;
+			break;
+		}
+		case 5: {
+			cout << "New Stock: ";
+			cin >> stock;
+			break;
+		}
+		case 6: {
+			cout << "New Type: ";
+			cin >> type;
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	for (int i = 0; i < prdv.size(); i++)
+	{
+		if (prdv[i].getID() == search || prdv[i].getProductName() == search)
+		{
+			prdv.erase(prdv.begin() + i);
+			break;
+		}
+	}
+	prdv.push_back(prd);
+	Product::saveListProduct();
+}
+//Product Prodcut::findUser(const string& keyword)
+//{
+//	for (int i = 0; i < listUser.size(); i++)
+//		if (listUser[i].getID() == keyword || listUser[i].getUsername() == keyword)
+//			return listUser[i];
+//}
+//
+//
+//void Customer::displayListUser()
+//{
+//	for (int i = 0; i < listUser.size(); i++) {
+//		listUser[i].displayAccountInfo();
+//	}
+//	cout << "________________________________" << endl;
+//}

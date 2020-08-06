@@ -3,7 +3,8 @@
 
 #include"Lib.h"
 #include "AccountInfo.h"
-class Customer: public AccountInfo
+#include "Product.h"
+class Customer: public AccountInfo, public Product
 {
 private:
 	bool status = 0;

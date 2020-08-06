@@ -13,14 +13,14 @@ int countLines(ifstream& filein)
 void AdminNotif::loadListNotif()
 {
 	ifstream fin;
-	fin.open("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Notification/Notif_Admin.csv");
+	fin.open("Notification/Notif_Admin.csv");
 	if (!fin.is_open()) {
 		cout << "Can't open Notif_Admin!!" << endl;
 		return;
 	}
 	int n = countLines(fin);
 	fin.close();
-	fin.open("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Notification/Notif_Admin.csv");
+	fin.open("Notification/Notif_Admin.csv");
 	string line;
 	getline(fin, line);
 	for (int i = 0; i < n; i++)
@@ -91,14 +91,14 @@ void UserNotif::printList()
 void UserNotif::loadListNotif()
 {
 	ifstream fin;
-	fin.open("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Notification/Notif_User.csv");
+	fin.open("Notification/Notif_User.csv");
 	if (!fin.is_open()) {
 		cout << "Can't open Notif_Admin!!" << endl;
 		return;
 	}
 	int n = countLines(fin);
 	fin.close();
-	fin.open("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Notification/Notif_User.csv");
+	fin.open("Notification/Notif_User.csv");
 	string line;
 	getline(fin, line);
 	for (int i = 0; i < n; i++)

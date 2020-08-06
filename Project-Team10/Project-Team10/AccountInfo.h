@@ -31,7 +31,7 @@ public:
 	void loadListUser();
 	void saveListUser();
 	void registerAccount();
-	AccountInfo findUser(const int&);		//find another user by ID
+	/*AccountInfo findUser(const int&);*/		//find another user by ID
 	AccountInfo findUser(const string&);	//find another user by user name
 	void displayListUser();
 	void editInfo();

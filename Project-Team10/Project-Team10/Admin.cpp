@@ -3,7 +3,7 @@ void Admin::loadListAdmin()
 {
 	listAdmin.clear();
 	ifstream fin;
-	fin.open("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Data/Admin.txt");
+	fin.open("Data/Admin.txt");
 	if (!fin.is_open()) {
 		cout << "Can't open User.txt!!" << endl;
 		return;
@@ -28,8 +28,8 @@ void Admin::displayListAdmin()
 
 void Admin::saveUser()
 {
-	remove("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Data/User.txt");
-	ofstream fout("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Data/User.txt");
+	remove("Data/Admin.txt");
+	ofstream fout("Data/Admin.txt");
 	fout << listUser.size() << endl;
 	for (int i = 0; i < listUser.size(); i++)
 		listUser[i].saveAnAccountInfor(fout);
