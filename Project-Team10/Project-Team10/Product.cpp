@@ -32,7 +32,8 @@ ifstream& operator>> (ifstream& fin, Product& obj)
 }
 ostream& operator<<(ostream& out, Product& obj) {
 	out << "ID: "<< obj.ID.c_str() << endl;
-	out << "ProductName: " << obj.productName.c_str() << endl;
+	out << "ID of Seller: " << obj.IDseller.c_str() << endl;
+	out << "Product Name: " << obj.productName.c_str() << endl;
 	out << "Price: " << obj.price << endl;
 	out << "Stock: " << obj.stock << endl;
 	out << "Type: " ;
@@ -65,6 +66,7 @@ ostream& operator<<(ostream& out, Product& obj) {
 }
 ofstream& operator<<(ofstream& fout, Product& obj) {
 	fout << obj.ID << endl;
+	fout << obj.IDseller << endl;
 	fout << obj.productName << endl;
 	fout << obj.price << endl;
 	fout << obj.stock << endl;
@@ -73,6 +75,7 @@ ofstream& operator<<(ofstream& fout, Product& obj) {
 }
 Product& Product::operator= (const Product& src) {
 	ID = src.ID;
+	IDseller = src.IDseller;
 	productName = src.productName;
 	price = src.price;
 	stock = src.stock;
@@ -198,23 +201,20 @@ void Product::loadListProduct()
 		cout << "Can't open Product.txt!!" << endl;
 		return;
 	}
-	
-
 	int nProduct;
 	fin >> nProduct;
-	fin.ignore();
-	
 	for (int i = 0; i < nProduct; i++)
 	{
-		Product tmp;
-		fin >> tmp;
-		prdv.push_back(tmp);
+		string line;
+		getline(fin, line);
+		prdv.push_back(Product::loadOneProduct(fin));
 	}
 	fin.close();
 }
 
 void Product::saveListProduct()
 {
+	remove("Product/Product.txt");
 	ofstream fout("Product/Product.txt");
 	if (!fout.is_open()) {
 		cout << "Can't write user information!!" << endl;
@@ -222,23 +222,21 @@ void Product::saveListProduct()
 	}
 	fout << prdv.size() << endl;
 	for (int i = 0; i < prdv.size(); i++)
-		fout << prdv[i] << endl;
+	{
+		prdv[i].saveOneProduct(fout);
+	}
 	fout.close();
 }
 
 Product Product::loadOneProduct(ifstream& fin)
 {
-	string tmp;
-	fin >> tmp;
-	ID = atoi(tmp.c_str());
-	getline(fin, tmp);
-	productName = tmp;
-	fin >> tmp;
-	price = atoi(tmp.c_str());
-	fin >> tmp;
-	stock = atoi(tmp.c_str());
-	fin >> tmp;
-	type = atoi(tmp.c_str());
+	getline(fin, ID);
+	getline(fin, IDseller);
+	getline(fin, productName);
+	fin >> price;
+	fin >> stock;
+	fin >> type;
+	fin.ignore();
 	return *this;
 }
 void Product::saveOneProduct(ofstream& fout)
@@ -254,7 +252,8 @@ void Product::saveOneProduct(ofstream& fout)
 void Product::displayListProduct()
 {
 	for (int i = 0; i < prdv.size(); i++)
-		cout << prdv[i] << endl << "____________________________________" << endl;;
+		prdv[i].display();
+		cout << "____________________________________" << endl;;
 }
 
 void Product::inputProduct()
@@ -295,17 +294,17 @@ void Product::removeProduct()
 			{
 				cout << prdv[i];
 				char ans;
-				cout << endl << "Are you sure you want to delete this product ? " << endl << "YES (Y)" << endl << "NO (N)" << endl;
+				cout << endl << "Are you sure you want to delete this product ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n)" << endl;
 				cin >> ans;
 				switch (ans)
 					{
-				case 'YES': case 'Y':
+				case 'YES': case 'Y': case 'yes': case 'y':
 				{
 					prdv.erase(prdv.begin() + i);
 					cout << "Product has been delete" << endl;
 					break;
 				}
-				case 'NO': case 'N':default:
+				case 'NO': case 'N':case 'n': case 'no':
 				{
 					cout << "Can't delete product" << endl;
 					break;
@@ -322,56 +321,7 @@ void Product::removeProduct()
 	Product::saveListProduct();
 }
 
-void Product::editProductInfo()
-{
-	int n = 1;
-	while (n != 0)
-	{
-		cout << "Edit your product for the store";
-		cout << "Enter 1 for the ID" << endl;
-		cout << "Enter 2 for the ID of the seller" << endl;
-		cout << "Enter 3 for the Name" << endl;
-		cout << "Enter 4 for the price" << endl;
-		cout << "Enter 5 for the stock" << endl;
-		cout << "Enter 6 for the type" << endl;
-		cin >> n;
-		switch (n)
-		{
-		case 1: {
-			cout << "New ID: ";
-			cin >> ID;
-			break;
-		}
-		case 2: {
-			cout << "New ID Seller: ";
-			cin >> IDseller;
-			break;
-		}
-		case 3: {
-			cout << "New Product Name: ";
-			cin >> productName;
-			break;
-		}
-		case 4: {
-			cout << "New Price: ";
-			cin >> price;
-			break;
-		}
-		case 5: {
-			cout << "New Stock: ";
-			cin >> stock;
-			break;
-		}
-		case 6: {
-			cout << "New Type: ";
-			cin >> type;
-			break;
-		}
-		default:
-			break;
-		}
-	}
-}
+
 void Product::editProduct()
 {
 	int idx = 0;
@@ -380,15 +330,14 @@ void Product::editProduct()
 	string search;
 	cout << "Enter ID or name to edit: ";
 	getline(cin, search);
-	if (findProduct(search)) {
+	if (findProduct(search)) 
+	{
 		for (int i = 0; i < prdv.size(); i++)
 		{
 			if (prdv[i].getID() == search || prdv[i].getProductName() == search)
 			{
 				prd = prdv[i];
 				idx = i;
-				//cout << prdv[i];
-				//prdv.erase(prdv.begin() + i);
 				break;
 			}
 		}
@@ -397,7 +346,7 @@ void Product::editProduct()
 		while (n != 0)
 		{
 			system("cls");
-			cout << prd << endl;
+			prd.display();
 			cout << "Edit your product for the store" << endl;
 			cout << "1. ID" << endl;
 			cout << "2. ID of the seller" << endl;
@@ -412,13 +361,13 @@ void Product::editProduct()
 			case 1: {
 				cin.ignore();
 				cout << "New ID: ";
-				getline(cin, ID);
+				getline(cin, prd.ID);
 				break;
 			}
 			case 2: {
 				cin.ignore();
 				cout << "New ID Seller: ";
-				getline(cin, IDseller);
+				getline(cin, prd.IDseller);
 				break;
 			}
 			case 3: {
@@ -445,7 +394,6 @@ void Product::editProduct()
 				cout << "3. Technological" << endl;
 				cout << "4. Houseware" << endl;
 				cout << "5. Other" << endl;
-				//cout << "0. Back" << endl;
 				cin >> prd.type;
 				break;
 			}
@@ -453,24 +401,24 @@ void Product::editProduct()
 				break;
 			}
 		}
-		cout << endl << "Are you sure you want to edit this product ? " << endl << "YES (Y)" << endl << "NO (N)" << endl;
+		cout << endl << "Are you sure you want to edit this product ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n)" << endl;
 		char ans;
 		cin >> ans;
 		switch (ans)
 		{
-			case 'YES': case 'Y':
+		case 'YES': case 'Y': case 'yes': case 'y':
 			{
 				prdv[idx] = prd;
 				cout << "Product has been edited" << endl;
 				break;
 			}
-			case 'NO': case 'N':default:
+			case 'NO': case 'N': case 'no': case 'n':
 			{
 				cout << "Can't edit product" << endl;
 				break;
 			}
 		}
-		saveListProduct();
+		Product::saveListProduct();
 	}
 	else cout << "Not found product" << endl;
 	system("pause");

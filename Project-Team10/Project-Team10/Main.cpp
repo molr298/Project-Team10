@@ -27,8 +27,8 @@ int main() {
 
 	Product a;
 	a.loadListProduct();
-	//a.displayListProduct();
-	//a.removeProduct();
+	/*a.displayListProduct();
+	a.removeProduct();*/
 	a.editProduct();
 	a.displayListProduct();
 	
