@@ -10,7 +10,7 @@ class Product
 {
 private:
 	string ID;
-	string IDseller;
+	string IDseller; // ?
 	string productName;
 	double price;
 	int stock;
@@ -18,8 +18,12 @@ private:
 protected:
 	vector<Product> prdv;
 public:
+	Product() { ID = IDseller = productName = ""; price = 0; stock = 0; };
 	friend istream& operator>>(istream&, Product&);
 	friend ifstream& operator>> (ifstream&, Product&);
+	friend ostream& operator<<(ostream&, Product&);
+	friend ofstream& operator<<(ofstream&, Product&);
+	Product& operator= (const Product & src);
 	void loadProductfile();//doc file product.txt
 	void loadProduct(ifstream& f, vector<Product> &arr, int nPro);//doc vao mang
 	void saveProductfile();//luu file vaof product.txt
@@ -27,7 +31,7 @@ public:
 	void display();
 	void DisplayArrProduct(vector<Product> arr);
 	void addProduct(vector<Product>& arr);
-	void removeProduct(vector<Product>& arr, int id);
+	//void removeProduct(vector<Product>& arr);
 
 
 	string getID() { return ID; }
@@ -47,7 +51,7 @@ public:
 	void removeProduct();
 	void editProduct();
 	void editProductInfo();
-	void findProduct();
+	bool findProduct(const string);
 };
 
 #endif // !_PRODUCT_H

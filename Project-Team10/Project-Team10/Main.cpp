@@ -27,11 +27,16 @@ int main() {
 
 	Product a;
 	a.loadListProduct();
+	//a.displayListProduct();
+	//a.removeProduct();
+	a.editProduct();
 	a.displayListProduct();
 	
-	Customer csm;
-	//csm.addProduct();
-	csm.removeProduct(); //Add choice to confirm
+	//Customer csm;
+	////csm.addProduct();
+	//csm.removeProduct(); //Add choice to confirm
+
+
 
 	/*UserNotif usn;
 	usn.loadListNotif();
@@ -40,4 +45,5 @@ int main() {
 	usn.checkNotif("19127001", "");
 	usn.checkNotif("", "19127004");*/
 
+	return 0;
 }
