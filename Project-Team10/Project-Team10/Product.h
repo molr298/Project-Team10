@@ -1,3 +1,4 @@
+#pragma once
 #ifndef _Product_H
 #define _Product_H
 
@@ -22,7 +23,8 @@ public:
 	void saveProduct(ofstream& f, vector<Product> arr);//luu mang vao file
 	void display();
 	void DisplayArrProduct(vector<Product> arr);
+	void addProduct(vector<Product>& arr);
+	void removeProduct(vector<Product>& arr, int id);
 };
 
 #endif // !_PRODUCT_H
-#pragma once

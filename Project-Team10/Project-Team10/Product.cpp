@@ -132,3 +132,10 @@ void Product::display()
 	}
 
 }
+
+void Product::addProduct(vector<Product>& arr) {
+	Product a;
+	cout << "Product needs adding: " << endl;
+	cin >> a;
+	arr.push_back(a);
+}
