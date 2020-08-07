@@ -1,5 +1,5 @@
 4
-019127001
+19127001
 nguyenva123
 Nguyen Van A
 01/02/2000
@@ -7,7 +7,7 @@ Nguyen Van A
 0
 0
 
-019127002
+19127002
 lvanB456
 Le Van B
 03/08/2000
@@ -15,7 +15,7 @@ Le Van B
 0
 1
 
-019127003
+19127003
 nguyenthiC
 Nguyen Thi C
 13/09/1999
@@ -23,7 +23,7 @@ Nguyen Thi C
 1
 1
 
-019127004
+19127004
 hoVannM
 Ho Van M
 03/08/2000
