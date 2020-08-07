@@ -13,14 +13,14 @@ int countLines(ifstream& filein)
 void AdminNotif::loadListNotif()
 {
 	ifstream fin;
-	fin.open("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Notification/Notif_Admin.csv");
+	fin.open("Notification/Notif_Admin.csv");
 	if (!fin.is_open()) {
 		cout << "Can't open Notif_Admin!!" << endl;
 		return;
 	}
 	int n = countLines(fin);
 	fin.close();
-	fin.open("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Notification/Notif_Admin.csv");
+	fin.open("Notification/Notif_Admin.csv");
 	string line;
 	getline(fin, line);
 	for (int i = 0; i < n; i++)
@@ -68,6 +68,8 @@ UserNotif UserNotif::loadOneNotif(ifstream& fin)
 	fin >> price;
 	fin.seekg(1, 1);
 	fin >> totalPrice;
+	fin.seekg(1, 1);
+	fin >> status;
 	return *this;
 }
 void UserNotif::print()
@@ -89,14 +91,14 @@ void UserNotif::printList()
 void UserNotif::loadListNotif()
 {
 	ifstream fin;
-	fin.open("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Notification/Notif_User.csv");
+	fin.open("Notification/Notif_User.csv");
 	if (!fin.is_open()) {
 		cout << "Can't open Notif_Admin!!" << endl;
 		return;
 	}
 	int n = countLines(fin);
 	fin.close();
-	fin.open("C:/Users/MyPC/source/repos/Project-Team10/Project-Team10/Notification/Notif_User.csv");
+	fin.open("Notification/Notif_User.csv");
 	string line;
 	getline(fin, line);
 	for (int i = 0; i < n; i++)
@@ -113,7 +115,7 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 	//cout << usnv.size() << endl;
 	for (int i = 0; i < usnv.size(); i++)
 	{
-		if (customerID1 == usnv[i].getCustomerID())
+		if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 0)
 		{
 			cout << "Your order on the " << usnv[i].getProductName() << " is waiting to be qualified by the seller." << endl;
 			cout << "Review your order's information below" << endl;
@@ -123,7 +125,17 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 			cout << "Total: " << usnv[i].getTotalPrice() << endl;
 			flag = 1;
 		}
-		if (sellerID1 == usnv[i].getSellerID())
+		else if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 1)
+		{ 
+			cout << "Your order has been transported to shipping service" << endl;
+			cout << "Review your order's information below" << endl;
+			cout << "Product Name: " << usnv[i].getProductName() << endl;
+			cout << "Quantity: " << usnv[i].getQuantity() << endl;
+			cout << "Price: " << usnv[i].getPrice() << endl;
+			cout << "Total: " << usnv[i].getTotalPrice() << endl;
+			flag = 1;
+		}
+		if (sellerID1 == usnv[i].getSellerID() && usnv[i].getStatus() == 0)
 		{
 			cout << "Customer with ID: " << usnv[i].getCustomerID() << " have ordered the following product:" << endl;
 			cout << "Product Name: " << usnv[i].getProductName() << endl;
