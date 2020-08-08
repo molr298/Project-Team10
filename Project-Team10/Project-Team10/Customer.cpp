@@ -1,48 +1,72 @@
-#include "Customer.h"
+﻿#include "Customer.h"
 
-void Customer::loadListUser()
+void Customer::buyStuff()
 {
-	ifstream fin;
-	fin.open("Data/User.txt");
-	if (!fin.is_open()) {
-		cout << "Can't open User.txt!!" << endl;
+	Product::loadListProduct();
+	string search;
+	cout << "Enter ID or name to search: ";
+	getline(cin, search);
+	vector<Product> filterProduct;
+	int flag = 0;
+	for (int i = 0; i < prdv.size(); i++)
+	{
+		if (prdv[i].getID() == search || prdv[i].getProductName() == search) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
+		{
+			flag = 1;
+			filterProduct.push_back(prdv[i]);
+		}
+	}
+	if (flag == 0)
+	{
+		cout << "Items not found" << endl;
 		return;
 	}
-	int nUser;
-	fin >> nUser;
-	for (int i = 0; i < nUser; i++) 
-		listUser.push_back(AccountInfo::loadAnAccountInfo(fin));
-	fin.close();
-}
+	///////Viết hàm display filterProduct trong đó có cho chọn theo thứ tự để thêm vào vector ordv (Order vector)
 
-void Customer::saveListUser()
+	////// Order vector tác động lại file Product.txt dựa vào các attribute của người mua sau đó gửi thông báo cho người bán
+
+
+	int choice;
+	while (true)
+	{
+		for (int i = 0; i < filterProduct.size(); i++)
+		{
+			cout << "Product " << i + 1 << endl;
+			filterProduct[i].display();
+			cout << "____________________________________" << endl;
+		}
+		cout << "Make your choice: ";
+		cin >> choice;
+		if (choice == 0)
+		{
+			break;
+		}
+		int n;
+		cout << "You choose this product" << endl;
+		filterProduct[choice - 1].display();
+		Product p;
+		
+		p = filterProduct[choice - 1];
+		cout << "How many do you buy ?: ";
+		cin >> n;
+		
+		ordv.push_back(filterProduct[choice - 1]);
+	}
+	Customer::viewCart();
+
+}
+void Customer::viewCart()
 {
-	ofstream fout("Data/User.txt");
-	if (!fout.is_open()) {
-		cout << "Can't write user information!!" << endl;
+	if (ordv.size() == 0)
+	{
+		cout << "No items are currently on the list" << endl;
 		return;
 	}
-	fout << listUser.size();
-	for (int i = 0; i < listUser.size(); i++)
-		listUser[i].saveAnAccountInfor(fout);
-	fout.close();
-}
-
-AccountInfo Customer::findUser(const string& keyword)
-{
-	for (int i = 0; i < listUser.size(); i++)
-		if (listUser[i].getID() == keyword || listUser[i].getUsername() == keyword)
-			return listUser[i];
-}
-
-
-void Customer::displayListUser()
-{
-	for (int i = 0; i < listUser.size(); i++) {
-		listUser[i].displayAccountInfo();
+	cout << "Review your shopping list" << endl;
+	for (int i = 0; i < ordv.size(); i++)
+	{
+		cout << "Product " << i + 1 << endl;
+		ordv[i].display();
+		cout << "____________________________________" << endl;
 	}
-		cout << "________________________________" << endl;
 }
-
-
-

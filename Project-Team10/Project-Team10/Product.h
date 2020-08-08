@@ -17,6 +17,7 @@ private:
 	int type; //1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other
 protected:
 	vector<Product> prdv;
+	vector<Product> ordv;
 public:
 	Product() { ID = IDseller = productName = ""; price = 0; stock = 0; };
 	friend istream& operator>>(istream&, Product&);
@@ -50,7 +51,6 @@ public:
 	void addProduct();
 	void removeProduct();
 	void editProduct();
-	void editProductInfo();
 	bool findProduct(const string);
 };
 

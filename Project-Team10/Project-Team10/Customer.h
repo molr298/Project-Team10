@@ -7,14 +7,11 @@
 class Customer: public AccountInfo, public Product
 {
 private:
-	bool status = 0;
-	vector<AccountInfo> listUser;
+	
 public:
-	void loadListUser();
-	void saveListUser();
-//	AccountInfo findUser(const int&);		//find another user by ID
-	AccountInfo findUser(const string&);	//find another user by user name
-	void displayListUser();
+
+	void buyStuff();
+	void viewCart();
 };
 
 #endif // !_CUSTOMER_H

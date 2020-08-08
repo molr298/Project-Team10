@@ -256,6 +256,7 @@ void Product::displayListProduct()
 		cout << "____________________________________" << endl;;
 }
 
+
 void Product::inputProduct()
 {
 	cout << "ID: ";
