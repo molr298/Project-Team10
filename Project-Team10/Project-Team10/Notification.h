@@ -1,6 +1,6 @@
 #pragma once
 #include "Admin.h"
-#include "Product.h"
+
 class Notif
 {
 private:
@@ -12,7 +12,7 @@ public:
 	string getSenderID() { return senderID; }
 	string getTakerID() { return takerID; }
 };
-class AdminNotif : public Notif, public Admin, public AccountInfo
+class AdminNotif : public Notif
 {
 private: 
 	int issueType;
@@ -26,7 +26,7 @@ public:
 	AdminNotif loadAnNotif(ifstream& fin);
 	void checkNotif(string adminID, string userID);
 };
-class UserNotif : public Notif, public Admin, public AccountInfo, public Product
+class UserNotif
 {
 private:
 	string customerID;
@@ -40,6 +40,17 @@ private:
 protected:
 	vector<UserNotif> usnv;
 public:
+	void getProduct(string customerID, string sellerID, string productName, double price, int quantity, int typeProduct)
+	{
+		this->customerID = customerID;
+		this->sellerID = sellerID;
+		this->productName = productName;
+		this->price = price;
+		this->quantity = quantity;
+		this->totalPrice = price * quantity;
+		this->typeProduct = typeProduct;
+		this->status = 0;
+	}
 	string getCustomerID() { return customerID; }
 	string getSellerID(){ return sellerID; }
 	string getProductName(){ return productName; }
@@ -53,4 +64,6 @@ public:
 	void checkNotif(string customerID, string sellerID);
 	void print();
 	void printList();
+	void saveOneOrder(ofstream& fout);
+	void saveListOrder();
 };

@@ -1,12 +1,13 @@
 ﻿#include "Customer.h"
 
+
 void Customer::buyStuff()
 {
 	Product::loadListProduct();
+	UserNotif::loadListNotif();
 	string search;
 	cout << "Enter ID or name to search: ";
 	getline(cin, search);
-	vector<Product> filterProduct;
 	int flag = 0;
 	for (int i = 0; i < prdv.size(); i++)
 	{
@@ -44,16 +45,14 @@ void Customer::buyStuff()
 		int n;
 		cout << "You choose this product" << endl;
 		filterProduct[choice - 1].display();
-		Product p;
 		
-		p = filterProduct[choice - 1];
 		cout << "How many do you buy ?: ";
 		cin >> n;
-		
+		Product::setupCart(n, filterProduct[choice - 1],true);
 		ordv.push_back(filterProduct[choice - 1]);
 	}
-	Customer::viewCart();
-
+	UserNotif::printList();
+	UserNotif::saveListOrder();
 }
 void Customer::viewCart()
 {

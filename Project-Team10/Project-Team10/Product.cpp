@@ -433,6 +433,16 @@ bool Product::findProduct(const string search) {
 	return false;
 }
 
+void Product::saveNotifUser(int quantity,Product p)
+{
+
+}
+void Product::setupCart(int quantity, Product p, bool check)
+{
+	UserNotif usn;
+	usn.getProduct(p.ID, p.IDseller, p.productName, p.price, quantity, p.type);
+	usnv.push_back(usn);
+}
 //Product Prodcut::findUser(const string& keyword)
 //{
 //	for (int i = 0; i < listUser.size(); i++)

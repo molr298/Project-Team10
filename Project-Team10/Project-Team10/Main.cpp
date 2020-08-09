@@ -25,10 +25,10 @@ int main() {
 	ad.checkNotif("", "19127001");*/
 
 
-	Product a;
+	/*Product a;
 	a.loadListProduct();
 	a.displayListProduct();
-	/*a.removeProduct();
+	a.removeProduct();
 	a.editProduct();
 	a.displayListProduct();*/
 	

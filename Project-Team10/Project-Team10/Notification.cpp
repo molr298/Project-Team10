@@ -74,8 +74,6 @@ UserNotif UserNotif::loadOneNotif(ifstream& fin)
 }
 void UserNotif::print()
 {
-	cout << "Product Name: " << customerID << endl;
-	cout << "Quantity: " << sellerID << endl;
 	cout << "Product Name: " << productName << endl;
 	cout << "Quantity: " << quantity << endl;
 	cout << "Price: " << price << endl;
@@ -93,7 +91,7 @@ void UserNotif::loadListNotif()
 	ifstream fin;
 	fin.open("Notification/Notif_User.csv");
 	if (!fin.is_open()) {
-		cout << "Can't open Notif_Admin!!" << endl;
+		cout << "Can't open Notif_User!!" << endl;
 		return;
 	}
 	int n = countLines(fin);
@@ -106,7 +104,6 @@ void UserNotif::loadListNotif()
 		usnv.push_back(UserNotif::loadOneNotif(fin));
 		getline(fin, line);
 	}
-	cout << usnv.size() << endl;
 	fin.close();
 }
 void UserNotif::checkNotif(string customerID1, string sellerID1)
@@ -147,4 +144,25 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 	}
 	if (flag == 0)
 		cout << "No notification available" << endl;
+}
+void UserNotif::saveOneOrder(ofstream& fout)
+{
+	fout << customerID << ';';
+	fout << sellerID << ';';
+	fout << typeProduct << ';';
+	fout << productName << ';';
+	fout << quantity << ';';
+	fout << price << ';';
+	fout << totalPrice << ';';
+	fout << status << endl;
+
+}
+void UserNotif::saveListOrder()
+{
+	remove("Notification/Notif_User.csv");
+	ofstream fout("Notification/Notif_User.csv");
+	fout << "Customer;Seller; Type;Name;Quantity;Price;Total;Status" << endl;
+	for (int i = 0; i < usnv.size(); i++)
+		usnv[i].saveOneOrder(fout);
+	fout.close();
 }

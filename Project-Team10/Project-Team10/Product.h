@@ -6,7 +6,8 @@
 
 #include<vector>
 
-class Product
+#include "Notification.h"
+class Product : public UserNotif
 {
 private:
 	string ID;
@@ -18,6 +19,7 @@ private:
 protected:
 	vector<Product> prdv;
 	vector<Product> ordv;
+	vector<Product> filterProduct;
 public:
 	Product() { ID = IDseller = productName = ""; price = 0; stock = 0; };
 	friend istream& operator>>(istream&, Product&);
@@ -52,6 +54,8 @@ public:
 	void removeProduct();
 	void editProduct();
 	bool findProduct(const string);
+	void setupCart(int quantity, Product p, bool check);
+	void saveNotifUser(int quantity, Product p);
 };
 
 #endif // !_PRODUCT_H

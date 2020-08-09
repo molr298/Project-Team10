@@ -4,10 +4,11 @@
 #include"Lib.h"
 #include "AccountInfo.h"
 #include "Product.h"
+#include "Notification.h"
 class Customer: public AccountInfo, public Product
 {
 private:
-	
+	vector<Product> Cart;
 public:
 
 	void buyStuff();
