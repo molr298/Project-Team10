@@ -55,7 +55,7 @@ public:
 	void editProduct();
 	bool findProduct(const string);
 	void setupCart(int quantity, Product p, bool check);
-	void saveNotifUser(int quantity, Product p);
+	void saveNotifUser(string IDseller);
 };
 
 #endif // !_PRODUCT_H

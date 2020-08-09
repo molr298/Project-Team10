@@ -433,9 +433,29 @@ bool Product::findProduct(const string search) {
 	return false;
 }
 
-void Product::saveNotifUser(int quantity,Product p)
+void Product::saveNotifUser(string IDseller)
 {
-
+	UserNotif::loadListNotif();
+	Product::loadListProduct();
+	for (int i = 0; i < usnv.size(); i++)
+	{
+		for (int j = 0; j < prdv.size(); j++)
+		{
+			if (IDseller == prdv[j].IDseller && usnv[i].getProductName() == prdv[j].productName)
+			{
+				if (prdv[j].stock > usnv[i].getQuantity())
+				{
+					prdv[j].stock -= usnv[i].getQuantity();
+				}
+				else
+				{
+					cout << "Product " << prdv[j].productName << " doesn't have eough supplies for user " << usnv[i].getCustomerID() << endl;
+					cout << "It lacks " << usnv[i].getQuantity() - prdv[j].stock << endl;
+				}
+			}
+		}
+	}
+	Product::saveListProduct();
 }
 void Product::setupCart(int quantity, Product p, bool check)
 {
@@ -443,6 +463,8 @@ void Product::setupCart(int quantity, Product p, bool check)
 	usn.getProduct(p.ID, p.IDseller, p.productName, p.price, quantity, p.type);
 	usnv.push_back(usn);
 }
+
+
 //Product Prodcut::findUser(const string& keyword)
 //{
 //	for (int i = 0; i < listUser.size(); i++)

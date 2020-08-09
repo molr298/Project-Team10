@@ -49,7 +49,6 @@ void Customer::buyStuff()
 		cout << "How many do you buy ?: ";
 		cin >> n;
 		Product::setupCart(n, filterProduct[choice - 1],true);
-		ordv.push_back(filterProduct[choice - 1]);
 	}
 	UserNotif::printList();
 	UserNotif::saveListOrder();
