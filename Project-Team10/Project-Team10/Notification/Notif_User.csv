@@ -1,3 +1,9 @@
-Customer;Seller;Type;Name;Quantity;Price;Total;Status
+Customer;Seller; Type;Name;Quantity;Price;Total;Status
 19127001;19127004;1;tai nghe khong day;15;400;600;1
 19127003;19127002;2;Gucci;2;600;200;0
+19127001;19127004;3;tai nghe khong day;1;400000;400000;0
+19127001;19127002;1;banh tieu;5;10000;50000;0
+19127001;19127002;1;banh tieu;20;10000;200000;0
+19127001;19127004;1;tai nghe khong day;15;400;6000;1
+19127003;19127002;2;Gucci;2000;300;600;0
+19127001;19127002;1;banh tieu;100;10;100;0

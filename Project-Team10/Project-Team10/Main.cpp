@@ -36,7 +36,8 @@ int main() {
 	////csm.addProduct();
 	//csm.removeProduct(); //Add choice to confirm
 	csm.buyStuff();
-
+	Product prd;
+	prd.saveNotifUser("19127002"); // ID seller to identify specific product
 
 	/*UserNotif usn;
 	usn.loadListNotif();

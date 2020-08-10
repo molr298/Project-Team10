@@ -44,12 +44,15 @@ void Customer::buyStuff()
 		}
 		int n;
 		cout << "You choose this product" << endl;
+		system("cls");
 		filterProduct[choice - 1].display();
 		
 		cout << "How many do you buy ?: ";
 		cin >> n;
 		Product::setupCart(n, filterProduct[choice - 1],true);
 		ordv.push_back(filterProduct[choice - 1]);
+		system("cls");
+
 	}
 	UserNotif::printList();
 	UserNotif::saveListOrder();
