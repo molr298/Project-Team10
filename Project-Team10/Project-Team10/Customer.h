@@ -11,7 +11,7 @@ private:
 	vector<Product> Cart;
 public:
 
-	void buyStuff();
+	void buyStuff(string ID);
 	void viewCart();
 };
 

@@ -441,7 +441,7 @@ void Product::saveNotifUser(string IDseller)
 	{
 		for (int j = 0; j < prdv.size(); j++)
 		{
-			if (IDseller == prdv[j].IDseller && usnv[i].getProductName() == prdv[j].productName)
+			if (IDseller == prdv[j].IDseller && usnv[i].getProductName() == prdv[j].productName && usnv[i].getProductID() == prdv[j].ID)
 			{
 				if (prdv[j].stock > usnv[i].getQuantity())
 				{
@@ -460,7 +460,7 @@ void Product::saveNotifUser(string IDseller)
 void Product::setupCart(int quantity, Product p, bool check)
 {
 	UserNotif usn;
-	usn.getProduct(p.ID, p.IDseller, p.productName, p.price, quantity, p.type);
+	usn.getProduct(p.ID,"", p.IDseller, p.productName, p.price, quantity, p.type);
 	usnv.push_back(usn);
 }
 

@@ -1,11 +1,12 @@
 ﻿#include "Customer.h"
 
 
-void Customer::buyStuff()
+void Customer::buyStuff(string customerID)
 {
 	Product::loadListProduct();
 	UserNotif::loadListNotif();
 	string search;
+	int n = usnv.size();
 	cout << "Enter ID or name to search: ";
 	getline(cin, search);
 	int flag = 0;
@@ -51,7 +52,7 @@ void Customer::buyStuff()
 		Product::setupCart(n, filterProduct[choice - 1],true);
 	}
 	UserNotif::printList();
-	UserNotif::saveListOrder();
+	UserNotif::saveListOrder(n, customerID);
 }
 void Customer::viewCart()
 {
