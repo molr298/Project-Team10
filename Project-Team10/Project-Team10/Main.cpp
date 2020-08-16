@@ -4,6 +4,7 @@
 #include "Notification.h"
 #include "Product.h"
 #include "Customer.h"
+#include "Seller.h"
 int main() {
 	/*AccountInfo tmp;
 	tmp.loadListUser();
@@ -31,13 +32,20 @@ int main() {
 	a.removeProduct();
 	a.editProduct();
 	a.displayListProduct();*/
-	
+	UserNotif usn;
 	Customer csm;
+	usn.loadListNotif();
 	////csm.addProduct();
 	//csm.removeProduct(); //Add choice to confirm
-	csm.buyStuff();
-	Product prd;
-	prd.saveNotifUser("19127002"); // ID seller to identify specific product
+	usn.printList();
+	csm.buyStuff(usn, "19127009");
+	csm.buyStuff(usn, "19127009");
+	csm.confirmCart("19127009");
+
+
+	Seller sl;
+	sl.approveCart(true,"19127006");
+	
 
 	/*UserNotif usn;
 	usn.loadListNotif();

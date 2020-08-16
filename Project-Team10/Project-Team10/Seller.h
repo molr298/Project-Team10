@@ -2,6 +2,7 @@
 #include "Customer.h"
 class Seller: public Customer
 {
-
+public:
+	void approveCart(bool approveOrder, string IDseller);
 };
 

@@ -1,4 +1,3 @@
 Product ID;Customer ID;Seller ID;Type;Name;Quantity;Price;Total;Status
 103T;19127003;19127004;3;tai nghe khong day;10;40;400;1
-101T;19127009;19127002;1;banh tieu;5;10;50;0
-105T;19127009;19127006;2;Gucci;20;100;2000;1
+104T;19127005;19127002;2;Gucci;10;1000;10000;1

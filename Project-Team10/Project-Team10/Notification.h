@@ -29,6 +29,7 @@ public:
 class UserNotif
 {
 private:
+	string productID;
 	string customerID;
 	string sellerID;
 	string productName;
@@ -40,8 +41,9 @@ private:
 protected:
 	vector<UserNotif> usnv;
 public:
-	void getProduct(string customerID, string sellerID, string productName, double price, int quantity, int typeProduct)
+	void getProduct(string productID, string customerID, string sellerID, string productName, double price, int quantity, int typeProduct)
 	{
+		this->productID = productID;
 		this->customerID = customerID;
 		this->sellerID = sellerID;
 		this->productName = productName;
@@ -51,6 +53,7 @@ public:
 		this->typeProduct = typeProduct;
 		this->status = 0;
 	}
+	string getProductID() { return productID; }
 	string getCustomerID() { return customerID; }
 	string getSellerID(){ return sellerID; }
 	string getProductName(){ return productName; }
@@ -66,4 +69,8 @@ public:
 	void printList();
 	void saveOneOrder(ofstream& fout);
 	void saveListOrder();
+	void saveListOrder(int n, string productID);
+	void setStatus(int n) { status = n; }
+	void loadListNotifWithoutClear();
+	void setCustomerID(string ID) { customerID = ID; }
 };

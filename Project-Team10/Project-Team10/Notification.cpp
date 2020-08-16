@@ -31,7 +31,6 @@ void AdminNotif::loadListNotif()
 }
 AdminNotif AdminNotif::loadAnNotif(ifstream& fin)
 {
-
 	getline(fin, senderID,';');
 	getline(fin, takerID, ';');
 	getline(fin, Problem);
@@ -58,6 +57,7 @@ void AdminNotif::checkNotif(string adminID, string userID)
 }
 UserNotif UserNotif::loadOneNotif(ifstream& fin)
 {
+	getline(fin, productID, ';');
 	getline(fin, customerID, ';');
 	getline(fin, sellerID, ';');
 	fin >> typeProduct;
@@ -74,6 +74,7 @@ UserNotif UserNotif::loadOneNotif(ifstream& fin)
 }
 void UserNotif::print()
 {
+	cout << "Product ID: " << productID << endl;
 	cout << "Product Name: " << productName << endl;
 	cout << "Quantity: " << quantity << endl;
 	cout << "Price: " << price << endl;
@@ -87,6 +88,27 @@ void UserNotif::printList()
 	cout << "________________________________" << endl;
 }
 void UserNotif::loadListNotif()
+{
+	usnv.clear();
+	ifstream fin;
+	fin.open("Notification/Notif_User.csv");
+	if (!fin.is_open()) {
+		cout << "Can't open Notif_User!!" << endl;
+		return;
+	}
+	int n = countLines(fin);
+	fin.close();
+	fin.open("Notification/Notif_User.csv");
+	string line;
+	getline(fin, line);
+	for (int i = 0; i < n; i++)
+	{
+		usnv.push_back(UserNotif::loadOneNotif(fin));
+		getline(fin, line);
+	}
+	fin.close();
+}
+void UserNotif::loadListNotifWithoutClear()
 {
 	ifstream fin;
 	fin.open("Notification/Notif_User.csv");
@@ -116,6 +138,7 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 		{
 			cout << "Your order on the " << usnv[i].getProductName() << " is waiting to be qualified by the seller." << endl;
 			cout << "Review your order's information below" << endl;
+			cout << "Product ID: " << usnv[i].getProductID() << endl;
 			cout << "Product Name: " << usnv[i].getProductName() << endl;
 			cout << "Quantity: " << usnv[i].getQuantity() << endl;
 			cout << "Price: " << usnv[i].getPrice() << endl;
@@ -126,6 +149,7 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 		{ 
 			cout << "Your order has been transported to shipping service" << endl;
 			cout << "Review your order's information below" << endl;
+			cout << "Product ID: " << usnv[i].getProductID() << endl;
 			cout << "Product Name: " << usnv[i].getProductName() << endl;
 			cout << "Quantity: " << usnv[i].getQuantity() << endl;
 			cout << "Price: " << usnv[i].getPrice() << endl;
@@ -147,6 +171,7 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 }
 void UserNotif::saveOneOrder(ofstream& fout)
 {
+	fout << productID << ';';
 	fout << customerID << ';';
 	fout << sellerID << ';';
 	fout << typeProduct << ';';
@@ -161,8 +186,26 @@ void UserNotif::saveListOrder()
 {
 	remove("Notification/Notif_User.csv");
 	ofstream fout("Notification/Notif_User.csv");
-	fout << "Customer;Seller; Type;Name;Quantity;Price;Total;Status" << endl;
+	fout << "Product ID;Customer ID;Seller ID;Type;Name;Quantity;Price;Total;Status" << endl;
 	for (int i = 0; i < usnv.size(); i++)
+	{
 		usnv[i].saveOneOrder(fout);
+	}
+	fout.close();
+}
+void UserNotif::saveListOrder(int n, string customerID)
+{
+	remove("Notification/Notif_User.csv");
+	ofstream fout("Notification/Notif_User.csv");
+	fout << "Product ID;Customer ID;Seller ID;Type;Name;Quantity;Price;Total;Status" << endl;
+	for (int i = 0; i < usnv.size(); i++)
+	{
+		if (n == i)
+		{
+			usnv[i].customerID = customerID;
+			n++;
+		}
+		usnv[i].saveOneOrder(fout);
+	}
 	fout.close();
 }
