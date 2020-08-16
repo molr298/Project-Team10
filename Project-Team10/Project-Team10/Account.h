@@ -4,6 +4,8 @@
 #include"Customer.h"
 #include "sha256.h"
 
+using namespace std;
+
 class Account {
 private:
 	string username;
@@ -22,6 +24,7 @@ public:
 	string createNewID();
 	void saveListIDOfUSer();
 	Account createNewAccount();
+	void changePassword();
 };
 
 class ListAccount: public Account {
@@ -32,5 +35,5 @@ public:
 	int login(string, string);
 	void saveListAccount(const int&	, string);
 	void SignUp();
-	virtual void removeAccount() final;
+	void removeAccount(string);
 };

@@ -123,6 +123,71 @@ Account Account::createNewAccount()
 	return *this;
 }
 
+void Account::changePassword()
+{
+	string passOld, passNew, passRetype;
+	passNew = "";
+	passOld = "";
+	passRetype = "";
+	do {
+		cout << "Current password: ";
+		passOld = inputPassword();
+		passOld = HashPassword(passOld);
+		if (passOld != this->passHash) {
+			cout << "Retype password and new password is not match\nPress any key to try again";
+			cout << "Do you want to try again?(Y/N) ";
+			while (true)
+			{
+				char ch;
+				cin >> ch;
+				if (ch == 'y' || ch == 'Y')
+				{
+					cin.ignore();
+					break;
+				}
+				else if (ch == 'n' || ch == 'N')
+					return;
+				else
+					cout << "Bad choice, try again\n";
+			}
+			system("cls");
+		}
+	}
+	while (passOld != this->passHash); //check right password
+	do {
+		cout << "New password: ";
+		passNew = inputPassword();
+	
+		cout << "Re-type your new password: ";
+		passRetype = inputPassword();
+		if (passNew != passRetype) {
+			cout << "Retype password and new password is not match\n";
+			cout << "Do you want to try again?(Y/N) ";
+			while (true)
+			{
+				char ch;
+				cin >> ch;
+				if (ch == 'y' || ch == 'Y')
+				{
+					cin.ignore();
+					break;
+				}
+				else if (ch == 'n' || ch == 'N') y
+					return;
+				else
+					cout << "Bad choice, try again\n";
+			}
+			system("cls");
+			cout << "Current password: ";
+			for (int i = 0; i < passOld.size(); i++)
+				cout << "*";
+			cout << endl;
+		}
+	} while (passNew != passRetype);
+		passNew = HashPassword(passNew);
+
+}
+
 void ListAccount::loadListAccount(string filename)
 {
 	ifstream fin(filename);
@@ -182,15 +247,17 @@ void ListAccount::SignUp()
 	listAccount.clear();
 }
 
-void ListAccount::removeAccount() {
-	string removeID = "";
-	cout << "Input ID of user to remove: ";
-	cin.ignore();
-	getline(cin, removeID);
+void ListAccount::removeAccount(string removeID) {
+	//string removeID = "";
+	//cout << "Input ID of user to remove: ";
+	//cin.ignore();
+	//getline(cin, removeID);
 	loadListAccount("Account/User.txt");
+
 	for (int i = 0; i < listAccount.size(); i++)
 		if (removeID == listAccount[i].getID())
 			listAccount.erase(listAccount.begin() + i);
+
 	saveListAccount(listAccount.size(), "Account/User.txt");
 	listAccount.clear();
 }

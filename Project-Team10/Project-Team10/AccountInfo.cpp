@@ -1,4 +1,11 @@
 #include "AccountInfo.h"
+string inputDate() {
+	int day, month, year;
+	cout << "Day: ";	cin >> day;
+	cout << "Month: ";	cin >> month;
+	cout << "Year: ";	cin >> year;
+	return to_string(day) + to_string(month) + to_string(year);
+}
 
 AccountInfo AccountInfo::loadAnAccountInfo(ifstream& fin)
 {
@@ -32,7 +39,7 @@ void AccountInfo::inputAccount()
 	cout << "Enter Full name: ";
 	getline(cin, fullname);
 	cout << "Enter Day of birth: ";
-	getline(cin, DoB);
+	DoB = inputDate();
 	cout << "Enter Phone number: ";
 	cin >> phoneNumber;
 }
@@ -93,11 +100,12 @@ void AccountInfo::saveListUser()
 //			return listUser[i];
 //}
 
-AccountInfo AccountInfo::findUser(const string& Username)
+AccountInfo* AccountInfo::findUser(const string& Username)
 {
 	for (int i = 0; i < listUser.size(); i++)
 		if (listUser[i].getUsername() == Username)
-			return listUser[i];
+			return &listUser[i];
+	return nullptr;
 }
 
 void AccountInfo::displayListUser()
@@ -110,19 +118,74 @@ void AccountInfo::displayListUser()
 
 void AccountInfo::editInfo()
 {
-	string search;
-	cout << "Enter ID or name to edit: ";
-	getline(cin, search);
-	AccountInfo::loadListUser();
-	AccountInfo aci;
-	aci.inputAccount();
-	for (int i = 0; i < listUser.size(); i++) 
+	//string search;
+	//cout << "Enter ID or name to edit: ";
+	//getline(cin, search);
+	//AccountInfo::loadListUser();
+	//AccountInfo aci;
+	//aci.inputAccount();
+	//for (int i = 0; i < listUser.size(); i++) 
+	//{
+	//	if (listUser[i].getUsername() == search || listUser[i].getID() == search)
+	//	{
+	//		listUser[i] = aci;
+	//	}
+	//}
+	//AccountInfo::saveListUser();
+	cout << "1. Edit your full name" << endl;
+	cout << "2. Edit your phone number" << endl;
+	cout << "3. Edit your day of birth" << endl;
+	cout << "4. Edit your gender" << endl;
+	cout << "0. Return" << endl;
+	cout << "_____________________________________" << endl;
+
+	int choice = 0;
+	cin >> choice;
+	switch (choice)
 	{
-		if (listUser[i].getUsername() == search || listUser[i].getID() == search)
-		{
-			listUser[i] = aci;
-		}
+	case 1:
+	{
+		cout << "Enter your full name: ";
+		cin.ignore();
+		getline(cin, this->fullname);
 	}
-	AccountInfo::saveListUser();
+	case 2:
+	{
+		cout << "Enter your phone number: ";
+		cin >> this->phoneNumber;
+	}
+	case 3: {
+		cout << "Enter your day of birth: ";
+		this->DoB = inputDate();
+	}
+	case 4:
+	{
+		cout << "Enter your gender: ";
+		string gender;
+		getline(cin, gender);
+		for (int i = 0; i < gender.size(); i++)
+			gender[i] = toupper(gender[i]);
+		(gender == "MALE") ? this->gender = 0 : this->gender = 1;
+	}
+	case 0:
+	{
+		cin.ignore();
+		return;
+	}
+	default:
+		break;
+	}
+
+}
+
+
+void AccountInfo::removeAccountInfo(const string& IDRemove)
+{
+	loadListUser();
+	for (int i = 0; i < listUser.size(); i++)
+		if (listUser[i].getID() == IDRemove)
+			listUser.erase(listUser.begin() + i);
+	saveListUser();
+	listUser.clear();
 }
 

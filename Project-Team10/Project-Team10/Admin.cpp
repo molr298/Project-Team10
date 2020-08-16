@@ -26,6 +26,11 @@ void Admin::displayListAdmin()
 	cout << "________________________________" << endl;
 }
 
+void Admin::editInfo()
+{
+	this->editInfo();
+}
+
 void Admin::saveUser()
 {
 	remove("Data/Admin.txt");
@@ -36,19 +41,22 @@ void Admin::saveUser()
 	fout.close();
 }
 
-void Admin::removeUser()
+void Admin::removeUser(string IDRemove)
 {
-	string search;
-	cout << "Enter ID or name to remove: ";
-	getline(cin, search);
-	AccountInfo::loadListUser();
-	for (int i = 0; i < listUser.size(); i++)
-	{
-		if (listUser[i].getUsername() == search || listUser[i].getID() == search)
-		{
-			listUser.erase(listUser.begin() + i);
-			break;
-		}
-	}
-	AccountInfo::saveListUser();
+	//string search;
+	//cout << "Enter ID or name to remove: ";
+	//getline(cin, search);
+	//AccountInfo::loadListUser();
+	//for (int i = 0; i < listUser.size(); i++)
+	//{
+	//	if (listUser[i].getUsername() == IDRemove || listUser[i].getID() == IDRemove)
+	//	{
+	//		listUser.erase(listUser.begin() + i);
+	//		break;
+	//	}
+	//}
+	//AccountInfo::saveListUser();
+
+	AccountInfo::removeAccountInfo(IDRemove);
+	ListAccount::removeAccount(IDRemove);
 }

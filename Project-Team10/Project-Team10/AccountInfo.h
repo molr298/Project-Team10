@@ -12,7 +12,7 @@ private:
 	string DoB;
 	int phoneNumber;
 	int gender;
-	int status;
+	int status;	//0-customer	1-seller
 	//vector<AccountInfo> listUser;
 	vector<AccountInfo> listAdmin;
 protected:
@@ -28,11 +28,12 @@ public:
 	string getDoB() { return DoB; }
 	int getPhoneNumber() { return phoneNumber; }
 	int getGender() { return gender; }
+	int getStatus() { return status; }
 	void loadListUser();
 	void saveListUser();
 	void registerAccount();
 	/*AccountInfo findUser(const int&);*/		//find another user by ID
-	AccountInfo findUser(const string&);	//find another user by user name
+	AccountInfo* findUser(const string&);	//find another user by user name
 	void displayListUser();
 	void editInfo();
 	void operator=(const AccountInfo& aci)
@@ -48,6 +49,8 @@ public:
 	{
 		return listUser;
 	}
+
+	void removeAccountInfo(const string&);
 };
 
 #endif // !_ACCOUNTINFO_
