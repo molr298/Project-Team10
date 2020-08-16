@@ -1,4 +1,4 @@
-#include "Product.h"
+﻿#include "Product.h"
 //
 //int ID;
 //string productName;
@@ -150,12 +150,7 @@ void Product::DisplayArrProduct(vector<Product> arr)
 
 void Product::display()
 {
-	cout << "ID: " << ID << endl;
-	cout << "Seller's ID: " << IDseller << endl;
-	cout << "Product's name: " << productName << endl;
-	cout << "Price: " << price << endl;
-	cout << "Stock: " << stock << endl;
-	cout << "Type: ";
+	cout << setw(4) << left << ID << "\t" << setw(12) << left << IDseller << "\t" << setw(20) << left << productName << "\t" << setw(10) << left << price << "\t" << setw(10) << left << stock << "\t" << setw(10) << left;
 	switch (type)
 	{
 	case 1:{
@@ -194,7 +189,6 @@ void Product::addProduct(vector<Product>& arr) {
 void Product::loadListProduct()
 {
 	prdv.clear();
-
 	ifstream fin;
 	fin.open("Product/Product.txt");
 	if (!fin.is_open()) {
@@ -251,9 +245,11 @@ void Product::saveOneProduct(ofstream& fout)
 
 void Product::displayListProduct()
 {
+
+	cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
 	for (int i = 0; i < prdv.size(); i++)
 		prdv[i].display();
-		cout << "____________________________________" << endl;;
+		cout << "____________________________________" << endl;
 }
 
 
@@ -288,12 +284,16 @@ void Product::removeProduct()
 	cout << "Enter ID or name of the Product to remove: ";
 	getline(cin, search);
 	loadListProduct();
+
 	if (findProduct(search)) {
 	for (int i = 0; i < prdv.size(); i++)
 		{
 			if (prdv[i].getID() == search || prdv[i].getProductName() == search)
 			{
-				cout << prdv[i];
+				cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
+				cout << endl;
+				cout << "1" << "\t";
+				prdv[i].display();
 				char ans;
 				cout << endl << "Are you sure you want to delete this product ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n)" << endl;
 				cin >> ans;
@@ -441,7 +441,7 @@ void Product::saveNotifUser(string IDseller)
 	{
 		for (int j = 0; j < prdv.size(); j++)
 		{
-			if (IDseller == prdv[j].IDseller && usnv[i].getProductName() == prdv[j].productName && usnv[i].getProductID() == prdv[j].ID)
+			if (IDseller == prdv[j].IDseller && usnv[i].getProductName() == prdv[j].productName && usnv[i].getProductID() == prdv[j].ID && prdv[j].getStatus() == 0)
 			{
 				if (prdv[j].stock > usnv[i].getQuantity())
 				{
@@ -452,12 +452,14 @@ void Product::saveNotifUser(string IDseller)
 					cout << "Product " << prdv[j].productName << " doesn't have eough supplies for user " << usnv[i].getCustomerID() << endl;
 					cout << "It lacks " << usnv[i].getQuantity() - prdv[j].stock << endl;
 				}
+				usnv[i].setStatus(1);
 			}
 		}
 	}
+	UserNotif::saveListOrder();
 	Product::saveListProduct();
 }
-void Product::setupCart(int quantity, Product p, bool check)
+void Product::setupCart(int quantity, Product p)
 {
 	UserNotif usn;
 	usn.getProduct(p.ID,"", p.IDseller, p.productName, p.price, quantity, p.type);

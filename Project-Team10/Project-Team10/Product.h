@@ -44,6 +44,7 @@ public:
 	int getStock() { return stock; }
 	int getType() { return type; }
 
+	void setQuantity(int n) { stock = n; }
 	void loadListProduct();
 	void saveListProduct();
 	Product loadOneProduct(ifstream& fin);
@@ -54,7 +55,7 @@ public:
 	void removeProduct();
 	void editProduct();
 	bool findProduct(const string);
-	void setupCart(int quantity, Product p, bool check);
+	void setupCart(int quantity, Product p);
 	void saveNotifUser(string IDseller);
 };
 

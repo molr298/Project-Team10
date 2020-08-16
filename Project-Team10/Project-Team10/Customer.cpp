@@ -1,12 +1,15 @@
 ﻿#include "Customer.h"
 
 
-void Customer::buyStuff(string customerID)
+void Customer::buyStuff(UserNotif usn, string customerID)
 {
+	filterProduct.clear();
 	Product::loadListProduct();
 	UserNotif::loadListNotif();
 	string search;
-	int n = usnv.size();
+	vector<Product> temp;
+	int n1 = usnv.size();
+	cin.ignore();
 	cout << "Enter ID or name to search: ";
 	getline(cin, search);
 	int flag = 0;
@@ -23,19 +26,16 @@ void Customer::buyStuff(string customerID)
 		cout << "Items not found" << endl;
 		return;
 	}
-	///////Viết hàm display filterProduct trong đó có cho chọn theo thứ tự để thêm vào vector ordv (Order vector)
-
-	////// Order vector tác động lại file Product.txt dựa vào các attribute của người mua sau đó gửi thông báo cho người bán
-
-
 	int choice;
+	cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
 	while (true)
 	{
 		for (int i = 0; i < filterProduct.size(); i++)
 		{
-			cout << "Product " << i + 1 << endl;
+			cout << endl;
+			cout << i + 1 << "\t";
 			filterProduct[i].display();
-			cout << "____________________________________" << endl;
+			cout << "_________________________________________________________________________________________________" << endl;
 		}
 		cout << "Make your choice: ";
 		cin >> choice;
@@ -50,15 +50,53 @@ void Customer::buyStuff(string customerID)
 		
 		cout << "How many do you buy ?: ";
 		cin >> n;
-		Product::setupCart(n, filterProduct[choice - 1],true);
-		ordv.push_back(filterProduct[choice - 1]);
+		temp = filterProduct;
+		temp[choice - 1].setQuantity(n);
+		ordv.push_back(temp[choice - 1]);
 		system("cls");
-
 	}
-	UserNotif::printList();
-	UserNotif::saveListOrder(n, customerID);
 }
-void Customer::viewCart()
+void Customer::confirmCart(string customerID)
+{
+	int n = usnv.size();
+	UserNotif::loadListNotif();
+	cout << endl << "Are you sure you want to purchase ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n)" << endl;
+	char ans;
+	cin >> ans;
+	switch (ans)
+	{
+	case 'YES': case 'Y': case 'yes': case 'y':
+	{
+		for (int i = 0; i < ordv.size(); i++)
+		{
+			Product::setupCart(ordv[i].getStock(), ordv[i]);
+		}
+		remove("Notification/Notif_User.csv");
+		ofstream fout("Notification/Notif_User.csv");
+		fout << "Product ID;Customer ID;Seller ID;Type;Name;Quantity;Price;Total;Status" << endl;
+		for (int i = 0; i < usnv.size(); i++)
+		{
+			if (n == i)
+			{
+				usnv[i].setCustomerID(customerID);
+				n++;
+			}
+			usnv[i].saveOneOrder(fout);
+		}
+		fout.close();
+
+		cout << "Your cart has been confirmed" << endl;
+		break;
+	}
+	case 'NO': case 'N': case 'no': case 'n':
+	{
+		cout << "Your cart has been renewed" << endl;
+		break;
+	}
+	}
+}
+
+void Customer::viewHistory()
 {
 	if (ordv.size() == 0)
 	{

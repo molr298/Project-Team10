@@ -70,4 +70,7 @@ public:
 	void saveOneOrder(ofstream& fout);
 	void saveListOrder();
 	void saveListOrder(int n, string productID);
+	void setStatus(int n) { status = n; }
+	void loadListNotifWithoutClear();
+	void setCustomerID(string ID) { customerID = ID; }
 };

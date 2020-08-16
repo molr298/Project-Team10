@@ -89,6 +89,27 @@ void UserNotif::printList()
 }
 void UserNotif::loadListNotif()
 {
+	usnv.clear();
+	ifstream fin;
+	fin.open("Notification/Notif_User.csv");
+	if (!fin.is_open()) {
+		cout << "Can't open Notif_User!!" << endl;
+		return;
+	}
+	int n = countLines(fin);
+	fin.close();
+	fin.open("Notification/Notif_User.csv");
+	string line;
+	getline(fin, line);
+	for (int i = 0; i < n; i++)
+	{
+		usnv.push_back(UserNotif::loadOneNotif(fin));
+		getline(fin, line);
+	}
+	fin.close();
+}
+void UserNotif::loadListNotifWithoutClear()
+{
 	ifstream fin;
 	fin.open("Notification/Notif_User.csv");
 	if (!fin.is_open()) {

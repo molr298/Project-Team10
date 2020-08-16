@@ -11,8 +11,9 @@ private:
 	vector<Product> Cart;
 public:
 
-	void buyStuff(string ID);
-	void viewCart();
+	void buyStuff(UserNotif usn, string ID);
+	void viewHistory();
+	void confirmCart(string customerID);
 };
 
 #endif // !_CUSTOMER_H
