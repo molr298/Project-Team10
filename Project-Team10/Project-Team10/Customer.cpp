@@ -111,3 +111,43 @@ void Customer::viewHistory()
 		cout << "____________________________________" << endl;
 	}
 }
+
+void Customer::sendReport(string senderID1)
+{
+	string takerID1;
+	string problem;
+	AdminNotif::loadListNotif();
+	int type;
+	cout << "Choose Problem Type, 1 for App Bug, 2 for User Report, 3 for Items, 4 for Seller Registration, 5 for others" << endl;
+	cin >> type;
+	if (type == 1)
+	{
+		takerID1 = "Ad1";
+	}
+	if (type == 2)
+	{
+		takerID1 = "Ad2";
+	}
+	if (type == 3)
+	{
+		takerID1 = "Ad3";
+	}
+	if (type == 4)
+	{
+		takerID1 = "Ad4";
+	}
+	if (type == 5)
+	{
+		takerID1 = "Ad5";
+	}
+	cin.ignore();
+	cout << "Describe Problem: ";
+	getline(cin, problem);
+	AdminNotif adn;
+	adn.setSenderID(senderID1);
+	adn.setTakerID(takerID1);
+	adn.setProblem(problem);
+	adn.setStatus(0);
+	AdminNotif::adnv.push_back(adn);
+	AdminNotif::saveListNotif();
+}

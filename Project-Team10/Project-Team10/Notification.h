@@ -1,8 +1,12 @@
 #ifndef _NOTIFICATION_H
 #define _NOTIFICATION_H
 
-#include "Admin.h"
-
+#include <iostream>
+#include<vector>
+#include"Lib.h"
+#include "AccountInfo.h"
+#include "Account.h"
+using namespace std;
 class Notif
 {
 private:
@@ -13,21 +17,28 @@ protected:
 public:
 	string getSenderID() { return senderID; }
 	string getTakerID() { return takerID; }
+	void setSenderID(string senderID) { this->senderID = senderID; }
+	void setTakerID(string takerID) { this->takerID = takerID; }
 };
 
 class AdminNotif : public Notif
 {
 private: 
-	int issueType;
+	int status;
 	string Problem;
 
-protected:
-	vector<AdminNotif> adnv;
+//protected:
+//	vector<AdminNotif> adnv;
 public:
+	vector<AdminNotif> adnv;
 	string getProblem() { return Problem; }
 	void loadListNotif();
 	AdminNotif loadAnNotif(ifstream& fin);
 	void checkNotif(string adminID, string userID);
+	void saveOneReport(ofstream& fout);
+	void setStatus(int status) { this->status = status; }
+	void setProblem(string Problem) { this->Problem = Problem; }
+	void saveListNotif();
 };
 
 class UserNotif

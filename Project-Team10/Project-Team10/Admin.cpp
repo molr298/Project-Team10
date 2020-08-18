@@ -60,3 +60,37 @@ void Admin::removeUser(string IDRemove)
 	/*AccountInfo::removeAccountInfo(IDRemove);
 	ListAccount::removeAccount(IDRemove);*/
 }
+
+void Admin::sendReport(string senderID1)
+{
+	string takerID1;
+	string problem;
+	cout << "Enter user's ID to send them Report: ";
+	cin >> takerID1;
+	AdminNotif::loadListNotif();
+	cin.ignore();
+	cout << "Describe Problem: ";
+	getline(cin, problem);
+	AdminNotif adn;
+	adn.setSenderID(senderID1);
+	adn.setTakerID(takerID1);
+	adn.setProblem(problem);
+	adn.setStatus(0);
+	adnv.push_back(adn);
+	AdminNotif::saveListNotif();
+}
+
+void Admin::acceptSeller(string admin)
+{
+	AdminNotif::loadListNotif();
+	for (int i = 0; i < adnv.size(); i++)
+	{
+		if (adnv[i].getTakerID() == "Ad4")
+		{
+			
+			////print then choose or accept all take adnv[i].getSenderID()
+		}
+	}
+	
+	////After choose specific or all, set status to 1 then search in Data/User.txt then change status to 1 then save
+}

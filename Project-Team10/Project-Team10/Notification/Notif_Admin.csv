@@ -1,5 +1,6 @@
-Sender ID;Taker ID;Problems
-Ad1;19127001;Offense Account
-19127002;Ad1;Seller registration
-19127003;Ad1;Report user
-Ad2;19127001;Password Renewal
+Sender ID;Taker ID;Problems;Status
+Ad1;19127001;Offense Account;1;0;0
+19127002;Ad1;Seller registration;0;0;0
+19127003;Ad1;Report user;0;0;0
+Ad2;19127001;Password Renewal;1;0;0
+19127002;Ad2;Report user 19127001;0

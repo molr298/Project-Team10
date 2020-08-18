@@ -10,8 +10,20 @@ int countLines(ifstream& filein)
 	}
 	return n - 2;
 }
+void AdminNotif::saveListNotif()
+{
+	remove("Notification/Notif_Admin.csv");
+	ofstream fout("Notification/Notif_Admin.csv");
+	fout << "Sender ID;Taker ID;Problems;Status" << endl;
+	for (int i = 0; i < adnv.size(); i++)
+	{
+		adnv[i].saveOneReport(fout);
+	}
+	fout.close();
+}
 void AdminNotif::loadListNotif()
 {
+	adnv.clear();
 	ifstream fin;
 	fin.open("Notification/Notif_Admin.csv");
 	if (!fin.is_open()) {
@@ -166,6 +178,13 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 	if (flag == 0)
 		cout << "No notification available" << endl;
 }
+void AdminNotif::saveOneReport(ofstream& fout)
+{
+	fout << senderID << ';';
+	fout << takerID << ';';
+	fout << Problem << ';';
+	fout << status << endl;
+}
 void UserNotif::saveOneOrder(ofstream& fout)
 {
 	fout << productID << ';';
@@ -177,7 +196,6 @@ void UserNotif::saveOneOrder(ofstream& fout)
 	fout << price << ';';
 	fout << totalPrice << ';';
 	fout << status << endl;
-
 }
 void UserNotif::saveListOrder()
 {

@@ -12,7 +12,8 @@ int main() {
 	tmp.registerAccount();
 	tmp.editInfo();*/
 
-
+	/*Admin ad1;
+	ad1.sendReport("Ad1");*/
 	/*Admin ad1;
 	ad1.loadListAdmin();
 	ad1.displayListAdmin();
@@ -44,6 +45,7 @@ int main() {
 
 
 	Seller sl;
+	sl.sendReport("19127002");
 	//bool isApproveCart = true; //false
 	//sl.approveCart(isApproveCart,"19127006");
 	

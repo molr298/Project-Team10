@@ -53,20 +53,23 @@ void Seller::saleStatistic(string IDseller)
 		}
 		if (bestStock <= temp[i].getQuantity())
 		{
-			bestStock = i;
-			
+			bestStock = temp[i].getQuantity();
 		}
 		if (leastStock >= temp[i].getQuantity())
 		{
-			leastStock = i;
+			leastStock = temp[i].getQuantity();
 		}
+
 	}
 	cout << temp[0].getTotalPrice() << endl;
 	cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << "Total" << endl;
 	for (int i = 0; i < temp.size(); i++)
 	{
 		cout << setw(15) << left << temp[i].getProductID() << "\t" << setw(20) << left << temp[i].getProductName() << "\t" << setw(10) << temp[i].getTotalPrice() << endl;
+		cout << "______________________________________________________" << endl;
 	}
+	cout << "Peak: " << peak << endl;
+	cout << "Lowest: " << lowestTotal << endl;
 	cout << "Total: " << total << endl << endl;
 	char ans;
 	cout << endl << "View more information ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n) to return" << endl;
@@ -78,15 +81,60 @@ void Seller::saleStatistic(string IDseller)
 		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
 		for (int i = 0; i < temp.size(); i++)
 		{
+			cout << endl;
 			temp[i].print();
+			cout << "_____________________________________________________________________________________________" << endl;
 		}
-		cout << "Peak: " << peak << endl;
-		cout << "Lowest: " << lowestTotal << endl;
-		cout << "Total: " << total << endl;
+
+		cout << "Total: " << total << endl << endl;
 		cout << "Most Buying Product Quantity: " << endl;
-		//temp[mostQuantity].print();
+		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
+		for (int i = 0; i < temp.size(); i++)
+		{
+			if (bestStock == temp[i].getQuantity())
+			{
+				cout << endl;
+				temp[i].print();
+				cout << "_____________________________________________________________________________________________" << endl;
+			}
+		}
+		cout << endl;
 		cout << "Least Buying Product Quantity: " << endl;
-		//temp[leastQuantity].print();
+		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
+		for (int i = 0; i < temp.size(); i++)
+		{
+			if (leastStock == temp[i].getQuantity())
+			{
+				cout << endl;
+				temp[i].print();
+				cout << "_____________________________________________________________________________________________" << endl;
+			}
+		}
+		
+		cout << "\nBest sale: " << endl;
+		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
+		for (int i = 0; i < temp.size(); i++)
+		{
+			if (peak == temp[i].getTotalPrice())
+			{
+				cout << endl;
+				temp[i].print();
+				cout << "_____________________________________________________________________________________________" << endl;
+			}
+		}
+
+		cout << "\nLeast sale: " << endl;
+		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
+		for (int i = 0; i < temp.size(); i++)
+		{
+			if (lowestTotal == temp[i].getTotalPrice())
+			{
+				cout << endl;
+				temp[i].print();
+				cout << "_____________________________________________________________________________________________" << endl;
+			}
+		}
+
 		break;
 	}
 	case 'NO': case 'N':case 'n': case 'no':
@@ -96,4 +144,35 @@ void Seller::saleStatistic(string IDseller)
 	}
 
 	}
+}
+void Seller ::sendReport(string senderID1)
+{
+	string takerID1;
+	string problem;
+	AdminNotif::loadListNotif();
+	int type;
+	cout << "Choose Problem Type, 1 for App Bug, 2 for User Report, 3 for Items" << endl;
+	cin >> type;
+	if (type == 1)
+	{
+		takerID1 = "Ad1";
+	}
+	if (type == 2)
+	{
+		takerID1 = "Ad2";
+	}
+	if (type == 3)
+	{
+		takerID1 = "Ad3";
+	}
+	cin.ignore();
+	cout << "Describe Problem: ";
+	getline(cin, problem);
+	AdminNotif adn;
+	adn.setSenderID(senderID1);
+	adn.setTakerID(takerID1);
+	adn.setProblem(problem);
+	adn.setStatus(0);
+	AdminNotif::adnv.push_back(adn);
+	AdminNotif::saveListNotif();
 }

@@ -4,8 +4,9 @@
 #include"Lib.h"
 #include "AccountInfo.h"
 #include "Account.h"
-
-class Admin: public AccountInfo/*, public ListAccount*/
+#include"Notification.h"
+#include <string.h>
+class Admin: public AccountInfo, public AdminNotif
 {
 private:
 	vector<AccountInfo> listAdmin;
@@ -16,6 +17,8 @@ public:
 	void editInfo();
 	void removeUser(string);
 	void saveUser();
+	void sendReport(string senderID);
+	void acceptSeller(string admin);
 };
 #endif // !_ADMIN_H
 
