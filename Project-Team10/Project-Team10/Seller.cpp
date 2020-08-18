@@ -84,9 +84,9 @@ void Seller::saleStatistic(string IDseller)
 		cout << "Lowest: " << lowestTotal << endl;
 		cout << "Total: " << total << endl;
 		cout << "Most Buying Product Quantity: " << endl;
-		temp[mostQuantity].print();
+		//temp[mostQuantity].print();
 		cout << "Least Buying Product Quantity: " << endl;
-		temp[leastQuantity].print();
+		//temp[leastQuantity].print();
 		break;
 	}
 	case 'NO': case 'N':case 'n': case 'no':

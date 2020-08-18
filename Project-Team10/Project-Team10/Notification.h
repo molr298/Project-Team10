@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _NOTIFICATION_H
+#define _NOTIFICATION_H
+
 #include "Admin.h"
 
 class Notif
@@ -12,6 +14,7 @@ public:
 	string getSenderID() { return senderID; }
 	string getTakerID() { return takerID; }
 };
+
 class AdminNotif : public Notif
 {
 private: 
@@ -26,6 +29,7 @@ public:
 	AdminNotif loadAnNotif(ifstream& fin);
 	void checkNotif(string adminID, string userID);
 };
+
 class UserNotif
 {
 private:
@@ -77,3 +81,5 @@ public:
 	void loadListNotifWithoutClear();
 	void setCustomerID(string ID) { customerID = ID; }
 };
+
+#endif // !_NOTIFICATION_H
