@@ -62,6 +62,9 @@ public:
 	double getTotalPrice(){ return totalPrice; }
 	int getType(){ return typeProduct; }
 	int getStatus() { return status; }
+	void setQuantity(int n) { quantity += n; }
+	void setTotal(int n) { totalPrice += n; }
+
 	void loadListNotif();
 	UserNotif loadOneNotif(ifstream& fin);
 	void checkNotif(string customerID, string sellerID);

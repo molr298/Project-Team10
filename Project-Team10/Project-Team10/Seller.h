@@ -4,5 +4,6 @@ class Seller: public Customer
 {
 public:
 	void approveCart(bool approveOrder, string IDseller);
+	void saleStatistic(string IDseller);
 };
 

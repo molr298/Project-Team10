@@ -5,7 +5,7 @@
 #include "AccountInfo.h"
 #include "Account.h"
 
-class Admin: public AccountInfo, public ListAccount
+class Admin: public AccountInfo/*, public ListAccount*/
 {
 private:
 	vector<AccountInfo> listAdmin;

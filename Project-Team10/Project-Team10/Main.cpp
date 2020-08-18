@@ -32,21 +32,22 @@ int main() {
 	a.removeProduct();
 	a.editProduct();
 	a.displayListProduct();*/
-	UserNotif usn;
-	Customer csm;
-	usn.loadListNotif();
-	////csm.addProduct();
-	//csm.removeProduct(); //Add choice to confirm
-	usn.printList();
-	csm.buyStuff(usn, "19127009");
-	csm.buyStuff(usn, "19127009");
-	csm.confirmCart("19127009");
+	//UserNotif usn;
+	//Customer csm;
+	//usn.loadListNotif();
+	//////csm.addProduct();
+	////csm.removeProduct(); //Add choice to confirm
+	//usn.printList();
+	//csm.buyStuff(usn, "19127009");
+	//csm.buyStuff(usn, "19127009");
+	//csm.confirmCart("19127009");
 
 
 	Seller sl;
-	sl.approveCart(true,"19127006");
+	//bool isApproveCart = true; //false
+	//sl.approveCart(isApproveCart,"19127006");
 	
-
+	sl.saleStatistic("19127002");
 	/*UserNotif usn;
 	usn.loadListNotif();
 	usn.checkNotif("19127003", "");

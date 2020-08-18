@@ -57,6 +57,6 @@ void Admin::removeUser(string IDRemove)
 	//}
 	//AccountInfo::saveListUser();
 
-	AccountInfo::removeAccountInfo(IDRemove);
-	ListAccount::removeAccount(IDRemove);
+	/*AccountInfo::removeAccountInfo(IDRemove);
+	ListAccount::removeAccount(IDRemove);*/
 }

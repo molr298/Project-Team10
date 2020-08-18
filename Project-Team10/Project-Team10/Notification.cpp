@@ -74,14 +74,11 @@ UserNotif UserNotif::loadOneNotif(ifstream& fin)
 }
 void UserNotif::print()
 {
-	cout << "Product ID: " << productID << endl;
-	cout << "Product Name: " << productName << endl;
-	cout << "Quantity: " << quantity << endl;
-	cout << "Price: " << price << endl;
-	cout << "Total: " << totalPrice << endl;
+	cout << setw(15) << left << productID << "\t" << setw(20) << left << productName << "\t" << setw(10) << left << price << "\t" << setw(10) << left << quantity << "\t" << setw(10) << left << typeProduct << "\t" << setw(10) << totalPrice << endl;
 }
 void UserNotif::printList()
 {
+	cout << setw(15) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
 	for (int i = 0; i < usnv.size(); i++) {
 		usnv[i].print();
 	}
