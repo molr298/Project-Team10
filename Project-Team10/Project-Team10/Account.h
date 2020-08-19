@@ -35,9 +35,12 @@ private:
 public:
 	void loadListAccount(string);
 	int login(string, string);
-	void saveListAccount(const int&	, string);
+	void saveListAccount(string);
 	void SignUp();
 	void removeAccount(string);
+	Account findAccount(string);
+
+	void setAccount(Account&);
 };
 
 #endif // !_ACCOUNT_H

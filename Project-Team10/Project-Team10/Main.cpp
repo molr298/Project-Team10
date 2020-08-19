@@ -95,6 +95,7 @@ int main() {
 		}
 		else {
 
+				accountLogin = listAcc.findAccount(username);
 			if (loginResult == 2) {
 				accInfo = *accInfo.findAdmin(username);
 				menu.ShowMenuAdmin(accInfo, accountLogin, listAcc);

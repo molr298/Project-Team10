@@ -56,6 +56,7 @@ public:
 	}
 
 	void removeAccountInfo(const string&);
+	void setAccountInfo(AccountInfo&);
 };
 
 #endif // !_ACCOUNTINFO_

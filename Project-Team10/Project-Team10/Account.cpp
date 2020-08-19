@@ -2,6 +2,7 @@
 
 Account Account::loadAnAccount(ifstream& fin)
 {
+	fin.ignore();
 	getline(fin, username);
 	getline(fin, passHash);
 	fin >> ID;
@@ -124,16 +125,18 @@ Account Account::createNewAccount()
 
 void Account::changePassword()
 {
+	system("cls");
 	string passOld, passNew, passRetype;
 	passNew = "";
 	passOld = "";
 	passRetype = "";
 	do {
 		cout << "Current password: ";
+		cin.ignore();
 		passOld = inputPassword();
 		passOld = HashPassword(passOld);
-		if (passOld != this->passHash) {
-			cout << "Retype password and new password is not match\nPress any key to try again";
+		if (passOld != this->getPassHass()) {
+			cout << "Retype password and new password is not match\n" << endl;
 			cout << "Do you want to try again?(Y/N) ";
 			while (true)
 			{
@@ -183,7 +186,10 @@ void Account::changePassword()
 		}
 	} while (passNew != passRetype);
 	passNew = HashPassword(passNew);
+	this->passHash = passNew;
 
+	ListAccount listAcc;
+	listAcc.setAccount(*this);
 }
 
 void ListAccount::loadListAccount(string filename)
@@ -196,7 +202,7 @@ void ListAccount::loadListAccount(string filename)
 	int nAccount;
 	fin >> nAccount;
 	for (int i = 0; i < nAccount; i++) {
-		fin.ignore();
+		
 		listAccount.push_back(Account::loadAnAccount(fin));
 	}
 	fin.close();
@@ -216,8 +222,6 @@ int ListAccount::login(string username, string password)
 			}
 			else {
 				listAccount.clear();
-				cout << password << endl;
-				cout << listAccount[i].getPassHass();
 				return 0;
 			}
 		}
@@ -238,17 +242,18 @@ int ListAccount::login(string username, string password)
 	listAccount.clear();
 }
 
-void ListAccount::saveListAccount(const int& nAccount, string filename)
+void ListAccount::saveListAccount(string filename)
 {
 	ofstream fout(filename);
 	if (!fout.is_open()) {
 		cout << "Can't save Account!!" << endl;
 		return;
 	}
-	fout << nAccount << endl;
+	fout << listAccount.size() << endl;
 	for (int i = 0; i < listAccount.size(); i++)
 		listAccount[i].saveAccount(fout);
 	fout.close();
+	listAccount.clear();
 }
 
 void ListAccount::SignUp()
@@ -257,7 +262,7 @@ void ListAccount::SignUp()
 	newAccount.createNewAccount();
 	loadListAccount("Account/User.txt");
 	listAccount.push_back(newAccount);
-	saveListAccount(listAccount.size(), "Account/User.txt");
+	saveListAccount("Account/User.txt");
 	listAccount.clear();
 }
 
@@ -272,8 +277,44 @@ void ListAccount::removeAccount(string removeID) {
 		if (removeID == listAccount[i].getID())
 			listAccount.erase(listAccount.begin() + i);
 
-	saveListAccount(listAccount.size(), "Account/User.txt");
+	saveListAccount("Account/User.txt");
 	listAccount.clear();
+}
+
+Account ListAccount::findAccount(string username)
+{
+	Account result;
+	string filename = "Admin.txt";
+	loadListAccount(ACCOUNT_PATH + filename);
+	for (int i = 0; i < listAccount.size(); i++) {
+		if (listAccount[i].getUsername() == username) {
+			result = listAccount[i];
+			break;
+		}
+
+	}
+	listAccount.clear();
+	return result;
+}
+
+void ListAccount::setAccount(Account& newAccount)
+{
+	if (newAccount.getUsername().substr(0, 7) == "197.000") {
+		loadListAccount("Account/Admin.txt");
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (listAccount[i].getID() == newAccount.getID())
+				listAccount[i] = newAccount;
+		}
+			saveListAccount("Account/Admin.txt");
+	}
+	else {
+		loadListAccount("Account/User.txt");
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (listAccount[i].getID() == newAccount.getID())
+				listAccount[i] = newAccount;
+		}
+		saveListAccount("Account/User.txt");
+	}
 }
 
 

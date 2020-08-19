@@ -176,7 +176,6 @@ void AccountInfo::editInfo(int choice)
 	//	}
 	//}
 	//AccountInfo::saveListUser();
-	cin >> choice;
 	switch (choice)
 	{
 	case 1:
@@ -184,15 +183,18 @@ void AccountInfo::editInfo(int choice)
 		cout << "Enter your full name: ";
 		cin.ignore();
 		getline(cin, this->fullname);
+		break;
 	}
 	case 2:
 	{
 		cout << "Enter your phone number: ";
 		cin >> this->phoneNumber;
+		break;
 	}
 	case 3: {
 		cout << "Enter your day of birth: ";
 		this->DoB = inputDate();
+		break;
 	}
 	case 4:
 	{
@@ -202,6 +204,7 @@ void AccountInfo::editInfo(int choice)
 		for (int i = 0; i < gender.size(); i++)
 			gender[i] = toupper(gender[i]);
 		(gender == "MALE") ? this->gender = 0 : this->gender = 1;
+		break;
 	}
 	case 0:
 	{
@@ -211,7 +214,7 @@ void AccountInfo::editInfo(int choice)
 	default:
 		break;
 	}
-
+	setAccountInfo(*this);
 }
 
 
@@ -223,5 +226,24 @@ void AccountInfo::removeAccountInfo(const string& IDRemove)
 			listUser.erase(listUser.begin() + i);
 	saveListUser();
 	listUser.clear();
+}
+
+void AccountInfo::setAccountInfo(AccountInfo& newAccInfo)
+{
+	if (newAccInfo.username.substr(0, 7) == "197.000") {
+		for (int i = 0; i < listAdmin.size(); i++) {
+			if (listAdmin[i].ID == newAccInfo.ID)
+				listAdmin[i] = newAccInfo;
+		}
+		saveListAdmin();
+	}
+	else {
+		for (int i = 0; i < listUser.size(); i++) {
+			if (listUser[i].ID == newAccInfo.ID)
+				listUser[i] = newAccInfo;
+		}
+		saveListUser();
+	}
+	
 }
 
