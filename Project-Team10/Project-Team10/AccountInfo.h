@@ -32,10 +32,15 @@ public:
 	void loadListUser();
 	void saveListUser();
 	void registerAccount();
+
+	void loadListAdmin();
+	void saveListAdmin();
+	AccountInfo* findAdmin(const string&);
+
 	/*AccountInfo findUser(const int&);*/		//find another user by ID
 	AccountInfo* findUser(const string&);	//find another user by user name
 	void displayListUser();
-	void editInfo();
+	void editInfo(int);
 	void operator=(const AccountInfo& aci)
 	{
 		ID = aci.ID;

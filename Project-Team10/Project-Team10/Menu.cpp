@@ -2,6 +2,7 @@
 
 void Menu::ShowTitle()
 {
+	system("cls");
 	cout << "            E-Ecommerce Program Offline         " << endl;
 	cout << "______________________EPO10_____________________" << endl;
 }
@@ -35,30 +36,28 @@ void Menu::ShowMenuAdmin(AccountInfo& adminInfo, Account& adminAcc, ListAccount&
 	int nCommandPart = 4;
 
 	while (true) {
-		system("cls");
 		ShowTitle();
 		cout << "                      ADMIN                     " << endl;
 		for (int i = 0; i < nCommandPart; i++) {
-			cout << i + 1 << command[i] << endl;
+			cout << i + 1 <<". " << command[i] << endl;
 		}
-
-		cout << "0. Return" << endl;
 		cout << "________________________________________________" << endl;
 
 		int choice;
 		cout << "Input your choice: ";	cin >> choice;
 		switch (choice)
 		{
-			system("cls");
 			ShowTitle();
 		case 1:	//View profile
 		{
 			adminInfo.displayAccountInfo();
+			break;
 		}
 		case 2:	//Find another user
 		{
 			string IDUser;
 			cout << "Enter ID of User: ";
+			cin.ignore();
 			getline(cin, IDUser);
 			
 			adminInfo.findUser(IDUser)->displayAccountInfo();
@@ -71,17 +70,18 @@ void Menu::ShowMenuAdmin(AccountInfo& adminInfo, Account& adminAcc, ListAccount&
 				{
 					adminInfo.removeAccountInfo(IDUser);
 					listAcc.removeAccount(IDUser);
-					
+
 				}
 				else if (ch == 'n' || ch == 'N')
-					return;
+					break;
 				else
 					cout << "Bad choice, try again\n";
 			}
+			break;
 		}
 		case 3:	//Notification
 		{
-
+			break;
 		}
 		case 4:	//Log out 
 		{
@@ -91,6 +91,7 @@ void Menu::ShowMenuAdmin(AccountInfo& adminInfo, Account& adminAcc, ListAccount&
 		default:
 			break;
 		}
+		_getch();
 	}
 }
 
@@ -109,7 +110,6 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 	int nCommandPart = 7;
 
 	while (true) {
-		system("cls");
 		ShowTitle();
 		cout << "                      ADMIN                     " << endl;
 		for (int i = 0; i < nCommandPart; i++) {
@@ -123,28 +123,24 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		cout << "Input your choice: ";	cin >> choice;
 		switch (choice)
 		{
-			system("cls");
 			ShowTitle();
 		case 1:	//View profile, edit
 		{
 			customerInfo.displayAccountInfo();
+			break;
 		}
 		case 2:	//Find another user
 		{
-			string IDUser;
-			cout << "Enter ID of User: ";
-			getline(cin, IDUser);
-
-			customerInfo.findUser(IDUser)->displayAccountInfo();
-
+			ShowMenuUserFindUser(customerInfo);
+			break;
 		}
 		case 3:	//Shopping
 		{
-
+			return;
 		}
 		case 4:	//Notification
 		{
-
+			return;
 		}
 		case 5:	//Cart
 		{
@@ -152,7 +148,7 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		}
 		case 6: //View history \rate product? rate seller?
 		{
-
+			return;
 		}
 		case 7://Log out 
 		{
@@ -162,6 +158,8 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		default:
 			break;
 		}
+		_getch();
+
 	}
 }
 
@@ -181,7 +179,6 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 	int nCommandPart = 8;
 
 	while (true) {
-		system("cls");
 		ShowTitle();
 		cout << "                      ADMIN                     " << endl;
 		for (int i = 0; i < nCommandPart; i++) {
@@ -195,7 +192,6 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		cout << "Input your choice: ";	cin >> choice;
 		switch (choice)
 		{
-			system("cls");
 			ShowTitle();
 		case 1:	//View profile
 		{
@@ -203,11 +199,7 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		}
 		case 2:	//Find another user
 		{
-			string IDUser;
-			cout << "Enter ID of User: ";
-			getline(cin, IDUser);
-
-			sellerInfo.findUser(IDUser)->displayAccountInfo();
+			ShowMenuUserFindUser(sellerInfo);
 		}
 		case 3:	//Shopping
 		{
@@ -240,7 +232,21 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 	}
 }
 
-void Menu::ShowMenuEditInfo(AccountInfo& accInfo, Account& Acc)
+void Menu::ShowMenuEditInfo(AccountInfo& accInfo)
+{
+	cout << "1. Edit your full name" << endl;
+	cout << "2. Edit your phone number" << endl;
+	cout << "3. Edit your day of birth" << endl;
+	cout << "4. Edit your gender" << endl;
+	cout << "0. Return" << endl;
+	cout << "_____________________________________" << endl;
+
+	int choice = 0;
+	cout << "Enter your choice: "; cin >> choice;
+	accInfo.editInfo(choice);
+}
+
+void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 {
 	cout << "_____________________________________" << endl;
 	cout << "1. Edit your info" << endl;
@@ -250,12 +256,11 @@ void Menu::ShowMenuEditInfo(AccountInfo& accInfo, Account& Acc)
 	cout << "Enter choice: ";
 	int choice = 0;
 	cin >> choice;
-	system("cls");
 	if (choice == 1) {
 		ShowTitle();
 		accInfo.displayAccountInfo();
-		accInfo.editInfo();
-		system("cls");
+		ShowMenuEditInfo(accInfo);
+		ShowTitle();
 		accInfo.displayAccountInfo();
 		cout << "Edit your information success" << endl;
 	}
@@ -266,6 +271,35 @@ void Menu::ShowMenuEditInfo(AccountInfo& accInfo, Account& Acc)
 	else if (choice == 0) {
 		cin.ignore();
 		return;
+	}
+}
+
+void Menu::ShowMenuUserFindUser(AccountInfo& userInfo)
+{
+	string IDUser;
+	cout << "Enter ID of User: ";
+	getline(cin, IDUser);
+	userInfo.findUser(IDUser)->displayAccountInfo();
+	cout << "1. Report this user" << endl;
+	cout << "0. Return" << endl;
+	cout << "_____________________________________" << endl;
+	int choice = 0;
+	cout << "Enter your choice: ";	cin >> choice;
+	Customer cus;
+	switch (choice)
+	{
+	case 1:
+	{
+		ShowTitle();
+		cus.sendReport(userInfo.getID());
+	}
+	case 0:
+	{
+		cin.ignore();
+		return;
+	}
+	default:
+		break;
 	}
 }
 

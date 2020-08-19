@@ -83,6 +83,47 @@ void AccountInfo::registerAccount()
 	listUser.push_back(aci);
 	AccountInfo::saveListUser();
 }
+void AccountInfo::loadListAdmin()
+{
+	listAdmin.clear();
+	ifstream fin;
+	fin.open("Data/Admin.txt");
+	if (!fin.is_open()) {
+		cout << "Can't open Admin.txt!!" << endl;
+		return;
+	}
+	int nAdmin;
+	fin >> nAdmin;
+	for (int i = 0; i < nAdmin; i++)
+	{
+		string line;
+		getline(fin, line);
+		listAdmin.push_back(AccountInfo::loadAnAccountInfo(fin));
+	}
+	fin.close();
+}
+
+void AccountInfo::saveListAdmin()
+{
+	ofstream fout("Data/Admin.txt");
+	fout << listAdmin.size() << endl;
+	for (int i = 0; i < listAdmin.size(); i++)
+		listAdmin[i].saveAnAccountInfor(fout);
+	fout.close();
+}
+
+AccountInfo* AccountInfo::findAdmin(const string& find)
+{
+	loadListAdmin();
+	for (int i = 0; i < listAdmin.size(); i++)
+		if (listAdmin[i].getUsername() == find || listAdmin[i].getID() == find )
+		{
+			return &listAdmin[i];
+		}
+	return nullptr;
+}
+
+
 void AccountInfo::saveListUser()
 {
 	remove("Data/User.txt");
@@ -100,11 +141,14 @@ void AccountInfo::saveListUser()
 //			return listUser[i];
 //}
 
-AccountInfo* AccountInfo::findUser(const string& Username)
+AccountInfo* AccountInfo::findUser(const string& find)
 {
+	loadListUser();
 	for (int i = 0; i < listUser.size(); i++)
-		if (listUser[i].getUsername() == Username)
+		if (listUser[i].getUsername() == find || listUser[i].getID()==find)
+		{
 			return &listUser[i];
+		}
 	return nullptr;
 }
 
@@ -116,7 +160,7 @@ void AccountInfo::displayListUser()
 	cout << "________________________________" << endl;
 }
 
-void AccountInfo::editInfo()
+void AccountInfo::editInfo(int choice)
 {
 	//string search;
 	//cout << "Enter ID or name to edit: ";
@@ -132,14 +176,6 @@ void AccountInfo::editInfo()
 	//	}
 	//}
 	//AccountInfo::saveListUser();
-	cout << "1. Edit your full name" << endl;
-	cout << "2. Edit your phone number" << endl;
-	cout << "3. Edit your day of birth" << endl;
-	cout << "4. Edit your gender" << endl;
-	cout << "0. Return" << endl;
-	cout << "_____________________________________" << endl;
-
-	int choice = 0;
 	cin >> choice;
 	switch (choice)
 	{

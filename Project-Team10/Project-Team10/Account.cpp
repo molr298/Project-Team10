@@ -2,7 +2,6 @@
 
 Account Account::loadAnAccount(ifstream& fin)
 {
-	fin.ignore();
 	getline(fin, username);
 	getline(fin, passHash);
 	fin >> ID;
@@ -196,31 +195,47 @@ void ListAccount::loadListAccount(string filename)
 	}
 	int nAccount;
 	fin >> nAccount;
-	for (int i = 0; i < nAccount; i++) 
+	for (int i = 0; i < nAccount; i++) {
+		fin.ignore();
 		listAccount.push_back(Account::loadAnAccount(fin));
+	}
 	fin.close();
 }
 
 int ListAccount::login(string username, string password)
 {
-	int result = 0;
 	string listFile[2] = { "Admin.txt", "User.txt" };
 	//0-Failed	1-User	2-Admin
 	password = Account::HashPassword(password);
 	if (username.substr(0, 7) == "197.000") {
-		loadListAccount(listFile[0]);
-		for (int i = 0; i < listAccount.size(); i++)
-			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername())
-				result = 2;
+		loadListAccount(ACCOUNT_PATH + listFile[0]);
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername()) {
+				listAccount.clear();
+				return 2;
+			}
+			else {
+				listAccount.clear();
+				cout << password << endl;
+				cout << listAccount[i].getPassHass();
+				return 0;
+			}
+		}
 	}
 	else {
-		loadListAccount(listFile[1]);
+		loadListAccount(ACCOUNT_PATH + listFile[1]);
 		for (int i = 0; i < listAccount.size(); i++)
-			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername())
-				result = 1;
+			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername()) {
+				listAccount.clear();
+				return 1;
+			}
+			else {
+				listAccount.clear();
+
+				return 0;
+			}
 	}
 	listAccount.clear();
-	return result;
 }
 
 void ListAccount::saveListAccount(const int& nAccount, string filename)

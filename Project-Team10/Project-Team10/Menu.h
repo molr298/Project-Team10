@@ -19,8 +19,10 @@ public:
 	void ShowMenuCustomer(AccountInfo&, Account&);
 	void ShowMenuSeller(AccountInfo&, Account&);
 
-	void ShowMenuEditInfo(AccountInfo&, Account&);
+	void ShowMenuEditInfo(AccountInfo&);
+	void ShowMenuEdit(AccountInfo&, Account&);
 
+	void ShowMenuUserFindUser(AccountInfo&);
 
 
 //	void Login();
