@@ -3,23 +3,23 @@
 nguyenva123
 Nguyen Van A
 01/02/2000
-987654321
+0987654321
 0
 0
 
 19127002
 lvanB456
-Le Van Bang
-10/10/1999
-932567841
-1
+Le Van B
+03/08/2000
+0932567841
+0
 1
 
 19127003
 nguyenthiC
 Nguyen Thi C
 13/09/1999
-932500041
+0932500041
 1
 1
 
@@ -27,7 +27,6 @@ Nguyen Thi C
 nguyenthiD
 Nguyen Thi D
 11/09/1979
-932501041
+0932501041
 1
 1
-

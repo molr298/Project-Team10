@@ -41,22 +41,22 @@ public:
 	AccountInfo* findUser(const string&);	//find another user by user name
 	void displayListUser();
 	void editInfo(int);
-	void operator=(const AccountInfo& aci)
-	{
-		ID = aci.ID;
-		username = aci.username;
-		fullname = aci.fullname;
-		DoB = aci.DoB;
-		phoneNumber = aci.phoneNumber;
-		gender = aci.gender;
-	}
+	//void operator=(const AccountInfo& aci)
+	//{
+	//	ID = aci.ID;
+	//	username = aci.username;
+	//	fullname = aci.fullname;
+	//	DoB = aci.DoB;
+	//	phoneNumber = aci.phoneNumber;
+	//	gender = aci.gender;
+	//}
 	vector <AccountInfo> getVecctor()
 	{
 		return listUser;
 	}
 
 	void removeAccountInfo(const string&);
-	void setAccountInfo(AccountInfo&);
+	void setAccountInfo(AccountInfo);
 };
 
 #endif // !_ACCOUNTINFO_

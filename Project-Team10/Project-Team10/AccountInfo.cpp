@@ -1,10 +1,11 @@
 #include "AccountInfo.h"
 string inputDate() {
 	int day, month, year;
+	cout << endl;
 	cout << "Day: ";	cin >> day;
 	cout << "Month: ";	cin >> month;
 	cout << "Year: ";	cin >> year;
-	return to_string(day) + to_string(month) + to_string(year);
+	return to_string(day) + "/" + to_string(month) + "/" + to_string(year);
 }
 
 AccountInfo AccountInfo::loadAnAccountInfo(ifstream& fin)
@@ -110,6 +111,7 @@ void AccountInfo::saveListAdmin()
 	for (int i = 0; i < listAdmin.size(); i++)
 		listAdmin[i].saveAnAccountInfor(fout);
 	fout.close();
+	listAdmin.clear();
 }
 
 AccountInfo* AccountInfo::findAdmin(const string& find)
@@ -126,12 +128,12 @@ AccountInfo* AccountInfo::findAdmin(const string& find)
 
 void AccountInfo::saveListUser()
 {
-	remove("Data/User.txt");
 	ofstream fout("Data/User.txt");
 	fout << listUser.size() << endl;
 	for (int i = 0; i < listUser.size(); i++)
 		listUser[i].saveAnAccountInfor(fout);
 	fout.close();
+	listUser.clear();
 }
 //
 //AccountInfo AccountInfo::findUser(const int& ID)
@@ -162,20 +164,6 @@ void AccountInfo::displayListUser()
 
 void AccountInfo::editInfo(int choice)
 {
-	//string search;
-	//cout << "Enter ID or name to edit: ";
-	//getline(cin, search);
-	//AccountInfo::loadListUser();
-	//AccountInfo aci;
-	//aci.inputAccount();
-	//for (int i = 0; i < listUser.size(); i++) 
-	//{
-	//	if (listUser[i].getUsername() == search || listUser[i].getID() == search)
-	//	{
-	//		listUser[i] = aci;
-	//	}
-	//}
-	//AccountInfo::saveListUser();
 	switch (choice)
 	{
 	case 1:
@@ -188,7 +176,7 @@ void AccountInfo::editInfo(int choice)
 	case 2:
 	{
 		cout << "Enter your phone number: ";
-		cin >> this->phoneNumber;
+		cin >> phoneNumber;
 		break;
 	}
 	case 3: {
@@ -198,8 +186,9 @@ void AccountInfo::editInfo(int choice)
 	}
 	case 4:
 	{
-		cout << "Enter your gender: ";
+		cout << "Enter your gender(MALE/FEMALE): ";
 		string gender;
+		cin.ignore();
 		getline(cin, gender);
 		for (int i = 0; i < gender.size(); i++)
 			gender[i] = toupper(gender[i]);
@@ -214,7 +203,6 @@ void AccountInfo::editInfo(int choice)
 	default:
 		break;
 	}
-	setAccountInfo(*this);
 }
 
 
@@ -228,9 +216,10 @@ void AccountInfo::removeAccountInfo(const string& IDRemove)
 	listUser.clear();
 }
 
-void AccountInfo::setAccountInfo(AccountInfo& newAccInfo)
+void AccountInfo::setAccountInfo(AccountInfo newAccInfo)
 {
 	if (newAccInfo.username.substr(0, 7) == "197.000") {
+		loadListAdmin();
 		for (int i = 0; i < listAdmin.size(); i++) {
 			if (listAdmin[i].ID == newAccInfo.ID)
 				listAdmin[i] = newAccInfo;
@@ -238,12 +227,13 @@ void AccountInfo::setAccountInfo(AccountInfo& newAccInfo)
 		saveListAdmin();
 	}
 	else {
+		loadListUser();
 		for (int i = 0; i < listUser.size(); i++) {
 			if (listUser[i].ID == newAccInfo.ID)
 				listUser[i] = newAccInfo;
 		}
 		saveListUser();
 	}
-	
+		*this = newAccInfo;	
 }
 

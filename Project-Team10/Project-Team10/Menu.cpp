@@ -114,10 +114,9 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		ShowTitle();
 		cout << "                    CUSTOMER                    " << endl;
 		for (int i = 0; i < nCommandPart; i++) {
-			cout << i + 1 << command[i] << endl;
+			cout << i + 1 << ". " << command[i] << endl;
 		}
 
-		cout << "0. Return" << endl;
 		cout << "________________________________________________" << endl;
 
 		int choice;
@@ -173,16 +172,15 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		"History", //View shopping history, selling history, selling static \rate other seller? rate customer? rate product?
 		"Log out"
 	};
-	int nCommandPart = 8;
+	int nCommandPart = 7;
 
 	while (true) {
 		ShowTitle();
 		cout << "                      SELLER                    " << endl;
 		for (int i = 0; i < nCommandPart; i++) {
-			cout << i + 1 << command[i] << endl;
+			cout << i + 1 << ". " << command[i] << endl;
 		}
 
-		cout << "0. Return" << endl;
 		cout << "________________________________________________" << endl;
 
 		int choice;
@@ -213,15 +211,11 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		{
 			break;
 		}
-		case 6:	//Cart
+		case 6: //History
 		{
 			break;
 		}
-		case 7: //History
-		{
-			break;
-		}
-		case 8://Log out 
+		case 7://Log out 
 		{
 			cin.ignore();
 			return;
@@ -235,6 +229,11 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 
 void Menu::ShowMenuEditInfo(AccountInfo& accInfo)
 {
+	while (true)
+	{
+
+	ShowTitle();
+	accInfo.displayAccountInfo();
 	cout << "1. Edit your full name" << endl;
 	cout << "2. Edit your phone number" << endl;
 	cout << "3. Edit your day of birth" << endl;
@@ -247,6 +246,8 @@ void Menu::ShowMenuEditInfo(AccountInfo& accInfo)
 	accInfo.editInfo(choice);
 	if (choice == 0)
 		return;
+	accInfo.setAccountInfo(accInfo);
+	}
 }
 
 void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
@@ -260,8 +261,6 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 	int choice = 0;
 	cin >> choice;
 	if (choice == 1) {
-		ShowTitle();
-		accInfo.displayAccountInfo();
 		ShowMenuEditInfo(accInfo);
 		ShowTitle();
 		accInfo.displayAccountInfo();

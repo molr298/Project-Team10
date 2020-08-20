@@ -2,7 +2,7 @@
 
 Account Account::loadAnAccount(ifstream& fin)
 {
-	fin.ignore();
+
 	getline(fin, username);
 	getline(fin, passHash);
 	fin >> ID;
@@ -202,8 +202,9 @@ void ListAccount::loadListAccount(string filename)
 	int nAccount;
 	fin >> nAccount;
 	for (int i = 0; i < nAccount; i++) {
-		
+		fin.ignore();
 		listAccount.push_back(Account::loadAnAccount(fin));
+		fin.ignore();
 	}
 	fin.close();
 }
@@ -220,26 +221,21 @@ int ListAccount::login(string username, string password)
 				listAccount.clear();
 				return 2;
 			}
-			else {
-				listAccount.clear();
-				return 0;
-			}
 		}
+		listAccount.clear();
+		return 0;
 	}
 	else {
 		loadListAccount(ACCOUNT_PATH + listFile[1]);
-		for (int i = 0; i < listAccount.size(); i++)
+		for (int i = 0; i < listAccount.size(); i++) {
 			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername()) {
 				listAccount.clear();
 				return 1;
 			}
-			else {
-				listAccount.clear();
-
-				return 0;
-			}
+		}
+		listAccount.clear();
+		return 0;
 	}
-	listAccount.clear();
 }
 
 void ListAccount::saveListAccount(string filename)
@@ -284,14 +280,26 @@ void ListAccount::removeAccount(string removeID) {
 Account ListAccount::findAccount(string username)
 {
 	Account result;
-	string filename = "Admin.txt";
-	loadListAccount(ACCOUNT_PATH + filename);
-	for (int i = 0; i < listAccount.size(); i++) {
-		if (listAccount[i].getUsername() == username) {
-			result = listAccount[i];
-			break;
-		}
+	string filename[] = { "Admin.txt", "User.txt" };
+	if (username.substr(0, 7) == "197.000") {
+		loadListAccount(ACCOUNT_PATH + filename[0]);
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (listAccount[i].getUsername() == username) {
+				result = listAccount[i];
+				break;
+			}
 
+		}
+	}
+	else {
+		loadListAccount(ACCOUNT_PATH + filename[1]);
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (listAccount[i].getUsername() == username) {
+				result = listAccount[i];
+				break;
+			}
+
+		}
 	}
 	listAccount.clear();
 	return result;
