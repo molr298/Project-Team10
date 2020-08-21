@@ -85,7 +85,7 @@ void Admin::acceptSeller(string admin)
 	AdminNotif::loadListNotif();
 	for (int i = 0; i < adnv.size(); i++)
 	{
-		if (adnv[i].getTakerID() == "Ad4")
+		if (adnv[i].getTakerID() == "Ad5")
 		{
 			
 			////print then choose or accept all take adnv[i].getSenderID()

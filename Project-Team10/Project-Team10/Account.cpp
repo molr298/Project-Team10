@@ -174,6 +174,13 @@ void Account::changePassword()
 	listAcc.setAccount(*this);
 }
 
+void Account::changeUsername(string newUsername)
+{
+	this->username = newUsername;
+	ListAccount listAcc;
+	listAcc.setAccount(*this);
+}
+
 void ListAccount::loadListAccount(string filename)
 {
 	ifstream fin(filename);

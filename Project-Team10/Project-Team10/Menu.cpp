@@ -235,9 +235,10 @@ void Menu::ShowMenuEditInfo(AccountInfo& accInfo)
 	ShowTitle();
 	accInfo.displayAccountInfo();
 	cout << "1. Edit your full name" << endl;
-	cout << "2. Edit your phone number" << endl;
-	cout << "3. Edit your day of birth" << endl;
-	cout << "4. Edit your gender" << endl;
+	cout << "2. Edit your user name" << endl;
+	cout << "3. Edit your phone number" << endl;
+	cout << "4. Edit your day of birth" << endl;
+	cout << "5. Edit your gender" << endl;
 	cout << "0. Return" << endl;
 	cout << "_____________________________________" << endl;
 
@@ -255,6 +256,9 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 	cout << "_____________________________________" << endl;
 	cout << "1. Edit your info" << endl;
 	cout << "2. Change password" << endl;
+//	(accInfo.getStatus() == 1) ? cout << "3. Send request sale authorization"  : ;
+	if (accInfo.getStatus() == 0)
+		cout << "3. Send request sale authorization" << endl;
 	cout << "0. Return" << endl;
 	cout << "_____________________________________" << endl;
 	cout << "Enter choice: ";
@@ -262,6 +266,9 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 	cin >> choice;
 	if (choice == 1) {
 		ShowMenuEditInfo(accInfo);
+		if (accInfo.getUsername() != Acc.getUsername()) {
+			Acc.changeUsername(accInfo.getUsername());
+		}
 		ShowTitle();
 		accInfo.displayAccountInfo();
 		cout << "Edit your information success" << endl;
@@ -270,6 +277,11 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 	else if (choice == 2) {
 		Acc.changePassword();
 		cout << "Change password success" << endl;
+	}
+	else if (choice == 3 && accInfo.getStatus() == 0) {
+		Customer CusRequest;
+		CusRequest.requestToBeSeller(accInfo.getID());
+		cout << "Your request have sent. Please wait for the consent of the admin..." << endl;
 	}
 	else if (choice == 0) {
 	//	cin.ignore();

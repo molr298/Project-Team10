@@ -180,16 +180,23 @@ void AccountInfo::editInfo(int choice)
 	}
 	case 2:
 	{
+		cout << "Enter your user name: ";
+		cin.ignore();
+		getline(cin, this->username);
+		break;
+	}
+	case 3:
+	{
 		cout << "Enter your phone number: ";
 		cin >> phoneNumber;
 		break;
 	}
-	case 3: {
+	case 4: {
 		cout << "Enter your day of birth: ";
 		this->DoB = inputDate();
 		break;
 	}
-	case 4:
+	case 5:
 	{
 		cout << "Enter your gender(MALE/FEMALE): ";
 		string gender;

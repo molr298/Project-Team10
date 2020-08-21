@@ -27,6 +27,7 @@ public:
 	void saveListIDOfUSer();
 	Account createNewAccount(string, string);
 	void changePassword();
+	void changeUsername(string);
 };
 
 class ListAccount: public Account {

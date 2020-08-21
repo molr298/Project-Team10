@@ -146,7 +146,7 @@ int main() {
 					_getch();
 					menu.ShowTitle();
 					cout << "                     SIGN UP                    " << endl << endl;
-					cout << "Username:" << username << endl;
+					cout << "\t Username >> " << username << endl;
 				}
 			} while (password != retypePassword);
 
