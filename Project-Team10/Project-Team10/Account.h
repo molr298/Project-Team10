@@ -25,7 +25,7 @@ public:
 	void loadListIDOfUser();
 	string createNewID();
 	void saveListIDOfUSer();
-	Account createNewAccount();
+	Account createNewAccount(string, string);
 	void changePassword();
 };
 
@@ -35,9 +35,12 @@ private:
 public:
 	void loadListAccount(string);
 	int login(string, string);
-	void saveListAccount(const int&	, string);
-	void SignUp();
+	void saveListAccount(string);
+	void SignUp(Account&);
 	void removeAccount(string);
+	Account findAccount(string);
+
+	void setAccount(Account&);
 };
 
 #endif // !_ACCOUNT_H

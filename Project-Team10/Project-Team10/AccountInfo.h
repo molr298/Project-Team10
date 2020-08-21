@@ -19,7 +19,7 @@ protected:
 	vector<AccountInfo> listUser;
 public:
 	AccountInfo loadAnAccountInfo(ifstream&);
-	void inputAccount();
+	void inputAccount(const string&, const string&);
 	void saveAnAccountInfor(ofstream&);
 	void displayAccountInfo();
 	string getID() { return ID; }
@@ -32,26 +32,32 @@ public:
 	void setStatus(int s) { status = s; }
 	void loadListUser();
 	void saveListUser();
-	void registerAccount();
+	void registerAccount(const string&, const string&);
+
+	void loadListAdmin();
+	void saveListAdmin();
+	AccountInfo* findAdmin(const string&);
+
 	/*AccountInfo findUser(const int&);*/		//find another user by ID
 	AccountInfo* findUser(const string&);	//find another user by user name
 	void displayListUser();
-	void editInfo();
-	void operator=(const AccountInfo& aci)
-	{
-		ID = aci.ID;
-		username = aci.username;
-		fullname = aci.fullname;
-		DoB = aci.DoB;
-		phoneNumber = aci.phoneNumber;
-		gender = aci.gender;
-	}
+	void editInfo(int);
+	//void operator=(const AccountInfo& aci)
+	//{
+	//	ID = aci.ID;
+	//	username = aci.username;
+	//	fullname = aci.fullname;
+	//	DoB = aci.DoB;
+	//	phoneNumber = aci.phoneNumber;
+	//	gender = aci.gender;
+	//}
 	vector <AccountInfo> getVecctor()
 	{
 		return listUser;
 	}
 
 	void removeAccountInfo(const string&);
+	void setAccountInfo(AccountInfo);
 };
 
 #endif // !_ACCOUNTINFO_
