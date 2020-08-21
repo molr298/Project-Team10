@@ -29,6 +29,7 @@ public:
 	int getPhoneNumber() { return phoneNumber; }
 	int getGender() { return gender; }
 	int getStatus() { return status; }
+	void setStatus(int s) { status = s; }
 	void loadListUser();
 	void saveListUser();
 	void registerAccount(const string&, const string&);
