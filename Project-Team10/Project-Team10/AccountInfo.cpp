@@ -57,9 +57,10 @@ void AccountInfo::displayAccountInfo()
 	cout << "Day of birth: " << DoB << endl;
 	cout << "Phone number: " << phoneNumber << endl;
 	cout << "Gender: "; (gender == 0) ? cout << "MALE" << endl : cout << "FEMALE" << endl;
-	if (status == 0)		cout << "CUSTOMER" << endl;
-	else if (status == 1)	cout << "SELLER" << endl;
-	else if (status == 2)	cout << "ADMIN" << endl;
+	//if (status == 0)		cout << "CUSTOMER" << endl;
+	//else if (status == 1)	cout << "SELLER" << endl;
+	//else if (status == 2)	cout << "ADMIN" << endl;
+	(status == 0) ? cout << "CUSTOMER" << endl : ((status == 1) ? cout << "SELLER" << endl : cout << "ADMIN" << endl);
 }
 void AccountInfo::loadListUser()
 {

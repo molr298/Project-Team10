@@ -65,18 +65,19 @@ int main() {
 	string username;
 	string password;
 	Menu menu;
-	menu.ShowTitle();
-	cout << endl << "\t\t 1. LOGIN" << endl;
-	cout << "\t\t 2. SIGN UP" << endl;
-	int choice = 0;
-	cout << "________________________________________________" << endl;
-	cout << "Enter your choice: ";	cin >> choice;
-	switch (choice)
+	while (true)
 	{
-	case 1:
-	{
-		while (true)
+		menu.ShowTitle();
+		cout << endl << "\t\t 1. LOGIN" << endl;
+		cout << "\t\t 2. SIGN UP" << endl;
+		int choice = 0;
+		cout << "________________________________________________" << endl;
+		cout << "Enter your choice: ";	cin >> choice;
+		switch (choice)
 		{
+		case 1:
+		{
+
 			menu.ShowTitle();
 			cout << "                      LOGIN                     " << endl << endl;
 			cout << "\t Username >> ";
@@ -122,16 +123,14 @@ int main() {
 
 				}
 			}
+
+			break;
 		}
-		break;
-	}
-	case 2:
-	{
-		while (true)
+		case 2:
 		{
 			menu.ShowTitle();
 			cout << "                     SIGN UP                    " << endl << endl;
-			
+
 			string retypePassword;
 			cout << "\t Username >> ";
 			cin.ignore();
@@ -156,18 +155,18 @@ int main() {
 			menu.ShowTitle();
 			cout << "                     SIGN UP                    " << endl << endl;
 			cout << "--------------Input your infomation-------------" << endl;
-			accInfo.registerAccount(AccountSignUp.getUsername());
+			accInfo.registerAccount(AccountSignUp.getUsername(), AccountSignUp.getID());
 
 			listAcc.login(username, password);
 			accInfo = *accInfo.findUser(username);
 			menu.ShowMenuCustomer(accInfo, accountLogin);
+
+			break;
 		}
-		break;
+		default:
+			break;
+		}
 	}
-	default:
-		break;
-	}
-	
 	return 0;
 
 }
