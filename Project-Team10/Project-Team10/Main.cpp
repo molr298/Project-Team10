@@ -59,58 +59,115 @@ int main() {
 	usn.checkNotif("", "19127004");*/
 
 	Account accountLogin;
+	Account AccountSignUp;
 	ListAccount listAcc;
 	AccountInfo accInfo;
 	string username;
 	string password;
 	Menu menu;
-	while (true)
+	menu.ShowTitle();
+	cout << endl << "\t\t 1. LOGIN" << endl;
+	cout << "\t\t 2. SIGN UP" << endl;
+	int choice = 0;
+	cout << "________________________________________________" << endl;
+	cout << "Enter your choice: ";	cin >> choice;
+	switch (choice)
 	{
-		menu.ShowTitle();
-		cout << "                      LOGIN                     " << endl << endl;
-		cout << "\t Username >> ";
-		getline(cin, username);
-		if (username == "")
-			return 0;
-		cout << "\t Password >> ";
-		password = accountLogin.inputPassword();
-		int loginResult = listAcc.login(username, password);	//admin = 2; user = 1;
-		if (loginResult == 0)
+	case 1:
+	{
+		while (true)
 		{
-			cout << "Wrong username or password\nDo you want to try again?(Y/N) ";
-			while (true)
+			menu.ShowTitle();
+			cout << "                      LOGIN                     " << endl << endl;
+			cout << "\t Username >> ";
+			cin.ignore();
+			getline(cin, username);
+			if (username == "")
+				return 0;
+			cout << "\t Password >> ";
+			password = accountLogin.inputPassword();
+			int loginResult = listAcc.login(username, password);	//admin = 2; user = 1;
+			if (loginResult == 0)
 			{
-				char ch;
-				cin >> ch;
-				if (ch == 'y' || ch == 'Y')
+				cout << "Wrong username or password\nDo you want to try again?(Y/N) ";
+				while (true)
 				{
-					cin.ignore();
-					break;
+					char ch;
+					cin >> ch;
+					if (ch == 'y' || ch == 'Y')
+					{
+						cin.ignore();
+						break;
+					}
+					else if (ch == 'n' || ch == 'N')
+						return 0;
+					else
+						cout << "Bad choice, try again\n";
 				}
-				else if (ch == 'n' || ch == 'N')
-					return 0;
-				else
-					cout << "Bad choice, try again\n";
-			}
-		}
-		else {
-
-				accountLogin = listAcc.findAccount(username);
-			if (loginResult == 2) {
-				accInfo = *accInfo.findAdmin(username);
-				menu.ShowMenuAdmin(accInfo, accountLogin, listAcc);
 			}
 			else {
-				accInfo = *accInfo.findUser(username);
-				if (accInfo.getStatus() == 0) {
-					menu.ShowMenuCustomer(accInfo, accountLogin);
-				}
-				else
-					menu.ShowMenuSeller(accInfo, accountLogin);
 
+				accountLogin = listAcc.findAccount(username);
+				if (loginResult == 2) {
+					accInfo = *accInfo.findAdmin(username);
+					menu.ShowMenuAdmin(accInfo, accountLogin, listAcc);
+				}
+				else {
+					accInfo = *accInfo.findUser(username);
+					if (accInfo.getStatus() == 0) {
+						menu.ShowMenuCustomer(accInfo, accountLogin);
+					}
+					else
+						menu.ShowMenuSeller(accInfo, accountLogin);
+
+				}
 			}
 		}
+		break;
 	}
+	case 2:
+	{
+		while (true)
+		{
+			menu.ShowTitle();
+			cout << "                     SIGN UP                    " << endl << endl;
+			
+			string retypePassword;
+			cout << "\t Username >> ";
+			cin.ignore();
+			getline(cin, username);
+			do {
+				cout << "\t Password >> ";
+				password = AccountSignUp.inputPassword();
+				cout << "\t Retype password >> ";
+
+				retypePassword = AccountSignUp.inputPassword();
+				if (password != retypePassword) {
+					cout << "Retype password and new password is not match\nPress any key to try again";
+					_getch();
+					menu.ShowTitle();
+					cout << "                     SIGN UP                    " << endl << endl;
+					cout << "Username:" << username << endl;
+				}
+			} while (password != retypePassword);
+
+			AccountSignUp.createNewAccount(username, password);
+			listAcc.SignUp(AccountSignUp);
+			menu.ShowTitle();
+			cout << "                     SIGN UP                    " << endl << endl;
+			cout << "--------------Input your infomation-------------" << endl;
+			accInfo.registerAccount(AccountSignUp.getUsername());
+
+			listAcc.login(username, password);
+			accInfo = *accInfo.findUser(username);
+			menu.ShowMenuCustomer(accInfo, accountLogin);
+		}
+		break;
+	}
+	default:
+		break;
+	}
+	
 	return 0;
 
 }

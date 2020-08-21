@@ -75,7 +75,7 @@ void Account::loadListIDOfUser()
 
 string Account::createNewID()
 {
- string newID;
+	string newID = "";
 	loadListIDOfUser();
 	newID = to_string(stoi(listID[listID.size() - 1]) + 1);
 	listID.push_back(newID);
@@ -93,33 +93,15 @@ void Account::saveListIDOfUSer()
 	}
 	fout << listID.size() << endl;
 	for (int i = 0; i < listID.size(); i++)
-		fout << listID[i];
+		fout << listID[i] << endl;
 	fout.close();
 }
 
-Account Account::createNewAccount()
-{
-	string password, username, retypePassword;
-	string ID;
-		cout << "Username:";
-		cin.ignore();
-		getline(cin, username);
-	do {
-		cout << "Password: ";
-		password = inputPassword();
-		cout << "Retype password: ";
-		string retypePassword;
-		retypePassword = inputPassword();
-		if (password != retypePassword) {
-			cout << "Retype password and new password is not match\nPress any key to try again";
-			system("cls");
-			cout << "Username:" << username << endl;
-		}
-	} while (password != retypePassword);
-	
+Account Account::createNewAccount(string newUsername, string newPassword)
+{	
 	this->ID = createNewID();
-	this->username = username;
-	this->passHash = HashPassword(password);
+	this->username = newUsername;
+	this->passHash = HashPassword(newPassword);
 	return *this;
 }
 
@@ -252,10 +234,8 @@ void ListAccount::saveListAccount(string filename)
 	listAccount.clear();
 }
 
-void ListAccount::SignUp()
+void ListAccount::SignUp(Account& newAccount)
 {
-	Account newAccount;
-	newAccount.createNewAccount();
 	loadListAccount("Account/User.txt");
 	listAccount.push_back(newAccount);
 	saveListAccount("Account/User.txt");

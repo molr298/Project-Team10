@@ -30,19 +30,23 @@ void AccountInfo::saveAnAccountInfor(ofstream& fout)
 	fout << gender << endl;
 	fout << status << endl << endl;
 }
-void AccountInfo::inputAccount()
+void AccountInfo::inputAccount(const string& username, const string& ID)
 {
 	cout << "______________________________________" << endl;
-	cout << "Enter ID: ";
-	getline(cin, ID);
-	cout << "Enter User name: ";
-	getline(cin, username);
+
 	cout << "Enter Full name: ";
 	getline(cin, fullname);
 	cout << "Enter Day of birth: ";
 	DoB = inputDate();
 	cout << "Enter Phone number: ";
 	cin >> phoneNumber;
+	cout << "Enter your gender(MALE/FEMALE): ";
+	string gender;
+	cin.ignore();
+	getline(cin, gender);
+	for (int i = 0; i < gender.size(); i++)
+		gender[i] = toupper(gender[i]);
+	(gender == "MALE") ? this->gender = 0 : this->gender = 1;
 }
 void AccountInfo::displayAccountInfo()
 {
@@ -76,11 +80,11 @@ void AccountInfo::loadListUser()
 	}
 	fin.close();
 }
-void AccountInfo::registerAccount()
+void AccountInfo::registerAccount(const string& username, const string& ID)
 {
 	AccountInfo aci;
 	AccountInfo::loadListUser();
-	aci.inputAccount();
+	aci.inputAccount(username, ID);
 	listUser.push_back(aci);
 	AccountInfo::saveListUser();
 }

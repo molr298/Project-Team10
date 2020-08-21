@@ -19,7 +19,7 @@ protected:
 	vector<AccountInfo> listUser;
 public:
 	AccountInfo loadAnAccountInfo(ifstream&);
-	void inputAccount();
+	void inputAccount(const string&, const string&);
 	void saveAnAccountInfor(ofstream&);
 	void displayAccountInfo();
 	string getID() { return ID; }
@@ -31,7 +31,7 @@ public:
 	int getStatus() { return status; }
 	void loadListUser();
 	void saveListUser();
-	void registerAccount();
+	void registerAccount(const string&, const string&);
 
 	void loadListAdmin();
 	void saveListAdmin();
