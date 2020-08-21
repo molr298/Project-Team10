@@ -45,7 +45,8 @@ AdminNotif AdminNotif::loadAnNotif(ifstream& fin)
 {
 	getline(fin, senderID,';');
 	getline(fin, takerID, ';');
-	getline(fin, Problem);
+	getline(fin, Problem, ';');
+	getline(fin, status);
 	return *this;
 }
 void AdminNotif::checkNotif(string adminID, string userID)

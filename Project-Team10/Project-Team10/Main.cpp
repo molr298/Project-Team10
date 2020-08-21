@@ -12,8 +12,9 @@ int main() {
 	tmp.registerAccount();
 	tmp.editInfo();*/
 
-	/*Admin ad1;
-	ad1.sendReport("Ad1");*/
+	Admin ad1;
+	//ad1.sendReport("Ad1");
+	ad1.acceptSeller("Ad4");
 	/*Admin ad1;
 	ad1.loadListAdmin();
 	ad1.displayListAdmin();
@@ -44,12 +45,12 @@ int main() {
 	//csm.confirmCart("19127009");
 
 
-	Seller sl;
-	sl.sendReport("19127002");
+	//Seller sl;
+	//sl.sendReport("19127002");
 	//bool isApproveCart = true; //false
 	//sl.approveCart(isApproveCart,"19127006");
 	
-	sl.saleStatistic("19127002");
+	//sl.saleStatistic("19127002");
 	/*UserNotif usn;
 	usn.loadListNotif();
 	usn.checkNotif("19127003", "");
