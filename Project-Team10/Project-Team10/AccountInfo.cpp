@@ -34,6 +34,8 @@ void AccountInfo::inputAccount(const string& username, const string& ID)
 {
 	cout << "______________________________________" << endl;
 
+	this->username = username;
+	this->ID = ID;
 	cout << "Enter Full name: ";
 	getline(cin, fullname);
 	cout << "Enter Day of birth: ";
@@ -45,7 +47,7 @@ void AccountInfo::inputAccount(const string& username, const string& ID)
 	cin.ignore();
 	getline(cin, gender);
 	for (int i = 0; i < gender.size(); i++)
-		gender[i] = toupper(gender[i]);
+		gender[i] = toupper(gender[i]);	//male, MaLe
 	(gender == "MALE") ? this->gender = 0 : this->gender = 1;
 }
 void AccountInfo::displayAccountInfo()

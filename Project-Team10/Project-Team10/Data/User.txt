@@ -1,6 +1,6 @@
-5
+6
 19127001
-nguyenva123
+nguyenvanA
 Nguyen Van A
 01/02/2000
 987654321
@@ -36,6 +36,14 @@ nguyenmm
 Nguyen Minh M
 12/2/2000
 774682101
+0
+0
+
+19120007
+vnhathuy
+Vo Nhat Huy
+10/10/2001
+123456789
 0
 0
 

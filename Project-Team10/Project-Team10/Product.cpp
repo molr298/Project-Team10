@@ -334,7 +334,10 @@ void Product::editProduct()
 	Product::loadListProduct();
 	string search;
 	cout << "Enter ID or name to edit: ";
+	cin.ignore();
 	getline(cin, search);
+	if (search == "")
+		return;
 	if (containProduct(search)) 
 	{
 		for (int i = 0; i < prdv.size(); i++)
@@ -353,46 +356,32 @@ void Product::editProduct()
 			system("cls");
 			prd.display();
 			cout << "Edit your product for the store" << endl;
-			cout << "1. ID" << endl;
-			cout << "2. ID of the seller" << endl;
-			cout << "3. Name" << endl;
-			cout << "4. Price" << endl;
-			cout << "5. Stock" << endl;
-			cout << "6. Type" << endl;
+
+			cout << "1. Name" << endl;
+			cout << "2. Price" << endl;
+			cout << "3. Stock" << endl;
+			cout << "4. Type" << endl;
 			cout << "0. Back" << endl;
 			cin >> n;
 			switch (n)
 			{
 			case 1: {
 				cin.ignore();
-				cout << "New ID: ";
-				getline(cin, prd.ID);
-				break;
-			}
-			case 2: {
-				cin.ignore();
-				cout << "New ID Seller: ";
-				getline(cin, prd.IDseller);
-				break;
-			}
-			case 3: {
-				cin.ignore();
 				cout << "New Product Name: ";
 				getline(cin, prd.productName);
 				break;
 			}
-			case 4: {
+			case 2: {
 				cout << "New Price: ";
 				cin >> prd.price;
 				break;
 			}
-			case 5: {
+			case 3: {
 				cout << "New Stock: ";
 				cin >> prd.stock;
 				break;
 			}
-			case 6: {
-				system("cls");
+			case 4: {
 				cout << "New Type: " << endl;
 				cout << "1. Food" << endl;
 				cout << "2. Fashion" << endl;
@@ -457,7 +446,7 @@ void Product::saveNotifUser(string IDseller)
 	{
 		for (int j = 0; j < prdv.size(); j++)
 		{
-			if (IDseller == prdv[j].IDseller && usnv[i].getProductName() == prdv[j].productName && usnv[i].getProductID() == prdv[j].ID && prdv[j].getStatus() == 0)
+			if (IDseller == prdv[j].getIDseller() && usnv[i].getProductName() == prdv[j].getProductName() && usnv[i].getProductID() == prdv[j].getID() && usnv[i].getStatus() == 0)
 			{
 				if (prdv[j].stock > usnv[i].getQuantity())
 				{

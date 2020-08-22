@@ -151,7 +151,7 @@ void Customer::sendReport(string senderID1)
 	adn.setSenderID(senderID1);
 	adn.setTakerID(takerID1);
 	adn.setProblem(problem);
-	adn.setStatus(0);
+	adn.setStatus("0");
 	AdminNotif::adnv.push_back(adn);
 	AdminNotif::saveListNotif();
 }
@@ -164,12 +164,7 @@ void Customer::requestToBeSeller(string senderID)
 	adminReceiveRequest.setSenderID(senderID);
 	adminReceiveRequest.setTakerID("Ad5");
 	adminReceiveRequest.setProblem(request);
-	adminReceiveRequest.setStatus(0);
+	adminReceiveRequest.setStatus("0");
 	AdminNotif::adnv.push_back(adminReceiveRequest);
 	AdminNotif::saveListNotif();
-}
-
-void Customer::HistoryShopping(string customerID)
-{
-
 }

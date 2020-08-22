@@ -25,7 +25,7 @@ public:
 	void ShowMenuUserFindUser(AccountInfo);
 
 	void ShowMenuShopping(AccountInfo&);	//Thêm bất cứ biến gì vào parameters nếu cần
-	void ShowMenuBuyStuff(AccountInfo&);
+	void ShowMenuBuyStuff(AccountInfo&, Product);
 	void ShowMenuNotification(AccountInfo&);
 	void ShowMenuHistory(AccountInfo&);
 

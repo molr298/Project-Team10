@@ -153,6 +153,7 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 {
 	int flag = 0;
 	//cout << usnv.size() << endl;
+	loadListNotif();
 	for (int i = 0; i < usnv.size(); i++)
 	{
 		if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 0)

@@ -40,7 +40,7 @@ public:
 	void addProduct(vector<Product>& arr);
 	//void removeProduct(vector<Product>& arr);
 	//void filterProduct();
-	void filterListProduct();	
+	void filterListProduct();	//1. String: ten sp, ma
 
 	string getID() { return ID; }
 	string getIDseller() { return IDseller; }

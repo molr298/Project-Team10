@@ -142,8 +142,8 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		case 4:	//Notification
 		{
 			UserNotif customerNotif;
-			cout << "Sua lai parameters!!!" << endl;
-//			customerNotif.checkNotif();
+
+			customerNotif.checkNotif(customerInfo.getID(), "");
 			break;
 		}
 		case 5: //View history \rate product? rate seller?
@@ -207,17 +207,22 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		{
 			break;
 		}
-		case 4:	//Store of seller
+		case 4:	// edit product
 		{
 			Product storeOfSeller;
 			storeOfSeller.viewStoreOfSeller(sellerInfo.getID());
+			storeOfSeller.editProduct();
 			break;
 		}
 		case 5:	//Notification
 		{
 			UserNotif sellerNotif;
-		//	sellerNotif.checkNotif()	sua lai parameters
-			cout << "Sua lai parameters!!!" << endl;
+
+			sellerNotif.checkNotif("", sellerInfo.getID());
+			cout << "Accept?";
+			bool ans = true;
+			Seller notif;
+			notif.approveCart(ans, sellerInfo.getID());
 			break;
 		}
 		case 6: //History
@@ -301,6 +306,8 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 
 void Menu::ShowMenuUserFindUser(AccountInfo userInfo)
 {
+	while (true)
+	{
 	string IDUser;
 	cout << "Enter ID of User: ";
 	cin.ignore();
@@ -312,8 +319,6 @@ void Menu::ShowMenuUserFindUser(AccountInfo userInfo)
 		cout << "Please choose ""Store"" feature to view your Store or ""View profile"" to view your information" << endl;
 		return;
 	}
-	while (true)
-	{
 
 		AccountInfo* anotherUser;
 		anotherUser = userInfo.findUser(IDUser);
@@ -359,6 +364,7 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo)
 	case 1:
 	{
 		//
+		
 		break;
 	}
 	case 2:
@@ -376,7 +382,7 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo)
 	}
 }
 
-void Menu::ShowMenuBuyStuff(AccountInfo& accInfo)	//use this when you choose a product
+void Menu::ShowMenuBuyStuff(AccountInfo& accInfo, Product buy)	//use this when you choose a product
 {
 	ShowTitle();
 	cout << "1. Buy now" << endl;
@@ -432,7 +438,7 @@ void Menu::ShowMenuHistory(AccountInfo& accInfo)//View shopping history, selling
 			cout << "0. Return" << endl;
 		}
 		else {	//seller
-			cout << "2. Selling static" << endl;
+			cout << "2. Selling statistic" << endl;
 			cout << "0. Return" << endl;
 		}
 
