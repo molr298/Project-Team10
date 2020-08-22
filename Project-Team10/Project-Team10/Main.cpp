@@ -21,6 +21,11 @@ int main() {
 	usn.checkNotif("19127001", "");
 	usn.checkNotif("", "19127004");*/
 
+	Seller L;
+	Product obj;
+	obj.inputProduct();
+	L.addProduct(obj);
+
 	Account accountLogin;
 	Account AccountSignUp;
 	ListAccount listAcc;

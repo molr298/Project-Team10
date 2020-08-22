@@ -184,6 +184,13 @@ void Seller ::sendReport(string senderID1)
 	AdminNotif::adnv.push_back(adn);
 	AdminNotif::saveListNotif();
 }
+void Seller::addProduct(const Product& a) {
+	this->Customer::Product::addProduct(a);
+}
+void Seller::removeProduct(const string& id) {
+	this->Customer::Product::removeProduct(id);
+}
 
-//void removeProduct();
-//void changePrice();
+void Seller::edit(Product obj) {
+	this->Customer::Product::editProduct();
+}

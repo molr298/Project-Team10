@@ -273,20 +273,17 @@ void Product::inputProduct()
 	cin >> type;
 }
 
-void Product::addProduct()
+void Product::addProduct(Product prd)
 {
-	Product prd;
 	Product::loadListProduct();
-	cin >> prd;
 	prdv.push_back(prd);
 	Product::saveListProduct();
 }
 
-void Product::removeProduct()
+void Product::removeProduct(string search)
 {
-	string search ;
-	cout << "Enter ID or name of the Product to remove: ";
-	getline(cin, search);
+	//cout << "Enter ID or name of the Product to remove: ";
+	//getline(cin, search);
 	loadListProduct();
 
 	if (containProduct(search)) {
