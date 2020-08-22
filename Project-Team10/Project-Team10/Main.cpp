@@ -44,12 +44,12 @@ int main() {
 	//csm.confirmCart("19127009");
 
 
-	Seller sl;
-	sl.sendReport("19127002");
+	//Seller sl;
+	//sl.sendReport("19127002");
 	//bool isApproveCart = true; //false
 	//sl.approveCart(isApproveCart,"19127006");
 	
-	sl.saleStatistic("19127002");
+	//sl.saleStatistic("19127002");
 	/*UserNotif usn;
 	usn.loadListNotif();
 	usn.checkNotif("19127003", "");
@@ -57,7 +57,10 @@ int main() {
 	usn.checkNotif("19127001", "");
 	usn.checkNotif("", "19127004");*/
 
-	
-
+	Product a;
+	a.loadListProduct();
+	a.displayListProduct();
+	a.filterListProduct();
+	a.findProduct("MTH-1006").display();
 	return 0;
 }

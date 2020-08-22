@@ -176,3 +176,6 @@ void Seller ::sendReport(string senderID1)
 	AdminNotif::adnv.push_back(adn);
 	AdminNotif::saveListNotif();
 }
+
+//void removeProduct();
+//void changePrice();

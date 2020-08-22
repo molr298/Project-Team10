@@ -150,6 +150,10 @@ void Product::DisplayArrProduct(vector<Product> arr)
 
 void Product::display()
 {
+	if (ID == "" && IDseller == "" && productName == "") {
+		cout << "Product does not exist" << endl;
+		return;
+	}
 	cout << setw(4) << left << ID << "\t" << setw(12) << left << IDseller << "\t" << setw(20) << left << productName << "\t" << setw(10) << left << price << "\t" << setw(10) << left << stock << "\t" << setw(10) << left;
 	switch (type)
 	{
@@ -285,7 +289,7 @@ void Product::removeProduct()
 	getline(cin, search);
 	loadListProduct();
 
-	if (findProduct(search)) {
+	if (containProduct(search)) {
 	for (int i = 0; i < prdv.size(); i++)
 		{
 			if (prdv[i].getID() == search || prdv[i].getProductName() == search)
@@ -331,7 +335,7 @@ void Product::editProduct()
 	string search;
 	cout << "Enter ID or name to edit: ";
 	getline(cin, search);
-	if (findProduct(search)) 
+	if (containProduct(search)) 
 	{
 		for (int i = 0; i < prdv.size(); i++)
 		{
@@ -425,7 +429,7 @@ void Product::editProduct()
 	system("pause");
 }
 
-bool Product::findProduct(const string search) {
+bool Product::containProduct(const string search) {
 	for (size_t i = 0; i < prdv.size(); i++) {
 		if (prdv[i].getID() == search || prdv[i].getProductName() == search)
 			return true;
@@ -433,6 +437,18 @@ bool Product::findProduct(const string search) {
 	return false;
 }
 
+Product Product::findProduct(const string& ID)
+{
+	if (containProduct(ID)) {
+		for (size_t i = 0; i < prdv.size(); i++)
+		{
+			if (prdv[i].getID() == ID) {
+				return prdv[i];
+			}
+		}
+	}
+	return Product();
+}
 void Product::saveNotifUser(string IDseller)
 {
 	UserNotif::loadListNotif();
@@ -466,6 +482,110 @@ void Product::setupCart(int quantity, Product p)
 	usnv.push_back(usn);
 }
 
+void Product::filterListProduct()
+{
+	loadListProduct();
+
+	foodList.clear(); //1 
+	fashionList.clear(); // 2
+	technologicalList.clear(); //3
+	housewareList.clear(); // 4
+	otherList.clear(); // 5
+
+	for (size_t i = 0; i < prdv.size(); i++)
+	{
+		if (prdv[i].getType() == 1) {
+			foodList.push_back(prdv[i]);
+		}
+		else if(prdv[i].getType() == 2)
+		{
+			fashionList.push_back(prdv[i]);
+		}
+		else if (prdv[i].getType() == 3)
+		{
+			technologicalList.push_back(prdv[i]);
+		}
+		else if (prdv[i].getType() == 4)
+		{
+			housewareList.push_back(prdv[i]);
+		}
+		else
+		{
+			otherList.push_back(prdv[i]);
+		}
+	}
+	displayFoodList();
+	displayFashionList();
+	displayTechnologicalList();
+	displayHousewareList();
+	displayOtherList();
+}
+
+void Product::displayFoodList() 
+{
+	if (foodList.empty()) cout << "There is no food product" << endl;
+	else
+	{
+		cout << "Food product list" << endl;
+		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
+		for (int i = 0; i < foodList.size(); i++)
+			foodList[i].display();
+		cout << "____________________________________" << endl;
+	}
+	
+}
+void Product::displayFashionList()
+{
+	if (fashionList.empty()) cout << "There is no fashion product" << endl;
+	else
+	{
+		cout << "Fashion product list" << endl;
+		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
+		for (int i = 0; i < fashionList.size(); i++)
+			fashionList[i].display();
+		cout << "____________________________________" << endl;
+	}
+	
+}
+void Product::displayTechnologicalList()
+{
+	if (technologicalList.empty()) cout << "There is no technological product" << endl;
+	else
+	{
+		cout << "Technological product list" << endl;
+		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
+		for (int i = 0; i < technologicalList.size(); i++)
+			technologicalList[i].display();
+		cout << "____________________________________" << endl;
+	}
+	
+}
+void Product::displayHousewareList()
+{
+	if (housewareList.empty()) cout << "There is no houseware product" << endl;
+	else
+	{
+		cout << "Houseware product list" << endl;
+		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
+		for (int i = 0; i < housewareList.size(); i++)
+			housewareList[i].display();
+		cout << "____________________________________" << endl;
+	}
+	
+}
+void Product::displayOtherList()
+{
+	if (otherList.empty()) cout << "There is no other product" << endl;
+	else
+	{
+		cout << "Other product list" << endl;
+		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
+		for (int i = 0; i < otherList.size(); i++)
+			otherList[i].display();
+		cout << "____________________________________" << endl;
+	}
+	
+}
 
 //Product Prodcut::findUser(const string& keyword)
 //{
@@ -482,4 +602,5 @@ void Product::setupCart(int quantity, Product p)
 //	}
 //	cout << "________________________________" << endl;
 //}
+
 

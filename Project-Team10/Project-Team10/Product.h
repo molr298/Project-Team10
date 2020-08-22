@@ -19,6 +19,11 @@ protected:
 	vector<Product> prdv;
 	vector<Product> ordv;
 	vector<Product> filterProduct;
+	vector<Product> foodList;
+	vector<Product> fashionList;
+	vector<Product> technologicalList;
+	vector<Product> housewareList;
+	vector<Product> otherList;
 public:
 	Product() { ID = IDseller = productName = ""; price = 0; stock = 0; };
 	friend istream& operator>>(istream&, Product&);
@@ -34,7 +39,8 @@ public:
 	void DisplayArrProduct(vector<Product> arr);
 	void addProduct(vector<Product>& arr);
 	//void removeProduct(vector<Product>& arr);
-
+	//void filterProduct();
+	void filterListProduct();	
 
 	string getID() { return ID; }
 	string getIDseller() { return IDseller; }
@@ -53,9 +59,15 @@ public:
 	void addProduct();
 	void removeProduct();
 	void editProduct();
-	bool findProduct(const string);
+	Product findProduct(const string&);
+	bool containProduct(const string);
 	void setupCart(int quantity, Product p);
 	void saveNotifUser(string IDseller);
+	void displayFoodList();
+	void displayFashionList();
+	void displayTechnologicalList();
+	void displayHousewareList();
+	void displayOtherList();
 };
 
 #endif // !_PRODUCT_H
