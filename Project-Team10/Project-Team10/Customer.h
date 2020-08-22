@@ -16,6 +16,8 @@ public:
 	void confirmCart(string customerID);
 	void sendReport(string senderID1);
 	void requestToBeSeller(string senderID);
+
+	void HistoryShopping(string customerID);
 };
 
 #endif // !_CUSTOMER_H

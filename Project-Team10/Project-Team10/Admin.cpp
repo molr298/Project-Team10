@@ -126,7 +126,7 @@ void Admin::acceptSeller(string admin)
 		}
 		for (int i = 0; i < adnv.size(); i++)
 		{
-			if (adnv[i].getTakerID() == "Ad4")
+			if (adnv[i].getTakerID() == "Ad5")
 			{
 				adnv[i].setStatus("1");
 			}

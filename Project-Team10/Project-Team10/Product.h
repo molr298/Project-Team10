@@ -46,6 +46,7 @@ public:
 	void setQuantity(int n) { stock = n; }
 	void loadListProduct();
 	void saveListProduct();
+
 	Product loadOneProduct(ifstream& fin);
 	void saveOneProduct(ofstream& fout);
 	void displayListProduct();
@@ -56,6 +57,8 @@ public:
 	bool findProduct(const string);
 	void setupCart(int quantity, Product p);
 	void saveNotifUser(string IDseller);
+
+	void viewStoreOfSeller(string IDseller);
 };
 
 #endif // !_PRODUCT_H

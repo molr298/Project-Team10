@@ -92,6 +92,8 @@ public:
 	void setStatus(int n) { status = n; }
 	void loadListNotifWithoutClear();
 	void setCustomerID(string ID) { customerID = ID; }
+
+	void displayShoppingHistory(string userID);
 };
 
 #endif // !_NOTIFICATION_H

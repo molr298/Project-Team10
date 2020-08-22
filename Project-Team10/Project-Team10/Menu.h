@@ -30,6 +30,9 @@ public:
 	void ShowMenuHistory(AccountInfo&);
 
 
+	void Login(Account accountLogin, ListAccount listAcc, AccountInfo accInfo, string username, string password);
+	void SignUp(Account accountLogin, Account AccountSignUp, ListAccount listAcc, AccountInfo accInfo, string username, string password);
+
 //	void Login();
 
 };

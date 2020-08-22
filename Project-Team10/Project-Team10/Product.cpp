@@ -459,6 +459,14 @@ void Product::saveNotifUser(string IDseller)
 	UserNotif::saveListOrder();
 	Product::saveListProduct();
 }
+void Product::viewStoreOfSeller(string IDseller)
+{
+	loadListProduct();
+	for (int i = 0; i < prdv.size(); i++) {
+		if (prdv[i].IDseller == IDseller)
+			prdv[i].display();
+	}
+}
 void Product::setupCart(int quantity, Product p)
 {
 	UserNotif usn;

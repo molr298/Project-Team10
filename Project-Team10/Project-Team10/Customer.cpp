@@ -158,10 +158,18 @@ void Customer::sendReport(string senderID1)
 
 void Customer::requestToBeSeller(string senderID)
 {
+	AdminNotif::loadListNotif();
 	string request = "User " + senderID + " want to become a seller";
 	AdminNotif adminReceiveRequest;
 	adminReceiveRequest.setSenderID(senderID);
 	adminReceiveRequest.setTakerID("Ad5");
 	adminReceiveRequest.setProblem(request);
 	adminReceiveRequest.setStatus(0);
+	AdminNotif::adnv.push_back(adminReceiveRequest);
+	AdminNotif::saveListNotif();
+}
+
+void Customer::HistoryShopping(string customerID)
+{
+
 }
