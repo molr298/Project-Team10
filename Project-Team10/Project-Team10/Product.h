@@ -57,8 +57,8 @@ public:
 	void saveOneProduct(ofstream& fout);
 	void displayListProduct();
 	void inputProduct();
-	void addProduct();
-	void removeProduct();
+	void addProduct(Product);
+	void removeProduct(string);
 	void editProduct();
 	Product findProduct(const string&);
 	bool containProduct(const string);
