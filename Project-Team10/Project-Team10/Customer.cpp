@@ -151,3 +151,194 @@ void Customer::sendReport(string senderID1)
 	AdminNotif::adnv.push_back(adn);
 	AdminNotif::saveListNotif();
 }
+
+void Customer::setOrder(string customerID)
+{
+	Customer::viewHistory();
+	int choice;
+	while (true)
+	{
+		system("cls");
+		Customer::viewHistory();
+		cout << "1. Remove order" << endl;
+		cout << "2. Change order's quantity" << endl;
+		cout << "3. Apply voucher" << endl;
+		cout << "0. Return" << endl;
+		cout << "Option: ";
+		int option;
+		cin >> option;
+		int num;
+		if (option == 0)
+		{
+			return;
+		}
+		if (option == 1)
+		{
+			cout << "Choose one order to remove: ";
+			cin >> num;
+			ordv.erase(ordv.begin() + num - 1);
+			cout << "This order has been remove" << endl;
+
+		}
+		if (option == 2)
+		{
+			int quantity;
+			cout << "Choose one order to continue: ";
+			cin >> num;
+			cout << "Quantity: ";
+			cin >> quantity;
+			ordv[num - 1].setQuantity(quantity);
+		}
+		if (option == 3)
+		{
+			Customer::setVoucher();
+			system("pause");
+		}
+	}
+}
+Customer Customer::readOneVoucher(ifstream& fin)
+{
+	getline(fin, code, ';');
+	fin >> percent;
+	fin.seekg(1, 1);
+	getline(fin, type, ';');
+	getline(fin, description, '\n');
+	return *this;
+}
+int countLines1(ifstream& filein)
+{
+	string line;
+	int n = 0;
+	while (filein.good())
+	{
+		getline(filein, line);
+		n++;
+	}
+	return n - 2;
+}
+void Customer::loadListVoucher()
+{
+	vouv.clear();
+	ifstream fin("Voucher/Sale_Code.csv");
+	if (!fin.is_open()) {
+		cout << "Can't open Notif_User!!" << endl;
+		return;
+	}
+	int n = countLines1(fin);
+	cout << n << endl;
+	fin.close();
+	fin.open("Voucher/Sale_Code.csv");
+	string line;
+	getline(fin, line);
+	for (int i = 0; i < n; i++)
+	{
+		vouv.push_back(Customer::readOneVoucher(fin));
+		//getline(fin, line);
+	}
+	fin.close();
+}
+void Customer::print()
+{
+	for (int i = 0; i < vouv.size(); i++)
+	{
+		cout << vouv[i].getCode() << endl;
+		cout << vouv[i].getPer() << endl;
+		cout << vouv[i].getType() << endl;
+		cout << vouv[i].getDescrip() << endl;
+	}
+}
+void Customer::setVoucher()
+{
+	Customer::loadListVoucher();
+	//Customer::print();
+	string voucher;
+	cin.ignore();
+	cout << "Enter your voucher here: ";
+	getline(cin, voucher);
+
+	for (int i = 0; i < vouv.size(); i++)
+	{
+		if (vouv[i].getCode() == voucher)
+		{
+			if (vouv[i].getType() == "ALL")
+			{
+				cout << vouv[i].getCode() << endl;
+				for (int j = 0; j < ordv.size(); j++)
+				{
+					cout << ordv[j].getPrice() << endl;
+
+					ordv[j].setPrice(ordv[j].getPrice() - (ordv[j].getPrice() * vouv[i].getPer() / 100));
+					cout << ordv[j].getPrice() << endl;
+				}
+				cout << endl << vouv[i].getDescrip() << endl;
+				_getch();
+				return;
+			}
+			else if (vouv[i].getType() == "1")
+			{
+				for (int j = 0; j < ordv.size(); j++)
+				{
+					if (ordv[j].getType() == 1)
+					{
+						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+					}
+				}
+				cout << endl << vouv[i].getDescrip() << endl;
+				_getch();
+				return;
+			}
+			else if (vouv[i].getType() == "2")
+			{
+				for (int j = 0; j < ordv.size(); j++)
+				{
+					if (ordv[j].getType() == 2)
+					{
+						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+					}
+				}
+				cout << endl << vouv[i].getDescrip() << endl;
+				_getch();
+				return;
+			}
+			else if (vouv[i].getType() == "3")
+			{
+				for (int j = 0; j < ordv.size(); j++)
+				{
+					if (ordv[j].getType() == 3)
+					{
+						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+					}
+				}
+				cout << endl << vouv[i].getDescrip() << endl;
+				_getch();
+				return;
+			}
+			else if (vouv[i].getType() == "4")
+			{
+				for (int j = 0; j < ordv.size(); j++)
+				{
+					if (ordv[j].getType() == 4)
+					{
+						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+					}
+				}
+				cout << endl << vouv[i].getDescrip() << endl;
+				_getch();
+				return;
+			}
+			else if (vouv[i].getType() == "5")
+			{
+				for (int j = 0; j < ordv.size(); j++)
+				{
+					if (ordv[j].getType() == 5)
+					{
+						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+					}
+				}
+				cout << endl << vouv[i].getDescrip() << endl;
+				_getch();
+				return;
+			}
+		}
+	}
+}

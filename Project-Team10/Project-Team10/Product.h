@@ -33,6 +33,7 @@ public:
 	void display();
 	void DisplayArrProduct(vector<Product> arr);
 	void addProduct(vector<Product>& arr);
+	void setPrice(double n) { price = n; }
 	//void removeProduct(vector<Product>& arr);
 
 

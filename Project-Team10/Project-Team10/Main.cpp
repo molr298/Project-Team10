@@ -13,9 +13,9 @@ int main() {
 	tmp.registerAccount();
 	tmp.editInfo();*/
 
-	Admin ad1;
+	//Admin ad1;
 	//ad1.sendReport("Ad1");
-	ad1.acceptSeller("Ad4");
+	//ad1.acceptSeller("Ad4");
 	/*Admin ad1;
 	ad1.loadListAdmin();
 	ad1.displayListAdmin();
@@ -35,15 +35,17 @@ int main() {
 	a.removeProduct();
 	a.editProduct();
 	a.displayListProduct();*/
-	//UserNotif usn;
-	//Customer csm;
-	//usn.loadListNotif();
+	UserNotif usn;
+	Customer csm;
+	
+	usn.loadListNotif();
 	//////csm.addProduct();
 	////csm.removeProduct(); //Add choice to confirm
-	//usn.printList();
+	usn.printList();
+	csm.buyStuff(usn, "19127009");
 	//csm.buyStuff(usn, "19127009");
-	//csm.buyStuff(usn, "19127009");
-	//csm.confirmCart("19127009");
+	csm.setOrder("19127009");
+	csm.confirmCart("19127009");
 
 
 //	Seller sl;

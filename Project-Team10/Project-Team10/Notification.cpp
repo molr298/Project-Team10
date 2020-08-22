@@ -155,6 +155,16 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 			cout << "Total: " << usnv[i].getTotalPrice() << endl;
 			flag = 1;
 		}
+		if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 1)
+		{
+			cout << "Your shopping history " << endl;
+			cout << "Product ID: " << usnv[i].getProductID() << endl;
+			cout << "Product Name: " << usnv[i].getProductName() << endl;
+			cout << "Quantity: " << usnv[i].getQuantity() << endl;
+			cout << "Price: " << usnv[i].getPrice() << endl;
+			cout << "Total: " << usnv[i].getTotalPrice() << endl;
+			flag = 1;
+		}
 		else if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 1)
 		{ 
 			cout << "Your order has been transported to shipping service" << endl;
