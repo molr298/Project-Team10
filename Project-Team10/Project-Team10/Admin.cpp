@@ -83,14 +83,67 @@ void Admin::sendReport(string senderID1)
 void Admin::acceptSeller(string admin)
 {
 	AdminNotif::loadListNotif();
+	AccountInfo::loadListUser();
+	vector<int> user;
+	int v = 0;
+	int flag = 0;
 	for (int i = 0; i < adnv.size(); i++)
 	{
-		if (adnv[i].getTakerID() == "Ad4")
+		if (adnv[i].getTakerID() == "Ad5" && adnv[i].getStatus()=="0")
 		{
-			
-			////print then choose or accept all take adnv[i].getSenderID()
+			cout << "Number " << v + 1 << endl;
+			cout << "User " << adnv[i].getSenderID() << " want to become a seller" << endl;
+			for (int j = 0; j < listUser.size(); j++)
+			{
+				if (adnv[i].getSenderID() == listUser[j].getID() && listUser[j].getStatus() == 0)
+				{
+					listUser[j].displayAccountInfo();
+					user.push_back(j);
+					flag = 1;
+				}
+			}
+			v++;
 		}
 	}
-	
-	////After choose specific or all, set status to 1 then search in Data/User.txt then change status to 1 then save
+	if(flag==0)
+	{
+		cout << "No Seller's Registration now" << endl;
+		return;
+	}
+	int choice;
+	cout << "Choose users to grant Seller's priviledge or press 0 to apply all (-1 to cancel): ";
+	cin >> choice;
+	if (choice == -1)
+	{
+		cout << "Exiting..." << endl;
+		return;
+	}
+	if (choice == 0)
+	{
+		for (int j = 0; j < user.size(); j++)
+		{
+			listUser[user[j]].setStatus(1);
+		}
+		for (int i = 0; i < adnv.size(); i++)
+		{
+			if (adnv[i].getTakerID() == "Ad5")
+			{
+				adnv[i].setStatus("1");
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < adnv.size(); i++)
+		{
+			if (i == user[choice])
+			{
+				listUser[i].setStatus(1);
+				adnv[i].setStatus("1");
+			}
+		}
+
+	}
+	AdminNotif::saveListNotif();
+	AccountInfo::saveListUser();
 }

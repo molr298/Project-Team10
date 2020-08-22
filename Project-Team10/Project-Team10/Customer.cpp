@@ -118,7 +118,15 @@ void Customer::sendReport(string senderID1)
 	string problem;
 	AdminNotif::loadListNotif();
 	int type;
-	cout << "Choose Problem Type, 1 for App Bug, 2 for User Report, 3 for Items, 4 for Seller Registration, 5 for others" << endl;
+	string command[] = {
+		"1. For App Bug",
+		"2. For User Report",
+		"3. For Items",
+		"4. For others"
+	};
+	for (int i = 0; i < 4; i++)
+		cout << command[i] << endl;
+	cout << "Choose Problem Type: " << endl;
 	cin >> type;
 	if (type == 1)
 	{
@@ -136,10 +144,6 @@ void Customer::sendReport(string senderID1)
 	{
 		takerID1 = "Ad4";
 	}
-	if (type == 5)
-	{
-		takerID1 = "Ad5";
-	}
 	cin.ignore();
 	cout << "Describe Problem: ";
 	getline(cin, problem);
@@ -150,4 +154,22 @@ void Customer::sendReport(string senderID1)
 	adn.setStatus(0);
 	AdminNotif::adnv.push_back(adn);
 	AdminNotif::saveListNotif();
+}
+
+void Customer::requestToBeSeller(string senderID)
+{
+	AdminNotif::loadListNotif();
+	string request = "User " + senderID + " want to become a seller";
+	AdminNotif adminReceiveRequest;
+	adminReceiveRequest.setSenderID(senderID);
+	adminReceiveRequest.setTakerID("Ad5");
+	adminReceiveRequest.setProblem(request);
+	adminReceiveRequest.setStatus(0);
+	AdminNotif::adnv.push_back(adminReceiveRequest);
+	AdminNotif::saveListNotif();
+}
+
+void Customer::HistoryShopping(string customerID)
+{
+
 }

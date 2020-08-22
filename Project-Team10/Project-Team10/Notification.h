@@ -24,7 +24,7 @@ public:
 class AdminNotif : public Notif
 {
 private: 
-	int status;
+	string status;
 	string Problem;
 
 //protected:
@@ -32,11 +32,12 @@ private:
 public:
 	vector<AdminNotif> adnv;
 	string getProblem() { return Problem; }
+	string getStatus() { return status; }
 	void loadListNotif();
 	AdminNotif loadAnNotif(ifstream& fin);
 	void checkNotif(string adminID, string userID);
 	void saveOneReport(ofstream& fout);
-	void setStatus(int status) { this->status = status; }
+	void setStatus(string status) { this->status = status; }
 	void setProblem(string Problem) { this->Problem = Problem; }
 	void saveListNotif();
 };
@@ -91,6 +92,8 @@ public:
 	void setStatus(int n) { status = n; }
 	void loadListNotifWithoutClear();
 	void setCustomerID(string ID) { customerID = ID; }
+
+	void displayShoppingHistory(string userID);
 };
 
 #endif // !_NOTIFICATION_H

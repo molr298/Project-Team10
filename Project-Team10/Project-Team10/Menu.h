@@ -1,4 +1,4 @@
-#ifndef _MENU_H
+﻿#ifndef _MENU_H
 #define _MENU_H
 
 
@@ -19,9 +19,19 @@ public:
 	void ShowMenuCustomer(AccountInfo&, Account&);
 	void ShowMenuSeller(AccountInfo&, Account&);
 
-	void ShowMenuEditInfo(AccountInfo&, Account&);
+	void ShowMenuEditInfo(AccountInfo&);
+	void ShowMenuEdit(AccountInfo&, Account&);
+
+	void ShowMenuUserFindUser(AccountInfo);
+
+	void ShowMenuShopping(AccountInfo&);	//Thêm bất cứ biến gì vào parameters nếu cần
+	void ShowMenuBuyStuff(AccountInfo&);
+	void ShowMenuNotification(AccountInfo&);
+	void ShowMenuHistory(AccountInfo&);
 
 
+	void Login(Account accountLogin, ListAccount listAcc, AccountInfo accInfo, string username, string password);
+	void SignUp(Account accountLogin, Account AccountSignUp, ListAccount listAcc, AccountInfo accInfo, string username, string password);
 
 //	void Login();
 

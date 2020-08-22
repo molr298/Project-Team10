@@ -45,7 +45,8 @@ AdminNotif AdminNotif::loadAnNotif(ifstream& fin)
 {
 	getline(fin, senderID,';');
 	getline(fin, takerID, ';');
-	getline(fin, Problem);
+	getline(fin, Problem, ';');
+	getline(fin, status);
 	return *this;
 }
 void AdminNotif::checkNotif(string adminID, string userID)
@@ -136,6 +137,17 @@ void UserNotif::loadListNotifWithoutClear()
 		getline(fin, line);
 	}
 	fin.close();
+}
+void UserNotif::displayShoppingHistory(string userID)
+{
+	int count = 0;
+	loadListNotif();
+	for (int i = 0; i < usnv.size(); i++) {
+		if (userID == usnv[i].getCustomerID() && usnv[i].getStatus() == 1) {
+			count++;
+			cout << count << "Your order: " << usnv[i].getProductName() << " - " << usnv[i].getProductID() << endl;
+		}
+	}
 }
 void UserNotif::checkNotif(string customerID1, string sellerID1)
 {

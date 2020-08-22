@@ -2,7 +2,7 @@
 
 Account Account::loadAnAccount(ifstream& fin)
 {
-	fin.ignore();
+
 	getline(fin, username);
 	getline(fin, passHash);
 	fin >> ID;
@@ -75,7 +75,7 @@ void Account::loadListIDOfUser()
 
 string Account::createNewID()
 {
- string newID;
+	string newID = "";
 	loadListIDOfUser();
 	newID = to_string(stoi(listID[listID.size() - 1]) + 1);
 	listID.push_back(newID);
@@ -93,48 +93,32 @@ void Account::saveListIDOfUSer()
 	}
 	fout << listID.size() << endl;
 	for (int i = 0; i < listID.size(); i++)
-		fout << listID[i];
+		fout << listID[i] << endl;
 	fout.close();
 }
 
-Account Account::createNewAccount()
-{
-	string password, username, retypePassword;
-	string ID;
-		cout << "Username:";
-		cin.ignore();
-		getline(cin, username);
-	do {
-		cout << "Password: ";
-		password = inputPassword();
-		cout << "Retype password: ";
-		string retypePassword;
-		retypePassword = inputPassword();
-		if (password != retypePassword) {
-			cout << "Retype password and new password is not match\nPress any key to try again";
-			system("cls");
-			cout << "Username:" << username << endl;
-		}
-	} while (password != retypePassword);
-	
+Account Account::createNewAccount(string newUsername, string newPassword)
+{	
 	this->ID = createNewID();
-	this->username = username;
-	this->passHash = HashPassword(password);
+	this->username = newUsername;
+	this->passHash = HashPassword(newPassword);
 	return *this;
 }
 
 void Account::changePassword()
 {
+	system("cls");
 	string passOld, passNew, passRetype;
 	passNew = "";
 	passOld = "";
 	passRetype = "";
 	do {
 		cout << "Current password: ";
+		cin.ignore();
 		passOld = inputPassword();
 		passOld = HashPassword(passOld);
-		if (passOld != this->passHash) {
-			cout << "Retype password and new password is not match\nPress any key to try again";
+		if (passOld != this->getPassHass()) {
+			cout << "Retype password and new password is not match\n" << endl;
 			cout << "Do you want to try again?(Y/N) ";
 			while (true)
 			{
@@ -184,7 +168,17 @@ void Account::changePassword()
 		}
 	} while (passNew != passRetype);
 	passNew = HashPassword(passNew);
+	this->passHash = passNew;
 
+	ListAccount listAcc;
+	listAcc.setAccount(*this);
+}
+
+void Account::changeUsername(string newUsername)
+{
+	this->username = newUsername;
+	ListAccount listAcc;
+	listAcc.setAccount(*this);
 }
 
 void ListAccount::loadListAccount(string filename)
@@ -196,53 +190,62 @@ void ListAccount::loadListAccount(string filename)
 	}
 	int nAccount;
 	fin >> nAccount;
-	for (int i = 0; i < nAccount; i++) 
+	for (int i = 0; i < nAccount; i++) {
+		fin.ignore();
 		listAccount.push_back(Account::loadAnAccount(fin));
+		fin.ignore();
+	}
 	fin.close();
 }
 
 int ListAccount::login(string username, string password)
 {
-	int result = 0;
 	string listFile[2] = { "Admin.txt", "User.txt" };
 	//0-Failed	1-User	2-Admin
 	password = Account::HashPassword(password);
 	if (username.substr(0, 7) == "197.000") {
-		loadListAccount(listFile[0]);
-		for (int i = 0; i < listAccount.size(); i++)
-			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername())
-				result = 2;
+		loadListAccount(ACCOUNT_PATH + listFile[0]);
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername()) {
+				listAccount.clear();
+				return 2;
+			}
+		}
+		listAccount.clear();
+		return 0;
 	}
 	else {
-		loadListAccount(listFile[1]);
-		for (int i = 0; i < listAccount.size(); i++)
-			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername())
-				result = 1;
+		loadListAccount(ACCOUNT_PATH + listFile[1]);
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername()) {
+				listAccount.clear();
+				return 1;
+			}
+		}
+		listAccount.clear();
+		return 0;
 	}
-	listAccount.clear();
-	return result;
 }
 
-void ListAccount::saveListAccount(const int& nAccount, string filename)
+void ListAccount::saveListAccount(string filename)
 {
 	ofstream fout(filename);
 	if (!fout.is_open()) {
 		cout << "Can't save Account!!" << endl;
 		return;
 	}
-	fout << nAccount << endl;
+	fout << listAccount.size() << endl;
 	for (int i = 0; i < listAccount.size(); i++)
 		listAccount[i].saveAccount(fout);
 	fout.close();
+	listAccount.clear();
 }
 
-void ListAccount::SignUp()
+void ListAccount::SignUp(Account& newAccount)
 {
-	Account newAccount;
-	newAccount.createNewAccount();
 	loadListAccount("Account/User.txt");
 	listAccount.push_back(newAccount);
-	saveListAccount(listAccount.size(), "Account/User.txt");
+	saveListAccount("Account/User.txt");
 	listAccount.clear();
 }
 
@@ -257,8 +260,56 @@ void ListAccount::removeAccount(string removeID) {
 		if (removeID == listAccount[i].getID())
 			listAccount.erase(listAccount.begin() + i);
 
-	saveListAccount(listAccount.size(), "Account/User.txt");
+	saveListAccount("Account/User.txt");
 	listAccount.clear();
+}
+
+Account ListAccount::findAccount(string username)
+{
+	Account result;
+	string filename[] = { "Admin.txt", "User.txt" };
+	if (username.substr(0, 7) == "197.000") {
+		loadListAccount(ACCOUNT_PATH + filename[0]);
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (listAccount[i].getUsername() == username) {
+				result = listAccount[i];
+				break;
+			}
+
+		}
+	}
+	else {
+		loadListAccount(ACCOUNT_PATH + filename[1]);
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (listAccount[i].getUsername() == username) {
+				result = listAccount[i];
+				break;
+			}
+
+		}
+	}
+	listAccount.clear();
+	return result;
+}
+
+void ListAccount::setAccount(Account& newAccount)
+{
+	if (newAccount.getUsername().substr(0, 7) == "197.000") {
+		loadListAccount("Account/Admin.txt");
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (listAccount[i].getID() == newAccount.getID())
+				listAccount[i] = newAccount;
+		}
+			saveListAccount("Account/Admin.txt");
+	}
+	else {
+		loadListAccount("Account/User.txt");
+		for (int i = 0; i < listAccount.size(); i++) {
+			if (listAccount[i].getID() == newAccount.getID())
+				listAccount[i] = newAccount;
+		}
+		saveListAccount("Account/User.txt");
+	}
 }
 
 
