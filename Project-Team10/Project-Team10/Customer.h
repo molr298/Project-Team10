@@ -35,7 +35,9 @@ public:
 	Customer readOneVoucher(ifstream& fin);
 	void loadListVoucher();
 	void print();
+	void requestToBeSeller(string senderID);
+
+	void HistoryShopping(string customerID);
 };
 
 #endif // !_CUSTOMER_H
-

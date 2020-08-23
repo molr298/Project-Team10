@@ -138,10 +138,22 @@ void UserNotif::loadListNotifWithoutClear()
 	}
 	fin.close();
 }
+void UserNotif::displayShoppingHistory(string userID)
+{
+	int count = 0;
+	loadListNotif();
+	for (int i = 0; i < usnv.size(); i++) {
+		if (userID == usnv[i].getCustomerID() && usnv[i].getStatus() == 1) {
+			count++;
+			cout << count << "Your order: " << usnv[i].getProductName() << " - " << usnv[i].getProductID() << endl;
+		}
+	}
+}
 void UserNotif::checkNotif(string customerID1, string sellerID1)
 {
 	int flag = 0;
 	//cout << usnv.size() << endl;
+	loadListNotif();
 	for (int i = 0; i < usnv.size(); i++)
 	{
 		if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 0)

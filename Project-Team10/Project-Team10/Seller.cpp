@@ -11,7 +11,6 @@ void Seller::approveCart(bool approveOrder, string IDseller)
 void Seller::saleStatistic(string IDseller)
 {
 	UserNotif::loadListNotif();
-	cout << "Here is your Sale Statistic" << endl;
 	vector<UserNotif> temp;
 	int p = 0;
 	double total = 0;
@@ -23,18 +22,27 @@ void Seller::saleStatistic(string IDseller)
 			temp.push_back(usnv[i]);
 		}
 	}
+
+	int flag = 0;
+	
 	for (int i = 0; i < temp.size(); i++)
 	{
 		for (int j = i + 1; j < temp.size(); j++)
 		{
 			if (temp[i].getProductID() == temp[j].getProductID() && temp[i].getProductName() == temp[j].getProductName())
 			{
+				flag = 1;
 				temp[i].setQuantity(temp[j].getQuantity());
 				temp[i].setTotal(temp[j].getTotalPrice());
 				temp.erase(temp.begin() + j);
 			}
 		}
 	}
+	if (flag == 0) {
+		cout << "No sale statistic..." << endl;
+		return;
+	}
+	cout << "Here is your Sale Statistic" << endl;
 	double lowestTotal = temp[0].getTotalPrice();
 	double peak = temp[0].getTotalPrice();
 	int bestStock = temp[0].getQuantity();
@@ -175,4 +183,14 @@ void Seller ::sendReport(string senderID1)
 	adn.setStatus(0);
 	AdminNotif::adnv.push_back(adn);
 	AdminNotif::saveListNotif();
+}
+void Seller::addProduct(const Product& a) {
+	this->Customer::Product::addProduct(a);
+}
+void Seller::removeProduct(const string& id) {
+	this->Customer::Product::removeProduct(id);
+}
+
+void Seller::edit(Product obj) {
+	this->Customer::Product::editProduct();
 }

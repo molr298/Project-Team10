@@ -137,15 +137,19 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		}
 		case 3:	//Shopping
 		{
-			return;
+			break;
 		}
 		case 4:	//Notification
 		{
-			return;
+			UserNotif customerNotif;
+
+			customerNotif.checkNotif(customerInfo.getID(), "");
+			break;
 		}
 		case 5: //View history \rate product? rate seller?
 		{
-			return;
+			ShowMenuHistory(customerInfo);
+			break;
 		}
 		case 6://Log out 
 		{
@@ -203,16 +207,27 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		{
 			break;
 		}
-		case 4:	//Store of seller
+		case 4:	// edit product
 		{
+			Product storeOfSeller;
+			storeOfSeller.viewStoreOfSeller(sellerInfo.getID());
+			storeOfSeller.editProduct();
 			break;
 		}
 		case 5:	//Notification
 		{
+			UserNotif sellerNotif;
+
+			sellerNotif.checkNotif("", sellerInfo.getID());
+			cout << "Accept?";
+			bool ans = true;
+			Seller notif;
+			notif.approveCart(ans, sellerInfo.getID());
 			break;
 		}
 		case 6: //History
 		{
+			ShowMenuHistory(sellerInfo);
 			break;
 		}
 		case 7://Log out 
@@ -235,9 +250,10 @@ void Menu::ShowMenuEditInfo(AccountInfo& accInfo)
 	ShowTitle();
 	accInfo.displayAccountInfo();
 	cout << "1. Edit your full name" << endl;
-	cout << "2. Edit your phone number" << endl;
-	cout << "3. Edit your day of birth" << endl;
-	cout << "4. Edit your gender" << endl;
+	cout << "2. Edit your user name" << endl;
+	cout << "3. Edit your phone number" << endl;
+	cout << "4. Edit your day of birth" << endl;
+	cout << "5. Edit your gender" << endl;
 	cout << "0. Return" << endl;
 	cout << "_____________________________________" << endl;
 
@@ -255,6 +271,9 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 	cout << "_____________________________________" << endl;
 	cout << "1. Edit your info" << endl;
 	cout << "2. Change password" << endl;
+//	(accInfo.getStatus() == 1) ? cout << "3. Send request sale authorization"  : ;
+	if (accInfo.getStatus() == 0)
+		cout << "3. Send request sale authorization" << endl;
 	cout << "0. Return" << endl;
 	cout << "_____________________________________" << endl;
 	cout << "Enter choice: ";
@@ -262,6 +281,9 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 	cin >> choice;
 	if (choice == 1) {
 		ShowMenuEditInfo(accInfo);
+		if (accInfo.getUsername() != Acc.getUsername()) {
+			Acc.changeUsername(accInfo.getUsername());
+		}
 		ShowTitle();
 		accInfo.displayAccountInfo();
 		cout << "Edit your information success" << endl;
@@ -271,6 +293,11 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 		Acc.changePassword();
 		cout << "Change password success" << endl;
 	}
+	else if (choice == 3 && accInfo.getStatus() == 0) {
+		Customer CusRequest;
+		CusRequest.requestToBeSeller(accInfo.getID());
+		cout << "Your request have sent. Please wait for the consent of the admin..." << endl;
+	}
 	else if (choice == 0) {
 	//	cin.ignore();
 		return;
@@ -279,6 +306,8 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 
 void Menu::ShowMenuUserFindUser(AccountInfo userInfo)
 {
+	while (true)
+	{
 	string IDUser;
 	cout << "Enter ID of User: ";
 	cin.ignore();
@@ -286,27 +315,37 @@ void Menu::ShowMenuUserFindUser(AccountInfo userInfo)
 	if (IDUser == "") {
 		return;
 	}
-	userInfo.findUser(IDUser)->displayAccountInfo();
-	cout << "1. Report this user" << endl;
-	cout << "0. Return" << endl;
-	cout << "_____________________________________" << endl;
-	int choice = 0;
-	cout << "Enter your choice: ";	cin >> choice;
-	Customer cus;
-	switch (choice)
-	{
-	case 1:
-	{
-		ShowTitle();
-		cus.sendReport(userInfo.getID());
-	}
-	case 0:
-	{
-		cin.ignore();
+	if (userInfo.getID() == IDUser) {
+		cout << "Please choose ""Store"" feature to view your Store or ""View profile"" to view your information" << endl;
 		return;
 	}
-	default:
-		break;
+
+		AccountInfo* anotherUser;
+		anotherUser = userInfo.findUser(IDUser);
+		anotherUser->displayListUser();
+		cout << "1. Report this user" << endl;
+		(anotherUser->getStatus() == 1) ? cout << "2. View store of seller" << endl : cout << "";
+		cout << "0. Return" << endl;
+		cout << "_____________________________________" << endl;
+		int choice = 0;
+		cout << "Enter your choice: ";	cin >> choice;
+		Customer cus;
+		if (choice == 1) {
+			ShowTitle();
+			cus.sendReport(userInfo.getID());
+		}
+		else if (choice == 2 && anotherUser->getStatus() == 1) {
+
+			Product storeOfSeller;
+			storeOfSeller.viewStoreOfSeller(anotherUser->getID());
+		//	_getch();
+		}
+		else if (choice == 0)
+		{
+			cin.ignore();
+			return;
+		}
+		else return;
 	}
 }
 
@@ -325,6 +364,7 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo)
 	case 1:
 	{
 		//
+		
 		break;
 	}
 	case 2:
@@ -342,7 +382,7 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo)
 	}
 }
 
-void Menu::ShowMenuBuyStuff(AccountInfo& accInfo)	//use this when you choose a product
+void Menu::ShowMenuBuyStuff(AccountInfo& accInfo, Product buy)	//use this when you choose a product
 {
 	ShowTitle();
 	cout << "1. Buy now" << endl;
@@ -389,71 +429,164 @@ void Menu::ShowMenuNotification(AccountInfo& accInfo)
 
 void Menu::ShowMenuHistory(AccountInfo& accInfo)//View shopping history, selling history, selling static \rate other seller? rate customer? rate product?
 {
+	while (true)
+	{
+
+		ShowTitle();
+		cout << "1. View shopping history" << endl;
+		if (accInfo.getStatus() == 0) {	//customer
+			cout << "0. Return" << endl;
+		}
+		else {	//seller
+			cout << "2. Selling statistic" << endl;
+			cout << "0. Return" << endl;
+		}
+
+		int choice = 0;
+		cout << "_____________________________________" << endl;
+		cout << "Enter your choice: ";
+		cin >> choice;
+
+		switch (accInfo.getStatus())
+		{
+		case 1: //seller
+		{
+			switch (choice)
+			{
+			case 1:
+			{
+				UserNotif shoppingHistory;
+				shoppingHistory.displayShoppingHistory(accInfo.getID());
+				break;
+			}
+			case 2:
+			{
+				Seller viewSeller;
+				viewSeller.saleStatistic(accInfo.getID());
+				break;
+			}
+			case 0:
+			{
+				return;
+			}
+			default:
+				break;
+			}
+		}
+		case 0: //customer
+		{
+			switch (choice)
+			{
+			case 1:
+			{
+				UserNotif shoppingHistory;
+				shoppingHistory.displayShoppingHistory(accInfo.getID());
+				break;
+			}
+			case 0:
+			{
+				return;
+			}
+			default:
+				break;
+			}
+		}
+		default:
+			break;
+		}
+		system("pause");
+	}
+}
+
+void Menu::Login(Account accountLogin, ListAccount listAcc, AccountInfo accInfo, string username, string password)
+{
+	int loginResult = 0;
+	do
+	{
+		ShowTitle();
+		cout << "                      LOGIN                     " << endl << endl;
+		cout << "\t Username >> ";
+		cin.ignore();
+		getline(cin, username);
+		if (username == "")
+			break;
+		cout << "\t Password >> ";
+		password = accountLogin.inputPassword();
+		loginResult = listAcc.login(username, password);	//admin = 2; user = 1;
+		if (loginResult == 0)
+		{
+			cout << "Wrong username or password\nDo you want to try again?(Y/N) ";
+			while (true)
+			{
+				char ch;
+				cin >> ch;
+				if (ch == 'y' || ch == 'Y')
+				{
+					cin.ignore();
+					break;
+				}
+				else if (ch == 'n' || ch == 'N')
+					return;
+				else
+					cout << "Bad choice, try again\n";
+			}
+		}
+		else {
+
+			accountLogin = listAcc.findAccount(username);
+			if (loginResult == 2) {
+				accInfo = *accInfo.findAdmin(username);
+				ShowMenuAdmin(accInfo, accountLogin, listAcc);
+			}
+			else {
+				accInfo = *accInfo.findUser(username);
+				if (accInfo.getStatus() == 0) {
+					ShowMenuCustomer(accInfo, accountLogin);
+				}
+				else
+					ShowMenuSeller(accInfo, accountLogin);
+
+			}
+		}
+	} while (loginResult == 0);
+}
+
+void Menu::SignUp(Account accountLogin, Account AccountSignUp, ListAccount listAcc, AccountInfo accInfo, string username, string password)
+{
 	ShowTitle();
-	cout << "1. View shopping history" << endl;
-	if (accInfo.getStatus() == 0) {	//customer
-		cout << "0. Return" << endl;
-	}
-	else {	//seller
-		cout << "2. Selling history" << endl;
-		cout << "3. Selling static" << endl;
-		cout << "0. Return" << endl;
-	}
+	cout << "                     SIGN UP                    " << endl << endl;
 
-	int choice = 0;
-	cout << "_____________________________________" << endl;
-	cout << "Enter your choice: ";
-	cin >> choice;
+	string retypePassword;
+	cout << "\t Username >> ";
+	cin.ignore();
+	getline(cin, username);
+	if (username == "")
+		return;
+	do {
+		cout << "\t Password >> ";
+		password = AccountSignUp.inputPassword();
+		cout << "\t Retype password >> ";
 
-	switch (accInfo.getStatus())
-	{
-	case 1: //seller
-	{
-		switch (choice)
-		{
-		case 1:
-		{
-			//code here
-			break;
+		retypePassword = AccountSignUp.inputPassword();
+		if (password != retypePassword) {
+			cout << "Retype password and new password is not match\nPress any key to try again";
+			_getch();
+			ShowTitle();
+			cout << "                     SIGN UP                    " << endl << endl;
+			cout << "\t Username >> " << username << endl;
 		}
-		case 2:
-		{
-			//code here
-			break;
-		}
-		case 3:
-		{
-			//code here
-			break;
-		}
-		case 0:
-		{
-			return;
-		}
-		default:
-			break;
-		}
-	}
-	case 0: //customer
-	{
-		switch (choice)
-		{
-		case 1:
-		{
-			//code here
-			break;
-		}
-		case 0:
-		{
-			return;
-		}
-		default:
-			break;
-		}
-	}
-	default:
-		break;
-	}
+	} while (password != retypePassword);
+
+	AccountSignUp.createNewAccount(username, password);
+	listAcc.SignUp(AccountSignUp);
+	ShowTitle();
+	cout << "                     SIGN UP                    " << endl << endl;
+	cout << "--------------Input your infomation-------------" << endl;
+	accInfo.registerAccount(AccountSignUp.getUsername(), AccountSignUp.getID());
+
+	listAcc.login(username, password);
+	accInfo = *accInfo.findUser(username);
+	ShowMenuCustomer(accInfo, accountLogin);
 }
 
 

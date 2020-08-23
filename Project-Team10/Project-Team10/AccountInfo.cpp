@@ -34,6 +34,8 @@ void AccountInfo::inputAccount(const string& username, const string& ID)
 {
 	cout << "______________________________________" << endl;
 
+	this->username = username;
+	this->ID = ID;
 	cout << "Enter Full name: ";
 	getline(cin, fullname);
 	cout << "Enter Day of birth: ";
@@ -45,7 +47,7 @@ void AccountInfo::inputAccount(const string& username, const string& ID)
 	cin.ignore();
 	getline(cin, gender);
 	for (int i = 0; i < gender.size(); i++)
-		gender[i] = toupper(gender[i]);
+		gender[i] = toupper(gender[i]);	//male, MaLe
 	(gender == "MALE") ? this->gender = 0 : this->gender = 1;
 }
 void AccountInfo::displayAccountInfo()
@@ -180,16 +182,23 @@ void AccountInfo::editInfo(int choice)
 	}
 	case 2:
 	{
+		cout << "Enter your user name: ";
+		cin.ignore();
+		getline(cin, this->username);
+		break;
+	}
+	case 3:
+	{
 		cout << "Enter your phone number: ";
 		cin >> phoneNumber;
 		break;
 	}
-	case 3: {
+	case 4: {
 		cout << "Enter your day of birth: ";
 		this->DoB = inputDate();
 		break;
 	}
-	case 4:
+	case 5:
 	{
 		cout << "Enter your gender(MALE/FEMALE): ";
 		string gender;

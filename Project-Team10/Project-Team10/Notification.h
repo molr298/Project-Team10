@@ -83,7 +83,7 @@ public:
 
 	void loadListNotif();
 	UserNotif loadOneNotif(ifstream& fin);
-	void checkNotif(string customerID, string sellerID);
+	void checkNotif(string customerID, string sellerID); //string userID, status
 	void print();
 	void printList();
 	void saveOneOrder(ofstream& fout);
@@ -92,6 +92,8 @@ public:
 	void setStatus(int n) { status = n; }
 	void loadListNotifWithoutClear();
 	void setCustomerID(string ID) { customerID = ID; }
+
+	void displayShoppingHistory(string userID);
 };
 
 #endif // !_NOTIFICATION_H

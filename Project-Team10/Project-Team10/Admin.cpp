@@ -89,7 +89,7 @@ void Admin::acceptSeller(string admin)
 	int flag = 0;
 	for (int i = 0; i < adnv.size(); i++)
 	{
-		if (adnv[i].getTakerID() == "Ad4" && adnv[i].getStatus()=="0")
+		if (adnv[i].getTakerID() == "Ad5" && adnv[i].getStatus()=="0")
 		{
 			cout << "Number " << v + 1 << endl;
 			cout << "User " << adnv[i].getSenderID() << " want to become a seller" << endl;
@@ -126,7 +126,7 @@ void Admin::acceptSeller(string admin)
 		}
 		for (int i = 0; i < adnv.size(); i++)
 		{
-			if (adnv[i].getTakerID() == "Ad4")
+			if (adnv[i].getTakerID() == "Ad5")
 			{
 				adnv[i].setStatus("1");
 			}
