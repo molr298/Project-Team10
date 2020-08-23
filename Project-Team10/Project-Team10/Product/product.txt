@@ -1,9 +1,9 @@
 5
 101T
 19127002
-banh tieu
+Banh Trung Thu
 10
-100
+95
 1
 
 102T
@@ -24,13 +24,13 @@ tai nghe khong day
 19127002
 Gucci
 1000
-568
+528
 2
 
 105T
 19127006
 Gucci
 100
-100
+20
 2
 

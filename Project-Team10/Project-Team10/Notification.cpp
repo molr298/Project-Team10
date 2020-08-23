@@ -157,7 +157,6 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 		}
 		if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 1)
 		{
-			cout << "Your shopping history " << endl;
 			cout << "Product ID: " << usnv[i].getProductID() << endl;
 			cout << "Product Name: " << usnv[i].getProductName() << endl;
 			cout << "Quantity: " << usnv[i].getQuantity() << endl;

@@ -441,7 +441,7 @@ void Product::saveNotifUser(string IDseller)
 	{
 		for (int j = 0; j < prdv.size(); j++)
 		{
-			if (IDseller == prdv[j].IDseller && usnv[i].getProductName() == prdv[j].productName && usnv[i].getProductID() == prdv[j].ID && prdv[j].getStatus() == 0)
+			if (IDseller == prdv[j].getIDseller() && usnv[i].getProductName() == prdv[j].getProductName() && usnv[i].getProductID() == prdv[j].getID() && usnv[i].getStatus() == 0)
 			{
 				if (prdv[j].stock > usnv[i].getQuantity())
 				{

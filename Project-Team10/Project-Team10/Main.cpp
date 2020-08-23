@@ -38,20 +38,20 @@ int main() {
 	UserNotif usn;
 	Customer csm;
 	
-	usn.loadListNotif();
-	//////csm.addProduct();
-	////csm.removeProduct(); //Add choice to confirm
-	usn.printList();
-	csm.buyStuff(usn, "19127009");
+	//usn.loadListNotif();
+	////////csm.addProduct();
+	//////csm.removeProduct(); //Add choice to confirm
+	//usn.printList();
 	//csm.buyStuff(usn, "19127009");
-	csm.setOrder("19127009");
-	csm.confirmCart("19127009");
+	////csm.buyStuff(usn, "19127009");
+	//csm.setOrder("19127009");
+	//csm.confirmCart("19127009");
 
 
-//	Seller sl;
-//	sl.sendReport("19127002");
-	//bool isApproveCart = true; //false
-	//sl.approveCart(isApproveCart,"19127006");
+	Seller sl;
+	//sl.sendReport("19127002");
+	bool isApproveCart = true; //false
+	sl.approveCart(isApproveCart,"19127002");
 
 //	sl.saleStatistic("19127002");
 	/*UserNotif usn;
