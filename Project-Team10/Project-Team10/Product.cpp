@@ -158,29 +158,32 @@ void Product::display()
 	switch (type)
 	{
 	case 1:{
-		cout << "Food" << endl;
+		cout << "Food";
 		break;
 	}
 	case 2: {
-		cout << "Fashion" << endl;
+		cout << "Fashion";
 		break;
 	}
 	case 3: {
-		cout << "Technological" << endl;
+		cout << "Technological";
 		break;
 	}
 	case 4: {
-		cout << "Houseware" << endl;
+		cout << "Houseware";
 		break;
 	}
 	case 5: {
-		cout << "Other" << endl;
+		cout << "Other";
 		break;
 	}
 	default:
 		break;
 	}
-
+	Rate rating;
+	rating.loadListRating();
+	rating.miniDisplay(IDseller, ID);
+	cout << endl;
 }
 
 void Product::addProduct(vector<Product>& arr) {
@@ -250,7 +253,7 @@ void Product::saveOneProduct(ofstream& fout)
 void Product::displayListProduct()
 {
 
-	cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
+	cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type\t" << setw(7) << left << "Rating "<< endl;
 	for (int i = 0; i < prdv.size(); i++)
 		prdv[i].display();
 		cout << "____________________________________" << endl;
@@ -291,7 +294,7 @@ void Product::removeProduct(string search)
 		{
 			if (prdv[i].getID() == search || prdv[i].getProductName() == search)
 			{
-				cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
+				cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type\t" << setw(7) << left << "Rating "<< endl;
 				cout << endl;
 				cout << "1" << "\t";
 				prdv[i].display();
@@ -460,6 +463,8 @@ void Product::saveNotifUser(string IDseller)
 	}
 	UserNotif::saveListOrder();
 	Product::saveListProduct();
+	usnv.clear();
+	prdv.clear();
 }
 bool Product::listSearchProduct()
 {
@@ -761,4 +766,82 @@ void Rate::deleteAllOfSeller(string IDSeller)
 		if (listRating[i].IDSeller == IDSeller)
 			listRating.erase(listRating.begin() + i);
 	saveListRating();
+}
+
+void Rate::miniDisplay(string IDSeller, string IDProduct)
+{
+	for (int i = 0; i < listRating.size(); i++)
+		if (listRating[i].IDProduct == IDProduct && listRating[i].IDSeller == IDSeller)
+			cout <<setw(6) << left << listRating[i].ratePoint << setw(1) << right << "*/5*   " << Rating << " Rating";
+	return;
+}
+
+Comment::Comment(string IDProduct, string IDSeller)
+{
+	this->IDProduct = IDProduct;
+	this->IDSeller = IDSeller;
+	IDCustomer = "";
+	comment = "";
+}
+
+Comment::Comment(string IDProduct, string IDSeller, string newComment, string IDCustomer)
+{
+	this->IDProduct = IDProduct;
+	this->IDSeller = IDSeller;
+	this->comment = newComment;
+	this->IDCustomer = IDCustomer;
+}
+
+void Comment::loadListComment(string IDPRoduct, string IDSeller)
+{
+	listComment.clear();
+	ifstream fin(COMMENT_PATH + IDPRoduct + "-" + IDSeller + ".txt");	//Product/Comment/101T-19127001.txt	
+	if (!fin.is_open()) {
+		cout << "Can't load comment of this product" << endl;
+		return;
+	}
+	int nComment;
+	fin >> nComment;
+	fin.ignore();
+	Comment load1(IDPRoduct, IDSeller);
+	for (int i = 0; i < nComment; i++) {
+		getline(fin, load1.IDCustomer, '-');	//IDCustomer-Comment
+		getline(fin, load1.comment);
+		listComment.push_back(load1);
+	}
+	fin.close();
+}
+
+void Comment::saveListComment(string IDProduct, string IDSeller)
+{
+	ofstream fout(COMMENT_PATH + IDProduct + "-" + IDSeller + ".txt");
+	if (!fout.is_open()) {
+		cout << "Can't load comment of this product" << endl;
+		return;
+	}
+	fout << listComment.size() << endl;
+	for (int i = 0; i < listComment.size(); i++) {
+		fout << listComment[i].IDCustomer << "-" << listComment[i].comment << endl;
+	}
+	fout.close();
+	listComment.clear();
+}
+
+void Comment::createNewFileComment(string IDPRoduct, string IDSeller)
+{
+	ofstream fout(COMMENT_PATH + IDProduct + "-" + IDSeller + ".txt");
+	if (!fout.is_open()) {
+		cout << "Can't load comment of this product" << endl;
+		return;
+	}
+	fout << 0;
+	fout.close();
+}
+
+void Comment::addNewComment(string IDProduct, string IDSeller, string newComment, string IDCustomer)
+{
+	loadListComment(IDProduct, IDSeller);
+	Comment addNew(IDProduct, IDSeller, newComment, IDCustomer);
+	listComment.push_back(addNew);
+	saveListComment(IDProduct, IDSeller);
 }

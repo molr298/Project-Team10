@@ -110,6 +110,8 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		"Log out"
 	};
 	int nCommandPart = 6;
+			Customer cusShopping;
+			UserNotif usn;
 
 	while (true) {
 		ShowTitle();
@@ -138,7 +140,7 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		}
 		case 3:	//Shopping
 		{
-			ShowMenuShopping(customerInfo);
+			ShowMenuShopping(customerInfo, cusShopping, usn);
 			break;
 		}
 		case 4:	//Notification
@@ -177,7 +179,8 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		"Log out"
 	};
 	int nCommandPart = 7;
-
+	Customer cusShopping;
+	UserNotif usn;
 	while (true) {
 		ShowTitle();
 		cout << "                      SELLER                    " << endl;
@@ -205,7 +208,8 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		}
 		case 3:	//Shopping
 		{
-			ShowMenuShopping(sellerInfo);
+
+			ShowMenuShopping(sellerInfo, cusShopping, usn);
 			break;
 		}
 		case 4:	// edit product
@@ -344,43 +348,79 @@ void Menu::ShowMenuUserFindUser(AccountInfo userInfo)
 	}
 }
 
-void Menu::ShowMenuShopping(AccountInfo& accInfo)
+void Menu::ShowMenuShopping(AccountInfo& accInfo, Customer& cusShopping, UserNotif& usn)
 {
-	ShowTitle();
-	cout << "1. Search product" << endl;
-	cout << "2. Filter by type" << endl;
-	cout << "0. Return" << endl;
-	int choice = 0;
-	cout << "_____________________________________" << endl;
-	cout << "Enter your choice: ";
-	cin >> choice;
-	switch (choice)
-	{
-	case 1:
-	{
+
+	while (true) {
 		ShowTitle();
-		Customer cusShopping;
-		UserNotif usn;
-		bool flag = cusShopping.listSearchProduct();
-		cusShopping.buyStuff(usn, accInfo.getID(), flag);
-		break;
-	}
-	case 2:
-	{
-		ShowTitle();
-		Customer cusShopping;
-		UserNotif usn;
-		bool flag = cusShopping.listFilterProduct();
-		cusShopping.buyStuff(usn, accInfo.getID(), flag);
-		break;
-	}
-	case 0:
-	{
-		cin.ignore();
-		return;
-	}
-	default:
-		break;
+		cout << "1. Search product" << endl;
+		cout << "2. Filter by type" << endl;
+		cout << "3. View cart" << endl;
+		cout << "0. Return" << endl;
+		int choice = 0;
+		cout << "_____________________________________" << endl;
+		cout << "Enter your choice: ";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+		{
+			ShowTitle();
+
+			bool flag = cusShopping.listSearchProduct();
+			cusShopping.buyStuff(usn, accInfo.getID(), flag);
+			cusShopping.viewCart();
+			system("pause");
+
+			break;
+		}
+		case 2:
+		{
+			ShowTitle();
+
+
+			bool flag = cusShopping.listFilterProduct();
+			cusShopping.buyStuff(usn, accInfo.getID(), flag);
+			cusShopping.viewCart();
+			system("pause");
+			break;
+		}
+		case 3:
+		{
+			ShowTitle();
+			cusShopping.viewCart();
+			cout << "1. Modify cart" << endl;
+			cout << "2. Confirm cart" << endl;
+			cout << "0. Return" << endl;
+			cin >> choice;
+			switch (choice)
+			{
+			case 1:
+			{
+				cusShopping.setOrder(accInfo.getID());
+				break;
+			}
+			case 2:
+			{
+				cusShopping.confirmCart(accInfo.getID());
+				break;
+			}
+			case 0:
+			{
+				break;
+			}
+			default:
+				break;
+			}
+		}
+		case 0:
+		{
+			cin.ignore();
+			return;
+		}
+		default:
+			break;
+		}
 	}
 }
 
@@ -388,7 +428,7 @@ void Menu::ShowMenuBuyStuff(AccountInfo& accInfo, Product buy)	//use this when y
 {
 	ShowTitle();
 	cout << "1. Buy now" << endl;
-	cout << "2. Add to temporary cart" << endl;
+	cout << "2. " << endl;
 	cout << "0. Return" << endl;
 	int choice = 0;
 	cout << "_____________________________________" << endl;
@@ -434,11 +474,28 @@ void Menu::ShowMenuNotification(AccountInfo& accInfo)
 		{
 			UserNotif sellerNotif;
 
-			sellerNotif.checkNotif("", accInfo.getID());
-			cout << "Accept?";
-			bool ans = true;
-			Seller notif;
-			notif.approveCart(ans, accInfo.getID());
+			if (sellerNotif.checkNotif("", accInfo.getID())) {
+				cout << "Accept?(Y/N): ";
+				bool ans;
+				Seller notif;
+				while (true)
+				{
+					char ch;
+					cin >> ch;
+					if (ch == 'y' || ch == 'Y')
+					{
+						ans = true;
+						break;
+					}
+					else if (ch == 'n' || ch == 'N') {
+						ans = false;
+						break;
+					}
+					else
+						cout << "Bad choice, try again\n";
+				}
+				notif.approveCart(ans, accInfo.getID());
+			}
 		}
 		else //customer
 		{

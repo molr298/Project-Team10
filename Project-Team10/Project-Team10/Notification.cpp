@@ -51,7 +51,7 @@ AdminNotif AdminNotif::loadAnNotif(ifstream& fin)
 }
 void AdminNotif::checkNotif(string adminID, string userID)
 {
-	int flag = 0;
+	bool flag = 0;
 	for (int i = 0; i < adnv.size(); i++)
 	{
 		if (adminID == adnv[i].getTakerID())
@@ -205,9 +205,9 @@ void UserNotif::miniDisplayNotif(string IDUser, int status)
 	}
 }
 
-void UserNotif::checkNotif(string customerID1, string sellerID1)
+bool UserNotif::checkNotif(string customerID1, string sellerID1)
 {
-	int flag = 0;
+	bool flag = 0;
 	//cout << usnv.size() << endl;
 	loadListNotif();
 	for (int i = 0; i < usnv.size(); i++)
@@ -255,6 +255,7 @@ void UserNotif::checkNotif(string customerID1, string sellerID1)
 	}
 	if (flag == 0)
 		cout << "No notification available" << endl;
+	return flag;
 }
 void AdminNotif::saveOneReport(ofstream& fout)
 {

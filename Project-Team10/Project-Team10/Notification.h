@@ -83,7 +83,7 @@ public:
 
 	void loadListNotif();
 	UserNotif loadOneNotif(ifstream& fin);
-	void checkNotif(string customerID, string sellerID); //string userID, status
+	bool checkNotif(string customerID, string sellerID); //string userID, status
 	void print();
 	void printList();
 	void saveOneOrder(ofstream& fout);

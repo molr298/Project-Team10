@@ -31,7 +31,7 @@ Nguyen Thi D
 1
 1
 
-19120005
+19127005
 nguyenmm
 Nguyen Minh M
 12/2/2000
@@ -39,7 +39,7 @@ Nguyen Minh M
 0
 0
 
-19120007
+19127006
 vnhathuy
 Vo Nhat Huy
 10/10/2001

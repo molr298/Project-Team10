@@ -96,6 +96,7 @@ public:
 	void updateRating(int, string, string);
 	void deleteAProductRating(string, string);
 	void deleteAllOfSeller(string);
+	void miniDisplay(string, string);
 };
 
 
@@ -108,9 +109,12 @@ private:
 
 	vector<Comment> listComment;
 public:
+	Comment(string IDProduct, string IDSeller);
+	Comment(string IDProduct, string IDSeller, string newComment, string IDCustomer);
 	void loadListComment(string, string);
-	void saveListComment();
+	void saveListComment(string IDProduct, string IDSeller);
 
 	void createNewFileComment(string, string);
+	void addNewComment(string IDProduct, string IDSeller, string newComment, string IDCustomer);
 };
 #endif // !_PRODUCT_H
