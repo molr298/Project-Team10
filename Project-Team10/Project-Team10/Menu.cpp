@@ -83,6 +83,7 @@ void Menu::ShowMenuAdmin(AccountInfo& adminInfo, Account& adminAcc, ListAccount&
 		}
 		case 3:	//Notification
 		{
+			ShowMenuNotification(adminInfo);
 			break;
 		}
 		case 4:	//Log out 
@@ -137,13 +138,12 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		}
 		case 3:	//Shopping
 		{
+			ShowMenuShopping(customerInfo);
 			break;
 		}
 		case 4:	//Notification
 		{
-			UserNotif customerNotif;
-
-			customerNotif.checkNotif(customerInfo.getID(), "");
+			ShowMenuNotification(customerInfo);
 			break;
 		}
 		case 5: //View history \rate product? rate seller?
@@ -205,6 +205,7 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		}
 		case 3:	//Shopping
 		{
+			ShowMenuShopping(sellerInfo);
 			break;
 		}
 		case 4:	// edit product
@@ -216,13 +217,7 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		}
 		case 5:	//Notification
 		{
-			UserNotif sellerNotif;
-
-			sellerNotif.checkNotif("", sellerInfo.getID());
-			cout << "Accept?";
-			bool ans = true;
-			Seller notif;
-			notif.approveCart(ans, sellerInfo.getID());
+			ShowMenuNotification(sellerInfo);
 			break;
 		}
 		case 6: //History
@@ -363,13 +358,20 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo)
 	{
 	case 1:
 	{
-		//
-		
+		ShowTitle();
+		Customer cusShopping;
+		UserNotif usn;
+		bool flag = cusShopping.listSearchProduct();
+		cusShopping.buyStuff(usn, accInfo.getID(), flag);
 		break;
 	}
 	case 2:
 	{
-		//
+		ShowTitle();
+		Customer cusShopping;
+		UserNotif usn;
+		bool flag = cusShopping.listFilterProduct();
+		cusShopping.buyStuff(usn, accInfo.getID(), flag);
 		break;
 	}
 	case 0:
@@ -417,13 +419,32 @@ void Menu::ShowMenuBuyStuff(AccountInfo& accInfo, Product buy)	//use this when y
 void Menu::ShowMenuNotification(AccountInfo& accInfo)
 {
 	ShowTitle();
-	if (accInfo.getUsername().substr(0, 7) == "197.000") 	//admin
+	if (accInfo.getStatus() == 2 ) 	//admin
 	{
-		//code here
+		AdminNotif admin;
+		admin.checkNotif(accInfo.getID(), "");
+		if (accInfo.getID() == "Ad5") {
+			Admin sellerRegistation;
+			sellerRegistation.acceptSeller();
+		}
 	}
 	else 	//user
 	{
-		//code here
+		if (accInfo.getStatus() == 1) //seller
+		{
+			UserNotif sellerNotif;
+
+			sellerNotif.checkNotif("", accInfo.getID());
+			cout << "Accept?";
+			bool ans = true;
+			Seller notif;
+			notif.approveCart(ans, accInfo.getID());
+		}
+		else //customer
+		{
+			UserNotif customerNotif;
+			customerNotif.checkNotif(accInfo.getID(), "");
+		}
 	}
 }
 

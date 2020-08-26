@@ -1,26 +1,27 @@
 ﻿#include "Customer.h"
 
 
-void Customer::buyStuff(UserNotif usn, string customerID)
+void Customer::buyStuff(UserNotif usn, string customerID, bool flag)
 {
-	filterProduct.clear();
-	Product::loadListProduct();
-	UserNotif::loadListNotif();
-	string search;
+	//filterProduct.clear();
+	//Product::loadListProduct();
+	//UserNotif::loadListNotif();
+	//string search;
 	vector<Product> temp;
-	int n1 = usnv.size();
-	cin.ignore();
-	cout << "Enter ID or name to search: ";
-	getline(cin, search);
-	int flag = 0;
-	for (int i = 0; i < prdv.size(); i++)
-	{
-		if (prdv[i].getID() == search || prdv[i].getProductName() == search) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
-		{
-			flag = 1;
-			filterProduct.push_back(prdv[i]);
-		}
-	}
+	//int n1 = usnv.size();
+	//cin.ignore();
+	//cout << "Enter ID or name to search: ";
+	//getline(cin, search);
+	//bool flag = 0;
+	//for (int i = 0; i < prdv.size(); i++)
+	//{
+	//	if (prdv[i].getID() == search || prdv[i].getProductName() == search) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
+	//	{
+	//		flag = 1;
+	//		filterProduct.push_back(prdv[i]);
+	//	}
+	//}
+
 	if (flag == 0)
 	{
 		cout << "Items not found" << endl;

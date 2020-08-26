@@ -94,6 +94,10 @@ public:
 	void setCustomerID(string ID) { customerID = ID; }
 
 	void displayShoppingHistory(string userID);
+	void removeNotif(UserNotif);
+	bool operator ==(UserNotif);
+
+	void miniDisplayNotif(string, int);
 };
 
 #endif // !_NOTIFICATION_H

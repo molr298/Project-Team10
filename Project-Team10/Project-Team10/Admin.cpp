@@ -80,7 +80,7 @@ void Admin::sendReport(string senderID1)
 	AdminNotif::saveListNotif();
 }
 
-void Admin::acceptSeller(string admin)
+void Admin::acceptSeller()
 {
 	AdminNotif::loadListNotif();
 	AccountInfo::loadListUser();

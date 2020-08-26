@@ -18,7 +18,7 @@ public:
 	void removeUser(string);
 	void saveUser();
 	void sendReport(string senderID);
-	void acceptSeller(string admin);
+	void acceptSeller();
 };
 #endif // !_ADMIN_H
 

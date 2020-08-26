@@ -149,6 +149,62 @@ void UserNotif::displayShoppingHistory(string userID)
 		}
 	}
 }
+
+
+
+void UserNotif::removeNotif(UserNotif notifRemove)
+{
+	loadListNotif();
+	for (int i = 0; i < usnv.size(); i++) {
+		if (usnv[i] == notifRemove)
+			usnv.erase(usnv.begin() + i);
+	}
+
+}
+bool UserNotif::operator==(UserNotif compareNotif)
+{
+	if (this->productID == compareNotif.productID &&
+		this->customerID == compareNotif.customerID &&
+		this->sellerID == compareNotif.sellerID &&
+		this->productName == compareNotif.productName &&
+		this->price == compareNotif.price &&
+		this->quantity == compareNotif.quantity &&
+		this->totalPrice == compareNotif.totalPrice &&
+		this->typeProduct == compareNotif.typeProduct &&
+		this->status == compareNotif.status) 
+		return true;
+	return false;
+}
+
+void UserNotif::miniDisplayNotif(string IDUser, int status)
+{
+	int count = 0;
+	loadListNotif();
+	if (status == 0)
+		for (int i = 0; i < usnv.size(); i++) {
+			if (IDUser == usnv[i].getCustomerID()){
+				count++;
+				if (usnv[i].getStatus() == 0) 
+					cout << count << ". Your order #" << usnv[i].getProductID() << " - " << usnv[i].getProductName() << " is waiting to be qualified by the seller." << endl;
+				else if(usnv[i].getStatus() == 1)
+					cout << count << ". Your order #" << usnv[i].getProductID() << " - " << usnv[i].getProductName() << " has been transported to shipping service" << endl;
+				else {
+					cout << count << ". Your order #" << usnv[i].getProductID() << " - " << usnv[i].getProductName() << " was cancelled by seller" << endl;
+				}
+			}
+		}
+	else 
+		for (int i = 0; i < usnv.size(); i++) 
+			if (IDUser == usnv[i].getSellerID() && usnv[i].getStatus() == 0) {
+				count++;
+				cout << count << ". You have an order from #" << usnv[i].getCustomerID() << endl;
+			}
+	if (count == 0) {
+		cout << "No notification available" << endl;
+		return;
+	}
+}
+
 void UserNotif::checkNotif(string customerID1, string sellerID1)
 {
 	int flag = 0;

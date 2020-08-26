@@ -192,7 +192,8 @@ void ListAccount::loadListAccount(string filename)
 	fin >> nAccount;
 	for (int i = 0; i < nAccount; i++) {
 		fin.ignore();
-		listAccount.push_back(Account::loadAnAccount(fin));
+		Account accountLoad;
+		listAccount.push_back(accountLoad.loadAnAccount(fin));
 		fin.ignore();
 	}
 	fin.close();

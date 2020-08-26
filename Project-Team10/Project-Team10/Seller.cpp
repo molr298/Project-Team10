@@ -194,3 +194,4 @@ void Seller::removeProduct(const string& id) {
 void Seller::edit(Product obj) {
 	this->Customer::Product::editProduct();
 }
+

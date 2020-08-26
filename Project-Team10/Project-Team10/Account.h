@@ -30,7 +30,7 @@ public:
 	void changeUsername(string);
 };
 
-class ListAccount: public Account {
+class ListAccount: public Account{
 private:
 	vector<Account> listAccount;
 public:

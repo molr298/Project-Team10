@@ -26,7 +26,7 @@ public:
 	int getPer() { return percent; }
 	string getType() { return type; }
 	string getDescrip() { return description; }
-	void buyStuff(UserNotif usn, string ID);
+	void buyStuff(UserNotif usn, string ID, bool flag);
 	void viewHistory();
 	void confirmCart(string customerID);
 	void sendReport(string senderID1);

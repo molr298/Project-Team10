@@ -12,6 +12,8 @@
 #define PRODUCT_PATH "Product/"
 #define CART_PATH "Cart/"
 #define NOTI_PATH "Notification/"
+#define RATE_PATH "Product/Rating.txt"
+#define COMMENT_PATH "Product/Comment.txt"
 
 using namespace std;
 

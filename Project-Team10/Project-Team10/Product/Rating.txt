@@ -1,0 +1,5 @@
+//number of product
+//IDproduct
+//IDseller
+//rate
+//rating

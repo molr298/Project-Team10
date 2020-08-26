@@ -19,11 +19,11 @@ protected:
 	vector<Product> prdv;
 	vector<Product> ordv;
 	vector<Product> filterProduct;
-	vector<Product> foodList;
-	vector<Product> fashionList;
-	vector<Product> technologicalList;
-	vector<Product> housewareList;
-	vector<Product> otherList;
+	//vector<Product> foodList;
+	//vector<Product> fashionList;
+	//vector<Product> technologicalList;
+	//vector<Product> housewareList;
+	//vector<Product> otherList;
 public:
 	Product() { ID = IDseller = productName = ""; price = 0; stock = 0; };
 	friend istream& operator>>(istream&, Product&);
@@ -41,7 +41,7 @@ public:
 	void setPrice(double n) { price = n; }
 	//void removeProduct(vector<Product>& arr);
 	//void filterProduct();
-	void filterListProduct();	//1. String: ten sp, ma
+//	void filterListProduct();	//1. String: ten sp, ma
 
 	string getID() { return ID; }
 	string getIDseller() { return IDseller; }
@@ -61,17 +61,56 @@ public:
 	void addProduct(Product);
 	void removeProduct(string);
 	void editProduct();
-	Product findProduct(const string&);
+//	Product findProduct(const string&);
 	bool containProduct(const string);
 	void setupCart(int quantity, Product p);
 	void saveNotifUser(string IDseller);
-	void displayFoodList();
-	void displayFashionList();
-	void displayTechnologicalList();
-	void displayHousewareList();
-	void displayOtherList();
+	//void displayFoodList();
+	//void displayFashionList();
+	//void displayTechnologicalList();
+	//void displayHousewareList();
+	//void displayOtherList();
 
+	bool listSearchProduct();
+	bool listFilterProduct();
 	void viewStoreOfSeller(string IDseller);
 };
 
+class Rate {
+private:
+	string IDSeller;
+	string IDProduct;
+	double ratePoint;
+	int Rating;
+
+	vector<Rate> listRating;
+public:
+	Rate();
+	Rate(string, string);
+	void loadListRating();
+	void saveListRating();
+
+	bool checkExistRating(string, string);
+	void addNewRating(string, string);
+	void displayRatingOfProduct(string, string, string);
+	void updateRating(int, string, string);
+	void deleteAProductRating(string, string);
+	void deleteAllOfSeller(string);
+};
+
+
+class Comment {
+private:
+	string IDSeller;
+	string IDProduct;
+	string IDCustomer;
+	string comment;
+
+	vector<Comment> listComment;
+public:
+	void loadListComment(string, string);
+	void saveListComment();
+
+	void createNewFileComment(string, string);
+};
 #endif // !_PRODUCT_H
