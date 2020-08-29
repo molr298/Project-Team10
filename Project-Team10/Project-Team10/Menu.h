@@ -10,7 +10,7 @@
 #include "Notification.h"
 #include "Product.h"
 
-class Menu {
+class Menu:public Customer {
 public:
 	void ShowTitle();
 

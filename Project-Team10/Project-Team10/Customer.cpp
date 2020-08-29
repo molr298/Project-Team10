@@ -1,42 +1,25 @@
 ﻿#include "Customer.h"
 
+int ship = 0;
 
 void Customer::buyStuff(UserNotif usn, string customerID, bool flag)
 {
-	//filterProduct.clear();
-	//Product::loadListProduct();
-	//UserNotif::loadListNotif();
-	//string search;
 	vector<Product> temp;
-	//int n1 = usnv.size();
-	//cin.ignore();
-	//cout << "Enter ID or name to search: ";
-	//getline(cin, search);
-	//bool flag = 0;
-	//for (int i = 0; i < prdv.size(); i++)
-	//{
-	//	if (prdv[i].getID() == search || prdv[i].getProductName() == search) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
-	//	{
-	//		flag = 1;
-	//		filterProduct.push_back(prdv[i]);
-	//	}
-	//}
-
 	if (flag == 0)
 	{
 		cout << "Items not found" << endl;
 		return;
 	}
 	int choice;
-	cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
 	while (true)
 	{
+		cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(20) << left << "Type\t" << setw(20) << left << "Rating " << endl;
 		for (int i = 0; i < filterProduct.size(); i++)
 		{
 			cout << endl;
 			cout << i + 1 << "\t";
 			filterProduct[i].display();
-			cout << "_________________________________________________________________________________________________" << endl;
+			cout << "__________________________________________________________________________________________________________________________________" << endl;
 		}
 		cout << "Make your choice: ";
 		cin >> choice;
@@ -54,6 +37,7 @@ void Customer::buyStuff(UserNotif usn, string customerID, bool flag)
 		temp = filterProduct;
 		temp[choice - 1].setQuantity(n);
 		ordv.push_back(temp[choice - 1]);
+		Customer::viewCart(ship);
 		system("cls");
 	}
 }
@@ -98,19 +82,32 @@ void Customer::confirmCart(string customerID)
 	ordv.clear();
 }
 
-void Customer::viewCart()
+void Customer::viewCart(int ship1)
 {
 	if (ordv.size() == 0)
 	{
 		cout << "No items are currently on the list" << endl;
 		return;
 	}
+	double total = 0;
 	cout << "Review your shopping list" << endl;
+	cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(20) << left << "Type\t" << setw(20) << left << "Rating " << endl;
 	for (int i = 0; i < ordv.size(); i++)
 	{
-		cout << "Product " << i + 1 << endl;
+		total += ordv[i].getPrice() * ordv[i].getStock();
+		cout << i + 1 << "       ";
 		ordv[i].display();
-		cout << "____________________________________" << endl;
+		cout << "__________________________________________________________________________________________________________________________________" << endl;
+	}
+	if (ship == 0)
+	{
+		cout << "Ship Fee: 15000 VND" << endl;
+		cout << "Total: " << total + 15000 << " VND" << endl;
+	}
+	else
+	{
+		cout << "Free Ship" << endl;
+		cout << "Total: " << total << " VND" << endl;
 	}
 }
 
@@ -175,10 +172,11 @@ void Customer::requestToBeSeller(string senderID)
 void Customer::setOrder(string customerID)
 {
 	int choice;
+	
 	while (true)
 	{
 		system("cls");
-		Customer::viewCart();
+		Customer::viewCart(ship);
 		cout << "1. Remove order" << endl;
 		cout << "2. Change order's quantity" << endl;
 		cout << "3. Apply voucher" << endl;
@@ -244,7 +242,6 @@ void Customer::loadListVoucher()
 		return;
 	}
 	int n = countLines1(fin);
-	cout << n << endl;
 	fin.close();
 	fin.open("Voucher/Sale_Code.csv");
 	string line;
@@ -274,18 +271,20 @@ void Customer::setVoucher()
 	cin.ignore();
 	cout << "Enter your voucher here: ";
 	getline(cin, voucher);
-
+	if (voucher == "SHIPFREE")
+	{
+		cout << "You have applied free ship code" << endl;
+		ship = 1;
+		return;
+	}
 	for (int i = 0; i < vouv.size(); i++)
 	{
 		if (vouv[i].getCode() == voucher)
 		{
 			if (vouv[i].getType() == "ALL")
 			{
-				cout << vouv[i].getCode() << endl;
 				for (int j = 0; j < ordv.size(); j++)
 				{
-					cout << ordv[j].getPrice() << endl;
-
 					ordv[j].setPrice(ordv[j].getPrice() - (ordv[j].getPrice() * vouv[i].getPer() / 100));
 					cout << ordv[j].getPrice() << endl;
 				}

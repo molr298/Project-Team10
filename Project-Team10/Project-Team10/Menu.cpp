@@ -369,7 +369,6 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo, Customer& cusShopping, UserNot
 
 			bool flag = cusShopping.listSearchProduct();
 			cusShopping.buyStuff(usn, accInfo.getID(), flag);
-			cusShopping.viewCart();
 			system("pause");
 
 			break;
@@ -377,21 +376,19 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo, Customer& cusShopping, UserNot
 		case 2:
 		{
 			ShowTitle();
-
-
 			bool flag = cusShopping.listFilterProduct();
 			cusShopping.buyStuff(usn, accInfo.getID(), flag);
-			cusShopping.viewCart();
 			system("pause");
 			break;
 		}
 		case 3:
 		{
 			ShowTitle();
-			cusShopping.viewCart();
+			cusShopping.viewCart(0);
 			cout << "1. Modify cart" << endl;
 			cout << "2. Confirm cart" << endl;
 			cout << "0. Return" << endl;
+			cout << "Option: ";
 			cin >> choice;
 			switch (choice)
 			{
@@ -407,6 +404,7 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo, Customer& cusShopping, UserNot
 			}
 			case 0:
 			{
+				//cusShopping.setShip(1);
 				break;
 			}
 			default:

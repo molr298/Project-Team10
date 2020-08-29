@@ -27,7 +27,7 @@ public:
 	string getType() { return type; }
 	string getDescrip() { return description; }
 	void buyStuff(UserNotif usn, string ID, bool flag);
-	void viewCart();
+	void viewCart(int ship1);
 	void confirmCart(string customerID);
 	void sendReport(string senderID1);
 	void setOrder(string customerID);
@@ -36,7 +36,6 @@ public:
 	void loadListVoucher();
 	void print();
 	void requestToBeSeller(string senderID);
-
 	void HistoryShopping(string customerID);
 };
 

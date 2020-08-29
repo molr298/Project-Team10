@@ -154,7 +154,7 @@ void Product::display()
 		cout << "Product does not exist" << endl;
 		return;
 	}
-	cout << setw(4) << left << ID << "\t" << setw(12) << left << IDseller << "\t" << setw(20) << left << productName << "\t" << setw(10) << left << price << "\t" << setw(10) << left << stock << "\t" << setw(10) << left;
+	cout << setw(4) << left << ID << "\t" << setw(12) << left << IDseller << "\t" << setw(20) << left << productName << "\t" << setw(10) << left << price << "\t" << setw(10) << left << stock << "\t" << setw(20) << left;
 	switch (type)
 	{
 	case 1:{
@@ -517,6 +517,7 @@ bool Product::listFilterProduct()
 void Product::viewStoreOfSeller(string IDseller)
 {
 	loadListProduct();
+	cout << setw(4) << left << "ID" << "\t" << setw(15) << left << "ID's Seller" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(15) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(20) << left << "Type" << "\t" << setw(20) << left << "Rate" << endl;
 	for (int i = 0; i < prdv.size(); i++) {
 		if (prdv[i].IDseller == IDseller)
 			prdv[i].display();
@@ -772,7 +773,7 @@ void Rate::miniDisplay(string IDSeller, string IDProduct)
 {
 	for (int i = 0; i < listRating.size(); i++)
 		if (listRating[i].IDProduct == IDProduct && listRating[i].IDSeller == IDSeller)
-			cout <<setw(6) << left << listRating[i].ratePoint << setw(1) << right << "*/5*   " << Rating << " Rating";
+			cout << left << listRating[i].ratePoint << setw(3) << left << "/5*   " << Rating << " Ratings";
 	return;
 }
 
