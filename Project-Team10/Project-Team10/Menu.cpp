@@ -233,6 +233,7 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		{
 			cin.ignore();
 			return;
+
 		}
 		default:
 			break;
@@ -579,18 +580,20 @@ void Menu::ShowMenuHistory(AccountInfo& accInfo)//View shopping history, selling
 void Menu::Login(Account accountLogin, ListAccount listAcc, AccountInfo accInfo, string username, string password)
 {
 	int loginResult = 0;
+	cin.ignore();
 	do
 	{
 		ShowTitle();
 		cout << "                      LOGIN                     " << endl << endl;
 		cout << "\t Username >> ";
-		cin.ignore();
 		getline(cin, username);
 		if (username == "")
 			break;
 		cout << "\t Password >> ";
 		password = accountLogin.inputPassword();
+
 		loginResult = listAcc.login(username, password);	//admin = 2; user = 1;
+//		Sleep(50);
 		if (loginResult == 0)
 		{
 			cout << "Wrong username or password\nDo you want to try again?(Y/N) ";
