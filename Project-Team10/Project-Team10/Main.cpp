@@ -7,67 +7,7 @@
 #include "Seller.h"
 int main() {
 
-
-	//Admin ad1;
-	//ad1.sendReport("Ad1");
-	//ad1.acceptSeller("Ad4");
-	/*Admin ad1;
-	ad1.loadListAdmin();
-	ad1.displayListAdmin();
-	ad1.removeUser();*/
-
-	/*AdminNotif ad;
-	ad.loadListNotif();
-	cout << "Ad1" << endl;
-	ad.checkNotif("Ad1","");
-	cout << "User with ID: 19127001" << endl;
-	ad.checkNotif("", "19127001");*/
-
-
-	/*Product a;
-	a.loadListProduct();
-	a.displayListProduct();
-	a.removeProduct();
-	a.editProduct();
-	a.displayListProduct();*/
-	//UserNotif usn;
-	//Customer csm;
-
-	////usn.loadListNotif();
-	//////////csm.addProduct();
-	////////csm.removeProduct(); //Add choice to confirm
-	////usn.printList();
-	////csm.buyStuff(usn, "19127009");
-	//////csm.buyStuff(usn, "19127009");
-	////csm.setOrder("19127009");
-	////csm.confirmCart("19127009");
-
-
-	//Seller sl;
-	////sl.sendReport("19127002");
-	//bool isApproveCart = true; //false
-	//sl.approveCart(isApproveCart,"19127002");
-
-//	sl.saleStatistic("19127002");
-
-	//Seller sl;
-	//sl.sendReport("19127002");
-	//bool isApproveCart = true; //false
-	//sl.approveCart(isApproveCart,"19127006");
-
-	//sl.saleStatistic("19127002");
-
-	/*UserNotif usn;
-	usn.loadListNotif();
-	usn.checkNotif("19127003", "");
-	usn.checkNotif("", "19127002");
-	usn.checkNotif("19127001", "");
-	usn.checkNotif("", "19127004");*/
-
-	//Seller L;
-	//Product obj;
-	//obj.inputProduct();
-	//L.addProduct(obj);
+	srand(time(NULL));
 
 	Account accountLogin;
 	Account AccountSignUp;

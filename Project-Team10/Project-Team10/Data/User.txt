@@ -1,4 +1,4 @@
-6
+7
 19127001
 nguyenvanA
 Nguyen Van A
@@ -44,6 +44,14 @@ vnhathuy
 Vo Nhat Huy
 10/10/2001
 123456789
+0
+0
+
+19127007
+ntluan
+Nguyen Thanh Luan
+27/7/2001
+969738147
 0
 0
 

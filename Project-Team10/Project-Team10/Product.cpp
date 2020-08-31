@@ -418,6 +418,60 @@ void Product::editProduct()
 	system("pause");
 }
 
+string Product::generateRandomIDProduct()
+{
+	vector <string> listID;
+	ifstream fin("Product/productID.txt");
+	if (!fin.is_open()) {
+		cout << "Can't generate ID of Product..." << endl;
+		return "";
+	}
+	int number_of_product_ID;
+	fin >> number_of_product_ID;
+	fin.ignore();
+	string ID;
+	for (int i = 0; i < number_of_product_ID; i++) {
+		getline(fin, ID);
+		listID.push_back(ID);
+	}
+	fin.close();
+
+	ID = to_string(rand() % 900 + 100);
+	char last_char;
+	last_char = rand() % 25 + 65;
+	ID += last_char;
+	listID.push_back(ID);
+	ofstream fout("productID.txt");
+	if (!fout.is_open()) {
+		cout << "Can't save ID of product..." << endl;
+		return "";
+	}
+	fout << listID.size() << endl;
+	for (int i = 0; i < listID.size(); i++)
+		fout << listID[i] << endl;
+	fout.close();
+	return ID;
+}
+
+Product Product::inputNewProduct(string IDSeller)
+{
+	Product newProduct;
+	newProduct.ID = generateRandomIDProduct();
+
+	cin.ignore();
+	cout << "\tName: ";			getline(cin, newProduct.productName);
+	cout << "\tPrice (VND): ";	cin >> newProduct.price;
+	cout << "\tStock: ";		cin >> newProduct.stock;
+	cout << "\tType (1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other): ";
+	cin >> newProduct.type;
+	newProduct.IDseller = IDSeller;
+	Rate newRate;
+	Comment newCommentFile(newProduct.ID, IDSeller);
+	newRate.addNewRating(newProduct.ID, IDSeller);
+	newCommentFile.createNewFileComment(newProduct.ID, IDSeller);
+	return newProduct;
+}
+
 bool Product::containProduct(const string search) {
 	for (size_t i = 0; i < prdv.size(); i++) {
 		if (prdv[i].getID() == search || prdv[i].getProductName() == search)
@@ -477,10 +531,19 @@ bool Product::listSearchProduct()
 	cin.ignore();
 	cout << "Enter ID or name to search: ";
 	getline(cin, search);
+	for (int i = 0; i < search.size(); i++) {
+		search[i] = toupper(search[i]);
+	}
 	bool flag = 0;
 	for (int i = 0; i < prdv.size(); i++)
 	{
-		if (prdv[i].getID() == search || prdv[i].getProductName() == search) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
+		int found = -1;
+		string tmp = prdv[i].getProductName();
+		for (int i = 0; i < tmp.size(); i++)
+			tmp[i] = toupper(tmp[i]);
+
+		found = tmp.find(search);
+		if (prdv[i].getID() == search || prdv[i].getProductName() == search || found !=-1) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
 		{
 			flag = 1;
 			filterProduct.push_back(prdv[i]);
@@ -740,10 +803,11 @@ void Rate::displayRatingOfProduct(string IDProduct, string productName, string I
 
 void Rate::updateRating(int addPoint, string IDProduct, string IDSeller)
 {
+	loadListRating();
 	for (int i = 0; i < listRating.size(); i++)
 		if (listRating[i].IDProduct == IDProduct && listRating[i].IDSeller == IDSeller) {
 			listRating[i].Rating++;
-			listRating[i].ratePoint = (listRating[i].ratePoint + 1.0 * addPoint) / Rating;
+			listRating[i].ratePoint = (listRating[i].ratePoint + 1.0 * addPoint) / listRating[i].Rating;
 			break;
 		}
 	saveListRating();
@@ -773,7 +837,7 @@ void Rate::miniDisplay(string IDSeller, string IDProduct)
 {
 	for (int i = 0; i < listRating.size(); i++)
 		if (listRating[i].IDProduct == IDProduct && listRating[i].IDSeller == IDSeller)
-			cout << left << listRating[i].ratePoint << setw(3) << left << "/5*   " << Rating << " Ratings";
+			cout << left << listRating[i].ratePoint << setw(3) << left << "/5*   " << listRating[i].Rating << " Ratings";
 	return;
 }
 
@@ -845,4 +909,15 @@ void Comment::addNewComment(string IDProduct, string IDSeller, string newComment
 	Comment addNew(IDProduct, IDSeller, newComment, IDCustomer);
 	listComment.push_back(addNew);
 	saveListComment(IDProduct, IDSeller);
+}
+
+void Comment::displayComment(string IDProduct, string IDSeller)
+{
+	loadListComment(IDProduct, IDSeller);
+	if (listComment.size() > 1)
+		cout << listComment.size() << " Comments" << endl;
+	else
+		cout << listComment.size() << " Comment" << endl;
+	for (int i = 0; i < listComment.size(); i++)
+		cout << "#" << listComment[i].IDCustomer << ": " << listComment[i].comment << endl;
 }

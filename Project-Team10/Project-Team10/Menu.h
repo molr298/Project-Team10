@@ -25,10 +25,10 @@ public:
 	void ShowMenuUserFindUser(AccountInfo);
 
 	void ShowMenuShopping(AccountInfo&, Customer&, UserNotif&);	//Thêm bất cứ biến gì vào parameters nếu cần
-	void ShowMenuBuyStuff(AccountInfo&, Product);
+	void ShowMenuStore(AccountInfo&);
 	void ShowMenuNotification(AccountInfo&);
 	void ShowMenuHistory(AccountInfo&);
-
+	void ShoppingHistoryDetail(AccountInfo&, string, string);
 
 	void Login(Account accountLogin, ListAccount listAcc, AccountInfo accInfo, string username, string password);
 	void SignUp(Account accountLogin, Account AccountSignUp, ListAccount listAcc, AccountInfo accInfo, string username, string password);

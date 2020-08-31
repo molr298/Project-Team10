@@ -19,11 +19,7 @@ protected:
 	vector<Product> prdv;
 	vector<Product> ordv;
 	vector<Product> filterProduct;
-	//vector<Product> foodList;
-	//vector<Product> fashionList;
-	//vector<Product> technologicalList;
-	//vector<Product> housewareList;
-	//vector<Product> otherList;
+
 public:
 	Product() { ID = IDseller = productName = ""; price = 0; stock = 0; };
 	friend istream& operator>>(istream&, Product&);
@@ -39,9 +35,7 @@ public:
 	void DisplayArrProduct(vector<Product> arr);
 	void addProduct(vector<Product>& arr);
 	void setPrice(double n) { price = n; }
-	//void removeProduct(vector<Product>& arr);
-	//void filterProduct();
-//	void filterListProduct();	//1. String: ten sp, ma
+	
 
 	string getID() { return ID; }
 	string getIDseller() { return IDseller; }
@@ -61,7 +55,9 @@ public:
 	void addProduct(Product);
 	void removeProduct(string);
 	void editProduct();
-//	Product findProduct(const string&);
+
+	string generateRandomIDProduct();
+	Product inputNewProduct(string);
 	bool containProduct(const string);
 	void setupCart(int quantity, Product p);
 	void saveNotifUser(string IDseller);
@@ -90,13 +86,13 @@ public:
 	void loadListRating();
 	void saveListRating();
 
-	bool checkExistRating(string, string);
-	void addNewRating(string, string);
-	void displayRatingOfProduct(string, string, string);
-	void updateRating(int, string, string);
-	void deleteAProductRating(string, string);
-	void deleteAllOfSeller(string);
-	void miniDisplay(string, string);
+	bool checkExistRating(string IDProduct, string IDSeller);
+	void addNewRating(string IDProduct, string IDSeller);
+	void displayRatingOfProduct(string IDProduct, string productName, string IDSeller);
+	void updateRating(int addPoint, string IDProduct, string IDSeller);
+	void deleteAProductRating(string IDSeller, string IDProduct);
+	void deleteAllOfSeller(string IDSeller);
+	void miniDisplay(string IDSeller, string IDProduct);
 };
 
 
@@ -116,5 +112,6 @@ public:
 
 	void createNewFileComment(string, string);
 	void addNewComment(string IDProduct, string IDSeller, string newComment, string IDCustomer);
+	void displayComment(string IDProduct, string IDSeller);
 };
 #endif // !_PRODUCT_H

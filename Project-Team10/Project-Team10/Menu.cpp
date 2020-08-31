@@ -1,4 +1,4 @@
-#include "Menu.h"
+﻿#include "Menu.h"
 
 void Menu::ShowTitle()
 {
@@ -29,7 +29,7 @@ void Menu::ShowMenuAdmin(AccountInfo& adminInfo, Account& adminAcc, ListAccount&
 	string command[] =
 	{
 		"View profile",
-		"Search",	//ban
+		"Search user",	//ban
 		"Notification", //view report, accept 
 		"Log out"
 	};
@@ -103,7 +103,7 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 	string command[] =
 	{
 		"View profile", //Can edit info, change password
-		"Search",	//search another user
+		"Search user",	//search another user
 		"Shopping",	//search product, filter, cart
 		"Notification",
 		"History",	//View history, rate product? rate seller?
@@ -171,7 +171,7 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 	string command[] =
 	{
 		"View profile", //Can edit info
-		"Search",	//search another user, product
+		"Search user",	//search another user, product
 		"Shopping",	//search product, filter, cart
 		"Store",	//store of seller
 		"Notification",
@@ -212,11 +212,9 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 			ShowMenuShopping(sellerInfo, cusShopping, usn);
 			break;
 		}
-		case 4:	// edit product
+		case 4:	// edit product, add product
 		{
-			Product storeOfSeller;
-			storeOfSeller.viewStoreOfSeller(sellerInfo.getID());
-			storeOfSeller.editProduct();
+			ShowMenuStore(sellerInfo);
 			break;
 		}
 		case 5:	//Notification
@@ -423,37 +421,43 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo, Customer& cusShopping, UserNot
 	}
 }
 
-void Menu::ShowMenuBuyStuff(AccountInfo& accInfo, Product buy)	//use this when you choose a product
+void Menu::ShowMenuStore(AccountInfo& sellerInfo)
 {
-	ShowTitle();
-	cout << "1. Buy now" << endl;
-	cout << "2. " << endl;
-	cout << "0. Return" << endl;
-	int choice = 0;
-	cout << "_____________________________________" << endl;
-	cout << "Enter your choice: ";
-	cin >> choice;
-	switch (choice)
+	while (true)
 	{
-	case 1:
-	{
-		//code here
-		break;
-	}
-	case 2:
-	{
-		//code here
-		break;
-	}
-	case 0:
-	{
-	//	cin.ignore();
-		return;
-	}
-	default:
-		break;
+		ShowTitle();
+		cout << "1. Add new product" << endl;
+		cout << "2. Edit a product in your store" << endl;
+		cout << "0. Return" << endl;
+		cout << "Enter your choice: ";
+		int choice;
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+		{
+			Product AddProduct;
+			AddProduct.addProduct(AddProduct.inputNewProduct(sellerInfo.getID()));
+			break;
+		}
+		case 2:
+		{
+			Product storeOfSeller;
+			storeOfSeller.viewStoreOfSeller(sellerInfo.getID());
+			storeOfSeller.editProduct();
+			break;
+		}
+		case 0:
+		{
+			return;
+		}
+		default:
+			break;
+		}
 	}
 }
+
+
 
 void Menu::ShowMenuNotification(AccountInfo& accInfo)
 {
@@ -523,55 +527,58 @@ void Menu::ShowMenuHistory(AccountInfo& accInfo)//View shopping history, selling
 		cout << "_____________________________________" << endl;
 		cout << "Enter your choice: ";
 		cin >> choice;
-
-		switch (accInfo.getStatus())
-		{
-		case 1: //seller
-		{
-			switch (choice)
-			{
-			case 1:
-			{
-				UserNotif shoppingHistory;
-				shoppingHistory.displayShoppingHistory(accInfo.getID());
-				break;
-			}
-			case 2:
-			{
-				Seller viewSeller;
-				viewSeller.saleStatistic(accInfo.getID());
-				break;
-			}
-			case 0:
-			{
-				return;
-			}
-			default:
-				break;
-			}
+		if (choice == 1) {
+			string ProductID, SellerID;
+			ShoppingHistoryDetail(accInfo, ProductID, SellerID);
 		}
-		case 0: //customer
-		{
-			switch (choice)
-			{
-			case 1:
-			{
-				UserNotif shoppingHistory;
-				shoppingHistory.displayShoppingHistory(accInfo.getID());
-				break;
-			}
-			case 0:
-			{
-				return;
-			}
-			default:
-				break;
-			}
+		else if (accInfo.getStatus() == 1 && choice == 2) {
+			Seller viewSeller;
+			viewSeller.saleStatistic(accInfo.getID());
 		}
-		default:
-			break;
-		}
+		else return;
 		system("pause");
+	}
+}
+
+void Menu::ShoppingHistoryDetail(AccountInfo& accInfo, string ProductID, string SellerID) {
+	while (true)
+	{
+		ShowTitle();
+		UserNotif shoppingHistory;
+		shoppingHistory.displayShoppingHistory(accInfo.getID());
+		cout << "0. Return" << endl;
+		cout << "Enter your choice: ";
+		int choice;
+		cin >> choice;
+		if (choice != 0)
+			while (true)
+			{
+
+				ShowTitle();
+				shoppingHistory.displayHistoryDetail(choice, ProductID, SellerID);
+
+				cout << "1. Add your feedback" << endl;
+				cout << "0. Return" << endl;
+				cout << "Enter your choice: ";
+				cin >> choice;
+				if (choice == 1) {
+					Rate newRate;
+					cout << "\t1.★\t2.★★\t3.★★★\t4.★★★★\t5.★★★★★\n";
+					cout << "Rate:";
+					int ratePoint;
+					cin >> ratePoint;
+					newRate.updateRating(ratePoint, ProductID, SellerID);
+					cout << "Comment" << endl;
+					cout << "  >> ";
+					string comment;
+					Comment newComment(ProductID, SellerID);
+					cin.ignore();
+					getline(cin, comment);
+					newComment.addNewComment(ProductID, SellerID, comment, accInfo.getID());
+				}
+				else break;
+			}
+		else return;
 	}
 }
 

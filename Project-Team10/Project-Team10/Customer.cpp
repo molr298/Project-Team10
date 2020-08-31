@@ -30,7 +30,14 @@ void Customer::buyStuff(UserNotif usn, string customerID, bool flag)
 		int n;
 		cout << "You choose this product" << endl;
 		system("cls");
+		if (filterProduct[choice - 1].getIDseller() == customerID) {
+			cout << "You are selling this product" << endl;
+			return;
+		}
 		filterProduct[choice - 1].display();
+		Comment commentOfProduct(filterProduct[choice - 1].getID(), filterProduct[choice - 1].getIDseller());
+		commentOfProduct.displayComment(filterProduct[choice - 1].getID(), filterProduct[choice - 1].getIDseller());
+		cout << "___________________________________________________________________" << endl;
 
 		cout << "How many do you buy ?: ";
 		cin >> n;

@@ -54,6 +54,8 @@ private:
 	double totalPrice;
 	int typeProduct;
 	int status;
+
+	vector<UserNotif> history;
 protected:
 	vector<UserNotif> usnv;
 public:
@@ -94,6 +96,7 @@ public:
 	void setCustomerID(string ID) { customerID = ID; }
 
 	void displayShoppingHistory(string userID);
+	void displayHistoryDetail(int choice, string& IDProduct, string& IDSeller);
 	void removeNotif(UserNotif);
 	bool operator ==(UserNotif);
 

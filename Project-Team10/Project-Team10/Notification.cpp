@@ -142,13 +142,34 @@ void UserNotif::displayShoppingHistory(string userID)
 {
 	int count = 0;
 	loadListNotif();
+	history.clear();
 	for (int i = 0; i < usnv.size(); i++) {
 		if (userID == usnv[i].getCustomerID() && usnv[i].getStatus() == 1) {
 			count++;
-			cout << count << "Your order: " << usnv[i].getProductName() << " - " << usnv[i].getProductID() << endl;
+			cout << count << ". Your order: " << usnv[i].getProductName() << " - " << usnv[i].getProductID() << endl;
+			history.push_back(usnv[i]);
 		}
 	}
 }
+
+void UserNotif::displayHistoryDetail(int choice, string& IDProduct, string& IDSeller)
+{
+	cout << "Product ID: " << history[choice - 1].productID << endl;
+	cout << "Name : " << history[choice - 1].productName << endl;
+	cout << "Type: ";	//1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other
+	if (history[choice - 1].typeProduct == 1)	cout << "Food" << endl;
+	else 	if (history[choice - 1].typeProduct == 2)	cout << "Fashion" << endl;
+	else 	if (history[choice - 1].typeProduct == 3)	cout << "Technological" << endl;
+	else	if (history[choice - 1].typeProduct == 4)	cout << "Housware" << endl;
+	else cout << "Other" << endl;
+	cout << "Seller ID: " << history[choice - 1].sellerID << endl;
+	cout << "Unit price: " << history[choice - 1].price << endl;
+	cout << "Quantity: " << history[choice - 1].quantity << endl;
+	cout << "Total: " << history[choice - 1].totalPrice << endl;
+	IDProduct = history[choice - 1].productID;
+	IDSeller = history[choice - 1].sellerID;
+}
+
 
 
 
@@ -223,15 +244,7 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 			cout << "Total: " << usnv[i].getTotalPrice() << endl;
 			flag = 1;
 		}
-		if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 1)
-		{
-			cout << "Product ID: " << usnv[i].getProductID() << endl;
-			cout << "Product Name: " << usnv[i].getProductName() << endl;
-			cout << "Quantity: " << usnv[i].getQuantity() << endl;
-			cout << "Price: " << usnv[i].getPrice() << endl;
-			cout << "Total: " << usnv[i].getTotalPrice() << endl;
-			flag = 1;
-		}
+
 		else if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 1)
 		{ 
 			cout << "Your order has been transported to shipping service" << endl;
@@ -243,6 +256,9 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 			cout << "Total: " << usnv[i].getTotalPrice() << endl;
 			flag = 1;
 		}
+		//else if (sellerID1 == usnv[i].getSellerID() && usnv[i].getStatus() == 2) {
+		//	cout << "Customer #" << usnv[i].getCustomerID() << " has received "
+		//}
 		if (sellerID1 == usnv[i].getSellerID() && usnv[i].getStatus() == 0)
 		{
 			cout << "Customer with ID: " << usnv[i].getCustomerID() << " have ordered the following product:" << endl;
