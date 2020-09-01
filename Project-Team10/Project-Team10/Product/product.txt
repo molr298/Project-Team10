@@ -1,21 +1,24 @@
-7
+20
 101T
 19127002
-Banh Trung Thu
+Moon Cake
+Made in Vietnam
 10
 906
 1
 
 102T
 19127004
-keo bac ha
+Mint Candy
+Made in USA
 12
 100
 1
 
 103T
 19127002
-tai nghe khong day
+Wireless earphone
+Made in China
 40
 800
 3
@@ -23,28 +26,134 @@ tai nghe khong day
 104T
 19127002
 Gucci
+Made in Italy
 1000
 400
 2
 
 105T
 19127001
-Gucci
+Channel perfume
+Made in Italy
 100
 800
 2
 
 595A
 19127004
-vo 96 trang
-5000
+Note Book
+Make in Japan
+50
 500
 5
 
 395H
 19127001
-bAnh tIeU
+Hershey Chocolate
 5000
 100
 1
 
+108T
+19127002
+Cracker
+Made in Indonesia
+8
+1000
+1
+
+107H
+19127004
+Milk Tea
+Made in Taiwan
+10
+900
+1
+
+109T
+19127002
+11 Pro Max phone case
+Made in China
+15
+800
+3
+
+533T
+19127002
+Zara bag
+Made in China
+30
+400
+2
+
+777T
+19127001
+Viet Tien Shirt
+Made in VietNam
+20
+900
+2
+
+788H
+19127004
+Thien Long ballpoint pen
+Make in VietNam
+2
+500
+5
+
+911H
+19127002
+Sun Flower seed
+Made in Cambodia
+12
+1000
+1
+
+307H
+19127004
+Matcha cookie
+Made in ThaiLand
+6
+700
+1
+
+233T
+19127002
+Xiaomi Power Bank
+Made in China
+40
+2000
+3
+
+912T
+19127002
+Pink skirt
+Made in China
+23
+900
+2
+
+789T
+19127001
+Fried Pan
+Made in Korea
+70
+100
+4
+
+412H
+19127004
+The Faceshop mask
+Make in Korea
+18
+1000
+5
+
+991H
+19127002
+Minh Long tea cup set
+Made in Vietnam
+120
+300
+4
