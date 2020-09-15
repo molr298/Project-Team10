@@ -1,5 +1,6 @@
 ﻿#include "Menu.h"
-
+#include <io.h>
+#include <fcntl.h>
 void Menu::ShowTitle()
 {
 	system("cls");
@@ -60,7 +61,9 @@ void Menu::ShowMenuAdmin(AccountInfo& adminInfo, Account& adminAcc, ListAccount&
 			cout << "Enter ID of User: ";
 			cin.ignore();
 			getline(cin, IDUser);
-			
+			if (IDUser == "")	
+				break;
+
 			AccountInfo findUser;
 			findUser.findUser(IDUser)->displayAccountInfo();
 			cout << "Is this account violated? (Y/N) ";
@@ -72,7 +75,20 @@ void Menu::ShowMenuAdmin(AccountInfo& adminInfo, Account& adminAcc, ListAccount&
 				{
 					adminInfo.removeAccountInfo(IDUser);
 					listAcc.removeAccount(IDUser);
+					adminAcc.deleteIDOfUser(IDUser);
 
+					if (findUser.getStatus() == 1) {
+						Comment delComment(IDUser);
+						delComment.deleteAllCommentFileOfSeller();
+
+						Rate delRate;
+						delRate.deleteAllOfSeller(IDUser);
+
+						Product delProduct;
+						delProduct.deleteAllProductOfSeller(IDUser);
+
+					}
+					break;
 				}
 				else if (ch == 'n' || ch == 'N')
 					break;
@@ -306,21 +322,22 @@ void Menu::ShowMenuUserFindUser(AccountInfo userInfo)
 {
 	while (true)
 	{
-	string IDUser;
-	cout << "Enter ID of User: ";
-	cin.ignore();
-	getline(cin, IDUser);
-	if (IDUser == "") {
-		return;
-	}
-	if (userInfo.getID() == IDUser) {
-		cout << "Please choose ""Store"" feature to view your Store or ""View profile"" to view your information" << endl;
-		return;
-	}
+		ShowTitle();
+		string IDUser;
+		cout << "Enter ID of User: ";
+		cin.ignore();
+		getline(cin, IDUser);
+		if (IDUser == "") {
+			return;
+		}
+		if (userInfo.getID() == IDUser) {
+			cout << "Please choose ""Store"" feature to view your Store or ""View profile"" to view your information" << endl;
+			return;
+		}
 
 		AccountInfo* anotherUser;
 		anotherUser = userInfo.findUser(IDUser);
-		anotherUser->displayListUser();
+		anotherUser->displayAccountInfo();
 		cout << "1. Report this user" << endl;
 		(anotherUser->getStatus() == 1) ? cout << "2. View store of seller" << endl : cout << "";
 		cout << "0. Return" << endl;
@@ -336,7 +353,7 @@ void Menu::ShowMenuUserFindUser(AccountInfo userInfo)
 
 			Product storeOfSeller;
 			storeOfSeller.viewStoreOfSeller(anotherUser->getID());
-		//	_getch();
+			_getch();
 		}
 		else if (choice == 0)
 		{
@@ -476,28 +493,45 @@ void Menu::ShowMenuNotification(AccountInfo& accInfo)
 		if (accInfo.getStatus() == 1) //seller
 		{
 			UserNotif sellerNotif;
+			while (true)
+			{
 
-			if (sellerNotif.checkNotif("", accInfo.getID())) {
-				cout << "Accept?(Y/N): ";
-				bool ans;
-				Seller notif;
-				while (true)
-				{
-					char ch;
-					cin >> ch;
-					if (ch == 'y' || ch == 'Y')
-					{
-						ans = true;
-						break;
-					}
-					else if (ch == 'n' || ch == 'N') {
-						ans = false;
-						break;
-					}
-					else
-						cout << "Bad choice, try again\n";
+				ShowTitle();
+				cout << "1. Shopping notification" << endl;
+				cout << "2. Selling notification" << endl;
+				int choice;
+				cout << "Enter your choice: ";
+				cin >> choice;
+				if (choice == 1) {
+					sellerNotif.checkNotif(accInfo.getID(), "");
 				}
-				notif.approveCart(ans, accInfo.getID());
+				else if (choice == 2) {
+					if (sellerNotif.checkNotif("", accInfo.getID())) {
+						cout << "Accept?(Y/N): ";
+						bool ans;
+						Seller notif;
+						while (true)
+						{
+							char ch;
+							cin >> ch;
+							if (ch == 'y' || ch == 'Y')
+							{
+								ans = true;
+								break;
+							}
+							else if (ch == 'n' || ch == 'N') {
+								ans = false;
+								break;
+							}
+							else
+								cout << "Bad choice, try again\n";
+						}
+						notif.approveCart(ans, accInfo.getID());
+					}
+				}
+				else
+					return;
+				_getch();
 			}
 		}
 		else //customer
@@ -555,28 +589,48 @@ void Menu::ShoppingHistoryDetail(AccountInfo& accInfo, string ProductID, string 
 			{
 
 				ShowTitle();
-				shoppingHistory.displayHistoryDetail(choice, ProductID, SellerID);
-
-				cout << "1. Add your feedback" << endl;
-				cout << "0. Return" << endl;
-				cout << "Enter your choice: ";
-				cin >> choice;
-				if (choice == 1) {
-					Rate newRate;
-					cout << "\t1.★\t2.★★\t3.★★★\t4.★★★★\t5.★★★★★\n";
-					cout << "Rate:";
-					int ratePoint;
-					cin >> ratePoint;
-					newRate.updateRating(ratePoint, ProductID, SellerID);
-					cout << "Comment" << endl;
-					cout << "  >> ";
-					string comment;
-					Comment newComment(ProductID, SellerID);
-					cin.ignore();
-					getline(cin, comment);
-					newComment.addNewComment(ProductID, SellerID, comment, accInfo.getID());
+				int status = shoppingHistory.displayHistoryDetail(choice, ProductID, SellerID);
+				if (status == 2) {
+					cout << "1. Add your feedback" << endl;
+					cout << "0. Return" << endl;
+					cout << "Enter your choice: ";
+					cin >> choice;
+					if (choice == 1) {
+						Rate newRate;
+					//	cout << "\t1.*\t2.**\t3.***\t4.****\t5.*****\n";
+						for (int i = 0; i < 5; i++) {
+							cout << "\t" << i + 1 << ".";
+							for (int j = 0; j < i + 1; j++)
+								wcout << "★";
+						}
+						cout << "Rate:";
+						int ratePoint;
+						cin >> ratePoint;
+						newRate.updateRating(ratePoint, ProductID, SellerID);
+						cout << "Comment" << endl;
+						cout << "  >> ";
+						string comment;
+						Comment newComment(ProductID, SellerID);
+						cin.ignore();
+						getline(cin, comment);
+						newComment.addNewComment(ProductID, SellerID, comment, accInfo.getID());
+					}
+					else break;
 				}
-				else break;
+				else if (status == 1) {
+					cout << "Have you received the order yet? (Y/N): ";
+					char ch;
+					cin >> ch;
+					if (ch == 'y' || ch == 'Y')
+					{
+						shoppingHistory.confirmReceived(true, choice);
+					}
+					else if (ch == 'n' || ch == 'N')
+						break;
+					else
+						cout << "Bad choice, try again\n";
+
+				}
 			}
 		else return;
 	}

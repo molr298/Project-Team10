@@ -1,4 +1,4 @@
-7
+6
 19127001
 nguyenvanA
 Nguyen Van A
@@ -8,11 +8,11 @@ Nguyen Van A
 1
 
 19127002
-lvanBang
-Le Van Bang
+leBang
+Le Bang
 10/10/1999
 932567841
-1
+0
 1
 
 19127003
@@ -44,14 +44,6 @@ vnhathuy
 Vo Nhat Huy
 10/10/2001
 123456789
-0
-0
-
-19127007
-ntluan
-Nguyen Thanh Luan
-27/7/2001
-969738147
 0
 0
 

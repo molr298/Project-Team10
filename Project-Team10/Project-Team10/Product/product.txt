@@ -1,21 +1,24 @@
-7
+12
 101T
 19127002
-Banh Trung Thu
+Moon Cake
+Made in Vietnam
 10
 906
 1
 
 102T
 19127004
-keo bac ha
+Mint Candy
+Made in USA
 12
 100
 1
 
 103T
 19127002
-tai nghe khong day
+Wireless earphone
+Made in China
 40
 800
 3
@@ -23,28 +26,72 @@ tai nghe khong day
 104T
 19127002
 Gucci
+Made in Italy
 1000
 400
 2
 
 105T
 19127001
-Gucci
+Channel perfume
+Made in Italy
 100
 800
 2
 
 595A
 19127004
-vo 96 trang
-5000
+Note Book
+Make in Japan
+50
 500
 5
 
 395H
 19127001
-bAnh tIeU
+Hershey Chocolate
+Made in Italy
 5000
 100
 1
+
+108T
+19127002
+Cracker
+Made in Indonesia
+8
+1000
+1
+
+107H
+19127004
+Milk Tea
+Made in Taiwan
+10
+400
+1
+
+109T
+19127002
+11 Pro Max phone case
+Made in China
+15
+800
+3
+
+854B
+19127002
+Laptop Acer
+Made in Taiwan
+2.1e+07
+400
+3
+
+538E
+19127002
+Macbook Pro 2020
+Made in China
+5e+07
+100
+3
 

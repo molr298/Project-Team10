@@ -15,6 +15,7 @@ private:
 	double price;
 	int stock;
 	int type; //1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other
+	string descript;
 protected:
 	vector<Product> prdv;
 	vector<Product> ordv;
@@ -44,6 +45,7 @@ public:
 	int getStock() { return stock; }
 	int getType() { return type; }
 
+	string getDescr() { return descript; }
 	void setQuantity(int n) { stock = n; }
 	void loadListProduct();
 	void saveListProduct();
@@ -56,7 +58,8 @@ public:
 	void removeProduct(string);
 	void editProduct();
 
-	string generateRandomIDProduct();
+	void deleteAllProductOfSeller(string IDSeller);
+	string generateRandomIDProduct(string IDSeller);
 	Product inputNewProduct(string);
 	bool containProduct(const string);
 	void setupCart(int quantity, Product p);
@@ -105,6 +108,8 @@ private:
 
 	vector<Comment> listComment;
 public:
+	Comment();
+	Comment(string IDSeller);
 	Comment(string IDProduct, string IDSeller);
 	Comment(string IDProduct, string IDSeller, string newComment, string IDCustomer);
 	void loadListComment(string, string);
@@ -113,5 +118,7 @@ public:
 	void createNewFileComment(string, string);
 	void addNewComment(string IDProduct, string IDSeller, string newComment, string IDCustomer);
 	void displayComment(string IDProduct, string IDSeller);
+	void deleteAllCommentFileOfSeller();
+	void deleteACommentFile();
 };
 #endif // !_PRODUCT_H

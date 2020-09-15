@@ -181,6 +181,16 @@ void Account::changeUsername(string newUsername)
 	listAcc.setAccount(*this);
 }
 
+void Account::deleteIDOfUser(string IDUser)
+{
+	loadListIDOfUser();
+	for (int i = 0; i < listID.size(); i++)
+		if (listID[i] == IDUser)
+			listID.erase(listID.begin() + i);
+	saveListIDOfUSer();
+	return;
+}
+
 void ListAccount::loadListAccount(string filename)
 {
 	ifstream fin(filename);
@@ -251,10 +261,7 @@ void ListAccount::SignUp(Account& newAccount)
 }
 
 void ListAccount::removeAccount(string removeID) {
-	//string removeID = "";
-	//cout << "Input ID of user to remove: ";
-	//cin.ignore();
-	//getline(cin, removeID);
+
 	loadListAccount("Account/User.txt");
 
 	for (int i = 0; i < listAccount.size(); i++)

@@ -1,4 +1,5 @@
 ﻿#include "Product.h"
+#include <stdio.h>
 //
 //int ID;
 //string productName;
@@ -31,12 +32,12 @@ ifstream& operator>> (ifstream& fin, Product& obj)
 	return fin;
 }
 ostream& operator<<(ostream& out, Product& obj) {
-	out << "ID: "<< obj.ID.c_str() << endl;
+	out << "ID: " << obj.ID.c_str() << endl;
 	out << "ID of Seller: " << obj.IDseller.c_str() << endl;
 	out << "Product Name: " << obj.productName.c_str() << endl;
 	out << "Price: " << obj.price << endl;
 	out << "Stock: " << obj.stock << endl;
-	out << "Type: " ;
+	out << "Type: ";
 	switch (obj.type)
 	{
 	case 1: {
@@ -234,17 +235,20 @@ Product Product::loadOneProduct(ifstream& fin)
 	getline(fin, ID);
 	getline(fin, IDseller);
 	getline(fin, productName);
+	getline(fin, descript);
 	fin >> price;
 	fin >> stock;
 	fin >> type;
 	fin.ignore();
 	return *this;
 }
+
 void Product::saveOneProduct(ofstream& fout)
 {
 	fout << ID << endl;
 	fout << IDseller << endl;
 	fout << productName << endl;
+	fout << descript << endl;
 	fout << price << endl;
 	fout << stock << endl;
 	fout << type << endl << endl;
@@ -302,7 +306,7 @@ void Product::removeProduct(string search)
 				cout << endl << "Are you sure you want to delete this product ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n)" << endl;
 				cin >> ans;
 				switch (ans)
-					{
+				{
 				case 'YES': case 'Y': case 'yes': case 'y':
 				{
 					prdv.erase(prdv.begin() + i);
@@ -314,7 +318,7 @@ void Product::removeProduct(string search)
 					cout << "Can't delete product" << endl;
 					break;
 				}
-					}
+				}
 				
 			}
 		}
@@ -418,45 +422,80 @@ void Product::editProduct()
 	system("pause");
 }
 
-string Product::generateRandomIDProduct()
+void Product::deleteAllProductOfSeller(string IDSeller)
 {
-	vector <string> listID;
+	loadListProduct();
+	for (int i = 0; i < prdv.size(); i++) {
+		if (prdv[i].getIDseller() == IDSeller) {
+			prdv.erase(prdv.begin() + i);
+			i--;
+		}
+	}
+	saveListProduct();
+}
+
+
+bool isDuplicate(string IDProduct, vector<string> listID) {
+	for (int i = 0; i < listID.size(); i++)
+		if (listID[i] == IDProduct)
+			return true;
+	return false;
+}
+
+void loadListIDProduct(vector<string>& listID, vector<string>& listSeller) {
 	ifstream fin("Product/productID.txt");
 	if (!fin.is_open()) {
 		cout << "Can't generate ID of Product..." << endl;
-		return "";
+		return;
 	}
 	int number_of_product_ID;
 	fin >> number_of_product_ID;
 	fin.ignore();
 	string ID;
+	string seller;
 	for (int i = 0; i < number_of_product_ID; i++) {
-		getline(fin, ID);
+		getline(fin, ID, '-');
 		listID.push_back(ID);
+		getline(fin, seller);
+		listSeller.push_back(seller);
 	}
 	fin.close();
+}
 
+void saveListIDProduct(vector<string>& listID, vector<string>& listSeller) {
+	ofstream fout("Product/productID.txt");
+	if (!fout.is_open()) {
+		cout << "Can't save ID of product..." << endl;
+		return;
+	}
+	fout << listID.size() << endl;
+	for (int i = 0; i < listID.size(); i++)
+		fout << listID[i] << "-" << listSeller[i] << endl;
+	fout.close();
+}
+string Product::generateRandomIDProduct(string IDSeller)
+{
+	vector <string> listID;
+	vector <string> listSeller;
+	loadListIDProduct(listID, listSeller);
+	do {
 	ID = to_string(rand() % 900 + 100);
 	char last_char;
 	last_char = rand() % 25 + 65;
 	ID += last_char;
+	} while (isDuplicate(ID, listID));
+
 	listID.push_back(ID);
-	ofstream fout("productID.txt");
-	if (!fout.is_open()) {
-		cout << "Can't save ID of product..." << endl;
-		return "";
-	}
-	fout << listID.size() << endl;
-	for (int i = 0; i < listID.size(); i++)
-		fout << listID[i] << endl;
-	fout.close();
+	listSeller.push_back(IDSeller);
+	saveListIDProduct(listID, listSeller);
+
 	return ID;
 }
 
 Product Product::inputNewProduct(string IDSeller)
 {
 	Product newProduct;
-	newProduct.ID = generateRandomIDProduct();
+	newProduct.ID = generateRandomIDProduct(IDSeller);
 
 	cin.ignore();
 	cout << "\tName: ";			getline(cin, newProduct.productName);
@@ -464,6 +503,8 @@ Product Product::inputNewProduct(string IDSeller)
 	cout << "\tStock: ";		cin >> newProduct.stock;
 	cout << "\tType (1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other): ";
 	cin >> newProduct.type;
+	cin.ignore();
+	cout << "\tDescription: ";	getline(cin, newProduct.descript);
 	newProduct.IDseller = IDSeller;
 	Rate newRate;
 	Comment newCommentFile(newProduct.ID, IDSeller);
@@ -593,126 +634,7 @@ void Product::setupCart(int quantity, Product p)
 	usnv.push_back(usn);
 }
 
-//void Product::filterListProduct()
-//{
-//	loadListProduct();
-//
-//	foodList.clear(); //1 
-//	fashionList.clear(); // 2
-//	technologicalList.clear(); //3
-//	housewareList.clear(); // 4
-//	otherList.clear(); // 5
-//
-//	for (size_t i = 0; i < prdv.size(); i++)
-//	{
-//		if (prdv[i].getType() == 1) {
-//			foodList.push_back(prdv[i]);
-//		}
-//		else if(prdv[i].getType() == 2)
-//		{
-//			fashionList.push_back(prdv[i]);
-//		}
-//		else if (prdv[i].getType() == 3)
-//		{
-//			technologicalList.push_back(prdv[i]);
-//		}
-//		else if (prdv[i].getType() == 4)
-//		{
-//			housewareList.push_back(prdv[i]);
-//		}
-//		else
-//		{
-//			otherList.push_back(prdv[i]);
-//		}
-//	}
-//	displayFoodList();
-//	displayFashionList();
-//	displayTechnologicalList();
-//	displayHousewareList();
-//	displayOtherList();
-//}
 
-//void Product::displayFoodList() 
-//{
-//	if (foodList.empty()) cout << "There is no food product" << endl;
-//	else
-//	{
-//		cout << "Food product list" << endl;
-//		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
-//		for (int i = 0; i < foodList.size(); i++)
-//			foodList[i].display();
-//		cout << "____________________________________" << endl;
-//	}
-//	
-//}
-//void Product::displayFashionList()
-//{
-//	if (fashionList.empty()) cout << "There is no fashion product" << endl;
-//	else
-//	{
-//		cout << "Fashion product list" << endl;
-//		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
-//		for (int i = 0; i < fashionList.size(); i++)
-//			fashionList[i].display();
-//		cout << "____________________________________" << endl;
-//	}
-//	
-//}
-//void Product::displayTechnologicalList()
-//{
-//	if (technologicalList.empty()) cout << "There is no technological product" << endl;
-//	else
-//	{
-//		cout << "Technological product list" << endl;
-//		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
-//		for (int i = 0; i < technologicalList.size(); i++)
-//			technologicalList[i].display();
-//		cout << "____________________________________" << endl;
-//	}
-//	
-//}
-//void Product::displayHousewareList()
-//{
-//	if (housewareList.empty()) cout << "There is no houseware product" << endl;
-//	else
-//	{
-//		cout << "Houseware product list" << endl;
-//		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
-//		for (int i = 0; i < housewareList.size(); i++)
-//			housewareList[i].display();
-//		cout << "____________________________________" << endl;
-//	}
-//	
-//}
-//void Product::displayOtherList()
-//{
-//	if (otherList.empty()) cout << "There is no other product" << endl;
-//	else
-//	{
-//		cout << "Other product list" << endl;
-//		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type" << endl;
-//		for (int i = 0; i < otherList.size(); i++)
-//			otherList[i].display();
-//		cout << "____________________________________" << endl;
-//	}
-//	
-//}
-
-//Product Prodcut::findUser(const string& keyword)
-//{
-//	for (int i = 0; i < listUser.size(); i++)
-//		if (listUser[i].getID() == keyword || listUser[i].getUsername() == keyword)
-//			return listUser[i];
-//}
-//
-//
-//void Customer::displayListUser()
-//{
-//	for (int i = 0; i < listUser.size(); i++) {
-//		listUser[i].displayAccountInfo();
-//	}
-//	cout << "________________________________" << endl;
-//}
 
 Rate::Rate()
 {
@@ -841,6 +763,22 @@ void Rate::miniDisplay(string IDSeller, string IDProduct)
 	return;
 }
 
+Comment::Comment()
+{
+	this->IDProduct = "";
+	this->IDSeller = "";
+	IDCustomer = "";
+	comment = "";
+}
+
+Comment::Comment(string IDSeller)
+{
+	this->IDProduct = "";
+	this->IDSeller = IDSeller;
+	IDCustomer = "";
+	comment = "";
+}
+
 Comment::Comment(string IDProduct, string IDSeller)
 {
 	this->IDProduct = IDProduct;
@@ -920,4 +858,40 @@ void Comment::displayComment(string IDProduct, string IDSeller)
 		cout << listComment.size() << " Comment" << endl;
 	for (int i = 0; i < listComment.size(); i++)
 		cout << "#" << listComment[i].IDCustomer << ": " << listComment[i].comment << endl;
+}
+
+void Comment::deleteAllCommentFileOfSeller()
+{
+	vector<string> listProductID;
+	vector<string> listSeller;
+	loadListIDProduct(listProductID, listSeller);
+	for (int i = 0; i < listProductID.size(); i++) {
+		if (this->IDSeller == listSeller[i]) {
+			string fileDel = listProductID[i] + "-" + listSeller[i] + ".txt";
+
+			remove(fileDel.c_str());
+			listProductID.erase(listProductID.begin() + i);
+			listSeller.erase(listSeller.begin() + i);
+			i--;
+		}
+	}
+	saveListIDProduct(listProductID, listSeller);
+}
+
+void Comment::deleteACommentFile()
+{
+	vector<string> listProductID;
+	vector<string> listSeller;
+	loadListIDProduct(listProductID, listSeller);
+	for (int i = 0; i < listProductID.size(); i++) {
+		if (this->IDSeller == listSeller[i] && this->IDProduct == listProductID[i]) {
+			string fileDel = listProductID[i] + "-" + listSeller[i] + ".txt";
+
+			remove(fileDel.c_str());
+			listProductID.erase(listProductID.begin() + i);
+			listSeller.erase(listSeller.begin() + i);
+			i--;
+		}
+	}
+	saveListIDProduct(listProductID, listSeller);
 }

@@ -28,6 +28,7 @@ public:
 	Account createNewAccount(string, string);
 	void changePassword();
 	void changeUsername(string);
+	void deleteIDOfUser(string IDUser);
 };
 
 class ListAccount: public Account{

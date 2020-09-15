@@ -86,6 +86,7 @@ public:
 	void loadListNotif();
 	UserNotif loadOneNotif(ifstream& fin);
 	bool checkNotif(string customerID, string sellerID); //string userID, status
+	void confirmReceived(bool answer, int choice);
 	void print();
 	void printList();
 	void saveOneOrder(ofstream& fout);
@@ -96,7 +97,7 @@ public:
 	void setCustomerID(string ID) { customerID = ID; }
 
 	void displayShoppingHistory(string userID);
-	void displayHistoryDetail(int choice, string& IDProduct, string& IDSeller);
+	int displayHistoryDetail(int choice, string& IDProduct, string& IDSeller);
 	void removeNotif(UserNotif);
 	bool operator ==(UserNotif);
 

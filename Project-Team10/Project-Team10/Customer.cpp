@@ -28,24 +28,42 @@ void Customer::buyStuff(UserNotif usn, string customerID, bool flag)
 			break;
 		}
 		int n;
-		cout << "You choose this product" << endl;
 		system("cls");
 		if (filterProduct[choice - 1].getIDseller() == customerID) {
 			cout << "You are selling this product" << endl;
 			return;
 		}
+		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(20) << left << "Type\t" << setw(20) << left << "Rating " << endl;
 		filterProduct[choice - 1].display();
+		cout << "Description: " << filterProduct[choice - 1].getDescr() << endl;
 		Comment commentOfProduct(filterProduct[choice - 1].getID(), filterProduct[choice - 1].getIDseller());
 		commentOfProduct.displayComment(filterProduct[choice - 1].getID(), filterProduct[choice - 1].getIDseller());
 		cout << "___________________________________________________________________" << endl;
 
 		cout << "How many do you buy ?: ";
 		cin >> n;
-		temp = filterProduct;
-		temp[choice - 1].setQuantity(n);
-		ordv.push_back(temp[choice - 1]);
-		Customer::viewCart(ship);
-		system("cls");
+		cout << endl << "Are you sure you want to purchase ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n)" << endl;
+		char ans;
+		cin >> ans;
+		switch (ans)
+		{
+		case 'YES': case 'Y': case 'yes': case 'y':
+		{
+			temp = filterProduct;
+			temp[choice - 1].setQuantity(n);
+			ordv.push_back(temp[choice - 1]);
+			Customer::viewCart(ship);
+			cout << "Your cart has been updated" << endl;
+			system("pause");
+			system("cls");
+			break;
+		}
+		case 'NO': case 'N': case 'no': case 'n':
+		{
+			cout << "Returning..." << endl;
+			break;
+		}
+		}
 	}
 }
 void Customer::confirmCart(string customerID)
@@ -179,7 +197,7 @@ void Customer::requestToBeSeller(string senderID)
 void Customer::setOrder(string customerID)
 {
 	int choice;
-	
+
 	while (true)
 	{
 		system("cls");

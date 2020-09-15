@@ -51,6 +51,7 @@ AdminNotif AdminNotif::loadAnNotif(ifstream& fin)
 }
 void AdminNotif::checkNotif(string adminID, string userID)
 {
+	loadListNotif();
 	bool flag = 0;
 	for (int i = 0; i < adnv.size(); i++)
 	{
@@ -144,7 +145,7 @@ void UserNotif::displayShoppingHistory(string userID)
 	loadListNotif();
 	history.clear();
 	for (int i = 0; i < usnv.size(); i++) {
-		if (userID == usnv[i].getCustomerID() && usnv[i].getStatus() == 1) {
+		if (userID == usnv[i].getCustomerID() && usnv[i].getStatus() != 0) {
 			count++;
 			cout << count << ". Your order: " << usnv[i].getProductName() << " - " << usnv[i].getProductID() << endl;
 			history.push_back(usnv[i]);
@@ -152,8 +153,9 @@ void UserNotif::displayShoppingHistory(string userID)
 	}
 }
 
-void UserNotif::displayHistoryDetail(int choice, string& IDProduct, string& IDSeller)
+int UserNotif::displayHistoryDetail(int choice, string& IDProduct, string& IDSeller)
 {
+
 	cout << "Product ID: " << history[choice - 1].productID << endl;
 	cout << "Name : " << history[choice - 1].productName << endl;
 	cout << "Type: ";	//1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other
@@ -168,6 +170,8 @@ void UserNotif::displayHistoryDetail(int choice, string& IDProduct, string& IDSe
 	cout << "Total: " << history[choice - 1].totalPrice << endl;
 	IDProduct = history[choice - 1].productID;
 	IDSeller = history[choice - 1].sellerID;
+	
+	return history[choice - 1].getStatus();
 }
 
 
@@ -231,6 +235,8 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 	bool flag = 0;
 	//cout << usnv.size() << endl;
 	loadListNotif();
+	cout << "________________________________________________________________________________________________________________" << endl;
+
 	for (int i = 0; i < usnv.size(); i++)
 	{
 		if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 0)
@@ -242,7 +248,10 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 			cout << "Quantity: " << usnv[i].getQuantity() << endl;
 			cout << "Price: " << usnv[i].getPrice() << endl;
 			cout << "Total: " << usnv[i].getTotalPrice() << endl;
+
 			flag = 1;
+			cout << "______________________________________________________________________________" << endl;
+
 		}
 
 		else if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 1)
@@ -255,10 +264,19 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 			cout << "Price: " << usnv[i].getPrice() << endl;
 			cout << "Total: " << usnv[i].getTotalPrice() << endl;
 			flag = 1;
+			cout << "______________________________________________________________________________" << endl;
 		}
-		//else if (sellerID1 == usnv[i].getSellerID() && usnv[i].getStatus() == 2) {
-		//	cout << "Customer #" << usnv[i].getCustomerID() << " has received "
-		//}
+		else if (sellerID1 == usnv[i].getSellerID() && usnv[i].getStatus() == 2) {
+			cout << "#" << usnv[i].getCustomerID() << " - has received the order" << endl;
+			cout << "Product ID: " << usnv[i].getProductID() << endl;
+			cout << "Product Name: " << usnv[i].getProductName() << endl;
+			cout << "Quantity: " << usnv[i].getQuantity() << endl;
+			cout << "Price: " << usnv[i].getPrice() << endl;
+			cout << "Total: " << usnv[i].getTotalPrice() << endl;
+			flag = 1;
+			cout << "______________________________________________________________________________" << endl;
+
+		}
 		if (sellerID1 == usnv[i].getSellerID() && usnv[i].getStatus() == 0)
 		{
 			cout << "Customer with ID: " << usnv[i].getCustomerID() << " have ordered the following product:" << endl;
@@ -267,11 +285,26 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 			cout << "Price: " << usnv[i].getPrice() << endl;
 			cout << "Total: " << usnv[i].getTotalPrice() << endl;
 			flag = 1;
+			cout << "______________________________________________________________________________" << endl;
 		}
 	}
 	if (flag == 0)
 		cout << "No notification available" << endl;
 	return flag;
+}
+void UserNotif::confirmReceived(bool answer, int choice)
+{
+	if (answer) {
+		loadListNotif();
+		for (int i = 0; i < usnv.size(); i++) {
+			if (usnv[i] == history[choice - 1]) {
+				usnv[i].setStatus(2);
+				history[choice - 1].setStatus(2);
+			}
+		}
+		saveListOrder();
+	}
+	return;
 }
 void AdminNotif::saveOneReport(ofstream& fout)
 {
