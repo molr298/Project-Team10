@@ -71,7 +71,7 @@ ofstream& operator<<(ofstream& fout, Product& obj) {
 	fout << obj.productName << endl;
 	fout << obj.price << endl;
 	fout << obj.stock << endl;
-	fout << obj.type ;
+	fout << obj.type;
 	return fout;
 }
 Product& Product::operator= (const Product& src) {
@@ -101,14 +101,14 @@ void Product::loadProductfile()
 	tmp.DisplayArrProduct(arr);
 }
 
-void Product::loadProduct(ifstream& f, vector<Product> &arr, int nPro)
+void Product::loadProduct(ifstream& f, vector<Product>& arr, int nPro)
 {
 	Product temp;
 	for (int i = 0; i < nPro; i++) {
 		f >> temp.ID;
 		f >> temp.IDseller;
 		f.ignore();
-		getline(f,temp.productName);
+		getline(f, temp.productName);
 		f >> temp.price;
 		f >> temp.stock;
 		f >> temp.type;
@@ -130,8 +130,8 @@ void Product::saveProductfile()
 void Product::saveProduct(ofstream& f, vector<Product> arr)
 {
 	for (int i = 0; i < arr.size(); i++) {
-		f << arr[i].ID<<endl;
-		f << arr[i].IDseller<<endl;
+		f << arr[i].ID << endl;
+		f << arr[i].IDseller << endl;
 		f << arr[i].productName << endl;
 		f << arr[i].price;
 		f << arr[i].stock;
@@ -141,7 +141,7 @@ void Product::saveProduct(ofstream& f, vector<Product> arr)
 
 void Product::DisplayArrProduct(vector<Product> arr)
 {
-	cout << "Quantity: " << arr.size() << endl<<endl;
+	cout << "Quantity: " << arr.size() << endl << endl;
 	for (int i = 0; i < arr.size(); i++) {
 		arr[i].display();
 		cout << endl;
@@ -158,7 +158,7 @@ void Product::display()
 	cout << setw(4) << left << ID << "\t" << setw(12) << left << IDseller << "\t" << setw(20) << left << productName << "\t" << setw(10) << left << price << "\t" << setw(10) << left << stock << "\t" << setw(20) << left;
 	switch (type)
 	{
-	case 1:{
+	case 1: {
 		cout << "Food";
 		break;
 	}
@@ -251,16 +251,16 @@ void Product::saveOneProduct(ofstream& fout)
 	fout << descript << endl;
 	fout << price << endl;
 	fout << stock << endl;
-	fout << type << endl << endl;
+	fout << type << endl;
 }
 
 void Product::displayListProduct()
 {
 
-	cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type\t" << setw(7) << left << "Rating "<< endl;
+	cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type\t" << setw(7) << left << "Rating " << endl;
 	for (int i = 0; i < prdv.size(); i++)
 		prdv[i].display();
-		cout << "____________________________________" << endl;
+	cout << "____________________________________" << endl;
 }
 
 
@@ -294,11 +294,11 @@ void Product::removeProduct(string search)
 	loadListProduct();
 
 	if (containProduct(search)) {
-	for (int i = 0; i < prdv.size(); i++)
+		for (int i = 0; i < prdv.size(); i++)
 		{
 			if (prdv[i].getID() == search || prdv[i].getProductName() == search)
 			{
-				cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type\t" << setw(7) << left << "Rating "<< endl;
+				cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type\t" << setw(7) << left << "Rating " << endl;
 				cout << endl;
 				cout << "1" << "\t";
 				prdv[i].display();
@@ -319,7 +319,6 @@ void Product::removeProduct(string search)
 					break;
 				}
 				}
-				
 			}
 		}
 	}
@@ -342,7 +341,7 @@ void Product::editProduct()
 	getline(cin, search);
 	if (search == "")
 		return;
-	if (containProduct(search)) 
+	if (containProduct(search))
 	{
 		for (int i = 0; i < prdv.size(); i++)
 		{
@@ -395,7 +394,7 @@ void Product::editProduct()
 				cin >> prd.type;
 				break;
 			}
-			case 0 : default:
+			case 0: default:
 				break;
 			}
 		}
@@ -405,16 +404,16 @@ void Product::editProduct()
 		switch (ans)
 		{
 		case 'YES': case 'Y': case 'yes': case 'y':
-			{
-				prdv[idx] = prd;
-				cout << "Product has been edited" << endl;
-				break;
-			}
-			case 'NO': case 'N': case 'no': case 'n':
-			{
-				cout << "Can't edit product" << endl;
-				break;
-			}
+		{
+			prdv[idx] = prd;
+			cout << "Product has been edited" << endl;
+			break;
+		}
+		case 'NO': case 'N': case 'no': case 'n':
+		{
+			cout << "Can't edit product" << endl;
+			break;
+		}
 		}
 		Product::saveListProduct();
 	}
@@ -505,6 +504,7 @@ Product Product::inputNewProduct(string IDSeller)
 	cin >> newProduct.type;
 	cin.ignore();
 	cout << "\tDescription: ";	getline(cin, newProduct.descript);
+
 	newProduct.IDseller = IDSeller;
 	Rate newRate;
 	Comment newCommentFile(newProduct.ID, IDSeller);
@@ -584,7 +584,7 @@ bool Product::listSearchProduct()
 			tmp[i] = toupper(tmp[i]);
 
 		found = tmp.find(search);
-		if (prdv[i].getID() == search || prdv[i].getProductName() == search || found !=-1) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
+		if (prdv[i].getID() == search || prdv[i].getProductName() == search || found != -1) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
 		{
 			flag = 1;
 			filterProduct.push_back(prdv[i]);
@@ -605,7 +605,7 @@ bool Product::listFilterProduct()
 	cout << "3. Technological" << endl;
 	cout << "4. Houseware" << endl;
 	cout << "5. Other" << endl;
-	cout << "Choose type of product:" ; //1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other
+	cout << "Choose type of product:"; //1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other
 	cin >> search;
 	bool flag = 0;
 	for (int i = 0; i < prdv.size(); i++)
@@ -630,7 +630,7 @@ void Product::viewStoreOfSeller(string IDseller)
 void Product::setupCart(int quantity, Product p)
 {
 	UserNotif usn;
-	usn.getProduct(p.ID,"", p.IDseller, p.productName, p.price, quantity, p.type);
+	usn.getProduct(p.ID, "", p.IDseller, p.productName, p.price, quantity, p.type);
 	usnv.push_back(usn);
 }
 
@@ -695,7 +695,7 @@ void Rate::saveListRating()
 bool Rate::checkExistRating(string IDProduct, string IDSeller)
 {
 	loadListRating();
-	for (int i = 0; i < listRating.size(); i++) 
+	for (int i = 0; i < listRating.size(); i++)
 		if (listRating[i].IDProduct == IDProduct && listRating[i].IDSeller == IDSeller)
 			return true;
 	return false;

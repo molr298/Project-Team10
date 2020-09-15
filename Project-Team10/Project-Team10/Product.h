@@ -27,16 +27,16 @@ public:
 	friend ifstream& operator>> (ifstream&, Product&);
 	friend ostream& operator<<(ostream&, Product&);
 	friend ofstream& operator<<(ofstream&, Product&);
-	Product& operator= (const Product & src);
+	Product& operator= (const Product& src);
 	void loadProductfile();//doc file product.txt
-	void loadProduct(ifstream& f, vector<Product> &arr, int nPro);//doc vao mang
+	void loadProduct(ifstream& f, vector<Product>& arr, int nPro);//doc vao mang
 	void saveProductfile();//luu file vaof product.txt
 	void saveProduct(ofstream& f, vector<Product> arr);//luu mang vao file
 	void display();
 	void DisplayArrProduct(vector<Product> arr);
 	void addProduct(vector<Product>& arr);
 	void setPrice(double n) { price = n; }
-	
+
 
 	string getID() { return ID; }
 	string getIDseller() { return IDseller; }
@@ -44,7 +44,6 @@ public:
 	double getPrice() { return price; }
 	int getStock() { return stock; }
 	int getType() { return type; }
-
 	string getDescr() { return descript; }
 	void setQuantity(int n) { stock = n; }
 	void loadListProduct();
