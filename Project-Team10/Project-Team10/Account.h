@@ -18,9 +18,14 @@ public:
 	Account loadAnAccount(ifstream&);
 	string inputPassword();
 	string HashPassword(string passWord);
-	string getPassHass() { return passHash; }
 	string getUsername() { return username; }
 	string getID() { return ID; }
+
+	bool checkUsername(const string& username);
+	bool checkPassHash(const string& passHash);
+	bool checkID(const string& ID);
+	bool checkAccount(const Account& accountCheck, int mark);
+
 	void saveAccount(ofstream&);
 	void loadListIDOfUser();
 	string createNewID();
@@ -42,7 +47,7 @@ public:
 	void removeAccount(string);
 	Account findAccount(string);
 
-	void setAccount(Account&);
+	void replaceAccount(Account&);
 };
 
 #endif // !_ACCOUNT_H

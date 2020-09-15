@@ -230,7 +230,7 @@ void AccountInfo::removeAccountInfo(const string& IDRemove)
 	listUser.clear();
 }
 
-void AccountInfo::setAccountInfo(AccountInfo newAccInfo)
+void AccountInfo::replaceAccountInfo(AccountInfo newAccInfo)
 {
 	if (newAccInfo.username.substr(0, 7) == "197.000") {
 		loadListAdmin();

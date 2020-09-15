@@ -47,6 +47,46 @@ string Account::HashPassword(string passWord)
 	return hashPass;
 }
 
+bool Account::checkUsername(const string& username)
+{
+	return (this->username == username) ? true : false;
+}
+
+bool Account::checkPassHash(const string& passHash)
+{
+	return (this->passHash == passHash) ? true : false;
+}
+
+bool Account::checkID(const string& ID)
+{
+	return (this->ID == ID) ? true : false;
+}
+
+bool Account::checkAccount(const Account& accountCheck, int mark)
+{
+	switch (mark)
+	{
+	case 1:
+	{
+		return this->checkUsername(accountCheck.username);
+	}
+	case 2:
+	{
+		return this->checkPassHash(accountCheck.passHash);
+	}
+	case 3:
+	{
+		return this->checkID(accountCheck.ID);
+	}
+	case 0:
+	{
+		return ((!this->checkUsername(accountCheck.username)) || (this->checkPassHash(accountCheck.passHash)) || (this->checkID(accountCheck.ID))) ? false : true;
+	}
+	default:
+		break;
+	}
+}
+
 void Account::saveAccount(ofstream& fout)
 {
 	fout << username << endl;
@@ -117,7 +157,7 @@ void Account::changePassword()
 		cin.ignore();
 		passOld = inputPassword();
 		passOld = HashPassword(passOld);
-		if (passOld != this->getPassHass()) {
+		if (!this->checkPassHash(passOld)) {
 			cout << "Retype password and new password is not match\n" << endl;
 			cout << "Do you want to try again?(Y/N) ";
 			while (true)
@@ -169,16 +209,11 @@ void Account::changePassword()
 	} while (passNew != passRetype);
 	passNew = HashPassword(passNew);
 	this->passHash = passNew;
-
-	ListAccount listAcc;
-	listAcc.setAccount(*this);
 }
 
 void Account::changeUsername(string newUsername)
 {
 	this->username = newUsername;
-	ListAccount listAcc;
-	listAcc.setAccount(*this);
 }
 
 void Account::deleteIDOfUser(string IDUser)
@@ -217,7 +252,7 @@ int ListAccount::login(string username, string password)
 	if (username.substr(0, 7) == "197.000") {
 		loadListAccount(ACCOUNT_PATH + listFile[0]);
 		for (int i = 0; i < listAccount.size(); i++) {
-			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername()) {
+			if (listAccount[i].checkPassHash(password) && listAccount[i].checkUsername(username)) {
 				listAccount.clear();
 				return 2;
 			}
@@ -228,7 +263,7 @@ int ListAccount::login(string username, string password)
 	else {
 		loadListAccount(ACCOUNT_PATH + listFile[1]);
 		for (int i = 0; i < listAccount.size(); i++) {
-			if (password == listAccount[i].getPassHass() && username == listAccount[i].getUsername()) {
+			if (listAccount[i].checkPassHash(password) && listAccount[i].checkUsername(username)) {
 				listAccount.clear();
 				return 1;
 			}
@@ -279,7 +314,7 @@ Account ListAccount::findAccount(string username)
 	if (username.substr(0, 7) == "197.000") {
 		loadListAccount(ACCOUNT_PATH + filename[0]);
 		for (int i = 0; i < listAccount.size(); i++) {
-			if (listAccount[i].getUsername() == username) {
+			if (listAccount[i].checkUsername(username)) {
 				result = listAccount[i];
 				break;
 			}
@@ -289,7 +324,7 @@ Account ListAccount::findAccount(string username)
 	else {
 		loadListAccount(ACCOUNT_PATH + filename[1]);
 		for (int i = 0; i < listAccount.size(); i++) {
-			if (listAccount[i].getUsername() == username) {
+			if (listAccount[i].checkUsername(username)) {
 				result = listAccount[i];
 				break;
 			}
@@ -300,7 +335,7 @@ Account ListAccount::findAccount(string username)
 	return result;
 }
 
-void ListAccount::setAccount(Account& newAccount)
+void ListAccount::replaceAccount(Account& newAccount)
 {
 	if (newAccount.getUsername().substr(0, 7) == "197.000") {
 		loadListAccount("Account/Admin.txt");
