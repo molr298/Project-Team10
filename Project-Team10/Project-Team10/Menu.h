@@ -27,6 +27,7 @@ public:
 	void ShowMenuShopping(AccountInfo&, Customer&, UserNotif&);	//Thêm bất cứ biến gì vào parameters nếu cần
 	void ShowMenuStore(AccountInfo&);
 	void ShowMenuNotification(AccountInfo&);
+	void ShowMenuAdminReply(Admin& adminReply, AdminNotif& adminNotif, int mark);
 	void ShowMenuHistory(AccountInfo&);
 	void ShoppingHistoryDetail(AccountInfo&, string, string);
 

@@ -51,13 +51,14 @@ AdminNotif AdminNotif::loadAnNotif(ifstream& fin)
 }
 void AdminNotif::checkNotif(string adminID, string userID)
 {
+	int count = 0;
 	loadListNotif();
 	bool flag = 0;
 	for (int i = 0; i < adnv.size(); i++)
 	{
-		if (adminID == adnv[i].getTakerID())
+		if (adminID == adnv[i].getTakerID() && adnv[i].getStatus() == "0")
 		{
-			cout << "User " << adnv[i].getSenderID() << " sent this message to you: " << adnv[i].getProblem() << endl;
+			cout << ++count << ". User " << adnv[i].getSenderID() << " sent this message to you: " << adnv[i].getProblem() << endl;
 			flag = 1;
 		}
 		if (userID == adnv[i].getTakerID())

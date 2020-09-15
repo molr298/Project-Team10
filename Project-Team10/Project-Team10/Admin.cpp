@@ -147,3 +147,13 @@ void Admin::acceptSeller()
 	AdminNotif::saveListNotif();
 	AccountInfo::saveListUser();
 }
+
+void Admin::acceptACusToBeSeller(string customerID)
+{
+	AccountInfo::loadListUser();
+	for (int i = 0; i < listUser.size(); i++) {
+		if (listUser[i].getID() == customerID)
+			listUser[i].setStatus(1);
+	}
+	AccountInfo::saveListUser();
+}

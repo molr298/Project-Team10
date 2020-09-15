@@ -66,7 +66,7 @@ void Menu::ShowMenuAdmin(AccountInfo& adminInfo, Account& adminAcc, ListAccount&
 
 			AccountInfo findUser;
 			findUser.findUser(IDUser)->displayAccountInfo();
-			cout << "Is this account violated? (Y/N) ";
+			cout << "Ban this user? (Y/N) ";
 			while (true)
 			{
 				char ch;
@@ -276,7 +276,7 @@ void Menu::ShowMenuEditInfo(AccountInfo& accInfo)
 	accInfo.editInfo(choice);
 	if (choice == 0)
 		return;
-	accInfo.setAccountInfo(accInfo);
+	accInfo.replaceAccountInfo(accInfo);
 	}
 }
 
@@ -295,8 +295,10 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 	cin >> choice;
 	if (choice == 1) {
 		ShowMenuEditInfo(accInfo);
-		if (accInfo.getUsername() != Acc.getUsername()) {
+		if (Acc.checkUsername(accInfo.getUsername())) {
 			Acc.changeUsername(accInfo.getUsername());
+			ListAccount listChange;
+			listChange.replaceAccount(Acc);
 		}
 		ShowTitle();
 		accInfo.displayAccountInfo();
@@ -305,6 +307,8 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 	}
 	else if (choice == 2) {
 		Acc.changePassword();
+		ListAccount listChange;
+		listChange.replaceAccount(Acc);
 		cout << "Change password success" << endl;
 	}
 	else if (choice == 3 && accInfo.getStatus() == 0) {
@@ -481,12 +485,41 @@ void Menu::ShowMenuNotification(AccountInfo& accInfo)
 	ShowTitle();
 	if (accInfo.getStatus() == 2 ) 	//admin
 	{
+		//int notifChoice;
+		//AdminNotif admin;
+		//cout << "Handling User's report" << endl;
+		//admin.checkNotif(accInfo.getID(), "");
+		//if (accInfo.getID() == "Ad5") {
+		//	cout << "Do you want to accept all? (Y/N): ";
+		//	while (true)
+		//	{
+		//		char ch;
+		//		cin >> ch;
+		//		if (ch == 'y' || ch == 'Y')
+		//		{
+		//			Admin sellerRegistation;
+		//			sellerRegistation.acceptSeller();
+		//		}
+		//		else if (ch == 'n' || ch == 'N')
+		//		{
+		//			cout << "Chose one request you want to accept: ";
+		//			cin >> notifChoice;
+		//		}
+		//		else
+		//			cout << "Bad choice, try again\n";
+		//	}
+		//	
+		//}
 		AdminNotif admin;
+		cout << "Handling User's report" << endl;
 		admin.checkNotif(accInfo.getID(), "");
-		if (accInfo.getID() == "Ad5") {
-			Admin sellerRegistation;
-			sellerRegistation.acceptSeller();
-		}
+		cout << "Select a report to solve: ";
+		int notifChoice;
+		cin >> notifChoice;
+		Admin adminReply;
+		adminReply.findAdmin(accInfo.getID());
+		ShowMenuAdminReply(adminReply, admin, notifChoice);
+
 	}
 	else 	//user
 	{
@@ -538,6 +571,43 @@ void Menu::ShowMenuNotification(AccountInfo& accInfo)
 		{
 			UserNotif customerNotif;
 			customerNotif.checkNotif(accInfo.getID(), "");
+		}
+	}
+}
+
+void Menu::ShowMenuAdminReply(Admin& adminReply, AdminNotif& adminNotif, int mark)
+{
+	int count = 0;
+	string message;
+	adminNotif.loadListNotif();
+	for (int i = 0; i < adminNotif.adnv.size(); i++) {
+		if (adminNotif.adnv[i].getTakerID() == adminReply.getID())
+		{
+			ShowTitle();
+			count++;
+			cout << "Sender ID: " << adminNotif.adnv[i].getSenderID() << endl;
+			cout << "Message: " << adminNotif.adnv[i].getProblem() << endl;
+			if(count == mark)
+				if (adminNotif.adnv[i].getTakerID() == "Ad5") {
+					cout << "Do you agree to let this user become a seller? (Y/N): ";
+					while (true)
+					{
+						char ch;
+						cin >> ch;
+						if (ch == 'y' || ch == 'Y')
+						{
+							adminReply.acceptACusToBeSeller(adminNotif.adnv[i].getSenderID());
+							adminNotif.adnv[i].setStatus("1");
+							break;
+						}
+						else if (ch == 'n' || ch == 'N') {
+							adminNotif.adnv[i].setStatus("-1");
+							break;
+						}
+						else
+							cout << "Bad choice, try again\n";
+					}
+				}
 		}
 	}
 }

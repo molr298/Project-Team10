@@ -19,6 +19,7 @@ public:
 	void saveUser();
 	void sendReport(string senderID);
 	void acceptSeller();
+	void acceptACusToBeSeller(string customerID);
 };
 #endif // !_ADMIN_H
 
