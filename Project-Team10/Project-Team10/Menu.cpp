@@ -1,9 +1,21 @@
 ﻿#include "Menu.h"
 #include <io.h>
 #include <fcntl.h>
+
+#include <Windows.h>
+void gotoxy(int x, int y)
+{
+	COORD coordinates;     // coordinates is declared as COORD
+	coordinates.X = x;     // defining x-axis
+	coordinates.Y = y;     //defining  y-axis
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
+}
+
 void Menu::ShowTitle()
 {
 	system("cls");
+	//int x = 10, y = 20;
+	//gotoxy(x, y);
 	cout << "            E-Ecommerce Program Offline         " << endl;
 	cout << "______________________EPO10_____________________" << endl;
 }
@@ -295,7 +307,7 @@ void Menu::ShowMenuEdit(AccountInfo& accInfo, Account& Acc)
 	cin >> choice;
 	if (choice == 1) {
 		ShowMenuEditInfo(accInfo);
-		if (Acc.checkUsername(accInfo.getUsername())) {
+		if (!Acc.checkUsername(accInfo.getUsername())) {
 			Acc.changeUsername(accInfo.getUsername());
 			ListAccount listChange;
 			listChange.replaceAccount(Acc);
@@ -512,14 +524,37 @@ void Menu::ShowMenuNotification(AccountInfo& accInfo)
 		//}
 		AdminNotif admin;
 		cout << "Handling User's report" << endl;
-		admin.checkNotif(accInfo.getID(), "");
-		cout << "Select a report to solve: ";
-		int notifChoice;
-		cin >> notifChoice;
-		Admin adminReply;
-		adminReply.findAdmin(accInfo.getID());
-		ShowMenuAdminReply(adminReply, admin, notifChoice);
-
+		if (admin.checkNotif(accInfo.getID(), "")) {
+			Admin adminReply;
+			adminReply.findAdmin(accInfo.getID());
+			if (accInfo.getID() == "Ad5")
+			{
+				cout << "View Detail? (Y/N): ";
+				while (true)
+				{
+					char ch;
+					cin >> ch;
+					if (ch == 'y' || ch == 'Y')
+					{
+						adminReply.acceptSeller();
+						break;
+					}
+					else if (ch == 'n' || ch == 'N') {
+						break;
+					}
+					else
+						cout << "Bad choice, try again\n";
+				}
+			}
+			/*else {
+				cout << "Select a report to solve: ";
+				int notifChoice;
+				cin >> notifChoice;
+				ShowMenuAdminReply(adminReply, admin, notifChoice);
+			}*/
+		}
+		else
+			cout << "Press any key to return..." << endl;
 	}
 	else 	//user
 	{
@@ -540,7 +575,7 @@ void Menu::ShowMenuNotification(AccountInfo& accInfo)
 				}
 				else if (choice == 2) {
 					if (sellerNotif.checkNotif("", accInfo.getID())) {
-						cout << "Accept?(Y/N): ";
+						cout << "Accept All?(Y/N): ";
 						bool ans;
 						Seller notif;
 						while (true)
@@ -550,16 +585,18 @@ void Menu::ShowMenuNotification(AccountInfo& accInfo)
 							if (ch == 'y' || ch == 'Y')
 							{
 								ans = true;
+								notif.approveCart(ans, accInfo.getID());
 								break;
 							}
-							else if (ch == 'n' || ch == 'N') {
-								ans = false;
+							else if (ch == 'n' || ch == 'N') {	
+								cout << "Choose an order you want to accept: ";
+								int number_of_order;
+								cin >> number_of_order;
 								break;
 							}
 							else
 								cout << "Bad choice, try again\n";
 						}
-						notif.approveCart(ans, accInfo.getID());
 					}
 				}
 				else

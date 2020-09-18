@@ -205,10 +205,11 @@ void Product::loadListProduct()
 	}
 	int nProduct;
 	fin >> nProduct;
+	fin.ignore();
 	for (int i = 0; i < nProduct; i++)
 	{
-		string line;
-		getline(fin, line);
+//		string line;
+		//getline(fin, line);
 		prdv.push_back(Product::loadOneProduct(fin));
 	}
 	fin.close();
@@ -494,16 +495,16 @@ string Product::generateRandomIDProduct(string IDSeller)
 Product Product::inputNewProduct(string IDSeller)
 {
 	Product newProduct;
-	newProduct.ID = generateRandomIDProduct(IDSeller);
-
+	newProduct.ID = generateRandomIDProduct(IDSeller);	//1
+	//IDSEller 2
 	cin.ignore();
-	cout << "\tName: ";			getline(cin, newProduct.productName);
-	cout << "\tPrice (VND): ";	cin >> newProduct.price;
-	cout << "\tStock: ";		cin >> newProduct.stock;
-	cout << "\tType (1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other): ";
+	cout << "\tName: ";			getline(cin, newProduct.productName);	//3
+	cout << "\tPrice (VND): ";	cin >> newProduct.price;//4
+	cout << "\tStock: ";		cin >> newProduct.stock;//5
+	cout << "\tType (1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other): ";//6
 	cin >> newProduct.type;
 	cin.ignore();
-	cout << "\tDescription: ";	getline(cin, newProduct.descript);
+	cout << "\tDescription: ";	getline(cin, newProduct.descript);//7
 
 	newProduct.IDseller = IDSeller;
 	Rate newRate;

@@ -1,0 +1,8 @@
+Code;Percent;Type;Description
+SALE30ALL;30;ALL;You have applied sale code to eventually decrease your money spending on all orders to 30%
+SALE50ALL;50;ALL;You have applied sale code to eventually decrease your money spending on all orders to 50%
+SALE70ALL;70;ALL;You have applied sale code to eventually decrease your money spending on all orders to 70%
+SALE30T1;30;1;You have applied sale code to eventually decrease your money spending on Food to 30%
+SALE50T2;50;2;You have applied sale code to eventually decrease your money spending on Fashion to 50%
+SALE70T3;70;3;You have applied sale code to eventually decrease your money spending on Technology to 70%
+SHIPFREE;0;0;You have applied free ship code
