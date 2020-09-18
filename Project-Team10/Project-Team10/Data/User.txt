@@ -1,4 +1,4 @@
-6
+8
 19127001
 nguyenvanA
 Nguyen Van A
@@ -8,8 +8,8 @@ Nguyen Van A
 1
 
 19127002
-leBang
-Le Bang
+leTrI
+Le Tri
 10/10/1999
 932567841
 0
@@ -21,7 +21,7 @@ Nguyen Thi C
 13/09/1999
 932500041
 1
-0
+1
 
 19127004
 nguyenthiD
@@ -45,5 +45,21 @@ Vo Nhat Huy
 10/10/2001
 123456789
 0
+1
+
+19127007
+Laponz
+Le Bong
+10/9/2000
+999231453
+1
 0
+
+19127008
+tuanThanhHO
+Ho Tuan Thanh
+7/7/1988
+912436287
+0
+1
 
