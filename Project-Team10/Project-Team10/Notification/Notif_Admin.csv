@@ -5,6 +5,7 @@ Ad1;19127001;Offense Account;1
 Ad2;19127001;Password Renewal;1
 19127002;Ad2;Report user 19127001;0
 19127001;Ad4;Seller registration;1
-19120007;Ad5;User 19120007 want to become a seller;0
-19120007;Ad2;Lua dao;0
-19127008;Ad2;co dau hieu lua dao;0
+19127003;Ad5;User 19127003 want to become a seller;1
+19127006;Ad5;User 19127006 want to become a seller;1
+19127008;Ad5;User 19127008 want to become a seller;1
+19127008;Ad2;Ban do fake;0

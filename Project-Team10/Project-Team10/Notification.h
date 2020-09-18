@@ -35,11 +35,12 @@ public:
 	string getStatus() { return status; }
 	void loadListNotif();
 	AdminNotif loadAnNotif(ifstream& fin);
-	void checkNotif(string adminID, string userID);
+	bool checkNotif(string adminID, string userID);
 	void saveOneReport(ofstream& fout);
 	void setStatus(string status) { this->status = status; }
 	void setProblem(string Problem) { this->Problem = Problem; }
 	void saveListNotif();
+	void replyAReport(string IDUser, string IDAdmin);
 };
 
 class UserNotif

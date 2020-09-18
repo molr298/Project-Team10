@@ -21,6 +21,18 @@ void AdminNotif::saveListNotif()
 	}
 	fout.close();
 }
+void AdminNotif::replyAReport(string IDUser, string IDAdmin)
+{
+	string message = "";
+	if (IDAdmin != "Ad5") {
+		cout << "Message send to user: ";
+		cin.ignore();
+		getline(cin, message);
+	}
+	else {
+		
+	}
+}
 void AdminNotif::loadListNotif()
 {
 	adnv.clear();
@@ -49,7 +61,7 @@ AdminNotif AdminNotif::loadAnNotif(ifstream& fin)
 	getline(fin, status);
 	return *this;
 }
-void AdminNotif::checkNotif(string adminID, string userID)
+bool AdminNotif::checkNotif(string adminID, string userID)
 {
 	int count = 0;
 	loadListNotif();
@@ -69,6 +81,7 @@ void AdminNotif::checkNotif(string adminID, string userID)
 	}
 	if(flag==0)
 		cout << "No notification available" << endl;
+	return flag;
 }
 UserNotif UserNotif::loadOneNotif(ifstream& fin)
 {
@@ -236,13 +249,14 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 	bool flag = 0;
 	//cout << usnv.size() << endl;
 	loadListNotif();
+	int count = 0;
 	cout << "________________________________________________________________________________________________________________" << endl;
 
 	for (int i = 0; i < usnv.size(); i++)
 	{
 		if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 0)
 		{
-			cout << "Your order on the " << usnv[i].getProductName() << " is waiting to be qualified by the seller." << endl;
+			cout << ++count << ". Your order on the " << usnv[i].getProductName() << " is waiting to be qualified by the seller." << endl;
 			cout << "Review your order's information below" << endl;
 			cout << "Product ID: " << usnv[i].getProductID() << endl;
 			cout << "Product Name: " << usnv[i].getProductName() << endl;
@@ -257,7 +271,7 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 
 		else if (customerID1 == usnv[i].getCustomerID() && usnv[i].getStatus() == 1)
 		{ 
-			cout << "Your order has been transported to shipping service" << endl;
+			cout << ++count << ". Your order has been transported to shipping service" << endl;
 			cout << "Review your order's information below" << endl;
 			cout << "Product ID: " << usnv[i].getProductID() << endl;
 			cout << "Product Name: " << usnv[i].getProductName() << endl;
@@ -268,7 +282,7 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 			cout << "______________________________________________________________________________" << endl;
 		}
 		else if (sellerID1 == usnv[i].getSellerID() && usnv[i].getStatus() == 2) {
-			cout << "#" << usnv[i].getCustomerID() << " - has received the order" << endl;
+			cout << ++count << ". #" << usnv[i].getCustomerID() << " - has received the order" << endl;
 			cout << "Product ID: " << usnv[i].getProductID() << endl;
 			cout << "Product Name: " << usnv[i].getProductName() << endl;
 			cout << "Quantity: " << usnv[i].getQuantity() << endl;
@@ -280,7 +294,7 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 		}
 		if (sellerID1 == usnv[i].getSellerID() && usnv[i].getStatus() == 0)
 		{
-			cout << "Customer with ID: " << usnv[i].getCustomerID() << " have ordered the following product:" << endl;
+			cout << ++count << ". Customer with ID: " << usnv[i].getCustomerID() << " have ordered the following product:" << endl;
 			cout << "Product Name: " << usnv[i].getProductName() << endl;
 			cout << "Quantity: " << usnv[i].getQuantity() << endl;
 			cout << "Price: " << usnv[i].getPrice() << endl;
