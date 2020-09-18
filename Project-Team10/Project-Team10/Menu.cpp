@@ -122,7 +122,7 @@ void Menu::ShowMenuAdmin(AccountInfo& adminInfo, Account& adminAcc, ListAccount&
 		default:
 			break;
 		}
-		_getch();
+		system("pause");
 	}
 }
 
@@ -402,7 +402,7 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo, Customer& cusShopping, UserNot
 			bool flag = cusShopping.listSearchProduct();
 			cusShopping.buyStuff(usn, accInfo.getID(), flag);
 			system("pause");
-
+			cusShopping.filterProductClear();
 			break;
 		}
 		case 2:

@@ -1,5 +1,6 @@
 ﻿#include "Product.h"
 #include <stdio.h>
+#define PUSH_BEST_PAIR_FOR_TRAVERSAL(x,y,z,t) n_best_pairs_for_traversals[x].push_back(nth_best_parse(x, y, z, e->leading_traversals[x]->active_edge->n_best_parses[y].viterbi_prob * e->leading_traversals[x]->passive_edge->n_best_parses[z].viterbi_prob * t))
 //
 //int ID;
 //string productName;
@@ -206,12 +207,17 @@ void Product::loadListProduct()
 	int nProduct;
 	fin >> nProduct;
 	fin.ignore();
+	Product* p = nullptr;
+	
 	for (int i = 0; i < nProduct; i++)
 	{
 //		string line;
 		//getline(fin, line);
-		prdv.push_back(Product::loadOneProduct(fin));
+		p = new Product;
+		p->loadOneProduct(fin);
+		prdv.push_back(p);
 	}
+
 	fin.close();
 }
 
@@ -226,12 +232,14 @@ void Product::saveListProduct()
 	fout << prdv.size() << endl;
 	for (int i = 0; i < prdv.size(); i++)
 	{
-		prdv[i].saveOneProduct(fout);
+		prdv[i]->saveOneProduct(fout);
 	}
 	fout.close();
+	Product::prdvClear();
+	prdv.clear();
 }
 
-Product Product::loadOneProduct(ifstream& fin)
+Product& Product::loadOneProduct(ifstream& fin)
 {
 	getline(fin, ID);
 	getline(fin, IDseller);
@@ -241,6 +249,7 @@ Product Product::loadOneProduct(ifstream& fin)
 	fin >> stock;
 	fin >> type;
 	fin.ignore();
+
 	return *this;
 }
 
@@ -260,7 +269,7 @@ void Product::displayListProduct()
 
 	cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type\t" << setw(7) << left << "Rating " << endl;
 	for (int i = 0; i < prdv.size(); i++)
-		prdv[i].display();
+		prdv[i]->display();
 	cout << "____________________________________" << endl;
 }
 
@@ -284,7 +293,7 @@ void Product::inputProduct()
 void Product::addProduct(Product prd)
 {
 	Product::loadListProduct();
-	prdv.push_back(prd);
+	prdv.push_back(&prd);
 	Product::saveListProduct();
 }
 
@@ -297,12 +306,12 @@ void Product::removeProduct(string search)
 	if (containProduct(search)) {
 		for (int i = 0; i < prdv.size(); i++)
 		{
-			if (prdv[i].getID() == search || prdv[i].getProductName() == search)
+			if (prdv[i]->getID() == search || prdv[i]->getProductName() == search)
 			{
 				cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(10) << left << "Type\t" << setw(7) << left << "Rating " << endl;
 				cout << endl;
 				cout << "1" << "\t";
-				prdv[i].display();
+				prdv[i]->display();
 				char ans;
 				cout << endl << "Are you sure you want to delete this product ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n)" << endl;
 				cin >> ans;
@@ -310,6 +319,7 @@ void Product::removeProduct(string search)
 				{
 				case 'YES': case 'Y': case 'yes': case 'y':
 				{
+					delete prdv[i];
 					prdv.erase(prdv.begin() + i);
 					cout << "Product has been delete" << endl;
 					break;
@@ -346,9 +356,9 @@ void Product::editProduct()
 	{
 		for (int i = 0; i < prdv.size(); i++)
 		{
-			if (prdv[i].getID() == search || prdv[i].getProductName() == search)
+			if (prdv[i]->getID() == search || prdv[i]->getProductName() == search)
 			{
-				prd = prdv[i];
+				prd = *prdv[i];
 				idx = i;
 				break;
 			}
@@ -406,7 +416,7 @@ void Product::editProduct()
 		{
 		case 'YES': case 'Y': case 'yes': case 'y':
 		{
-			prdv[idx] = prd;
+			prdv[idx] = &prd;
 			cout << "Product has been edited" << endl;
 			break;
 		}
@@ -426,7 +436,8 @@ void Product::deleteAllProductOfSeller(string IDSeller)
 {
 	loadListProduct();
 	for (int i = 0; i < prdv.size(); i++) {
-		if (prdv[i].getIDseller() == IDSeller) {
+		if (prdv[i]->getIDseller() == IDSeller) {
+			delete prdv[i];
 			prdv.erase(prdv.begin() + i);
 			i--;
 		}
@@ -516,7 +527,7 @@ Product Product::inputNewProduct(string IDSeller)
 
 bool Product::containProduct(const string search) {
 	for (size_t i = 0; i < prdv.size(); i++) {
-		if (prdv[i].getID() == search || prdv[i].getProductName() == search)
+		if (prdv[i]->getID() == search || prdv[i]->getProductName() == search)
 			return true;
 	}
 	return false;
@@ -527,7 +538,7 @@ bool Product::containProduct(const string search) {
 //	if (containProduct(ID)) {
 //		for (size_t i = 0; i < prdv.size(); i++)
 //		{
-//			if (prdv[i].getID() == ID) {
+//			if (prdv[i]->getID() == ID) {
 //				return prdv[i];
 //			}
 //		}
@@ -542,16 +553,16 @@ void Product::saveNotifUser(string IDseller)
 	{
 		for (int j = 0; j < prdv.size(); j++)
 		{
-			if (IDseller == prdv[j].getIDseller() && usnv[i].getProductName() == prdv[j].getProductName() && usnv[i].getProductID() == prdv[j].getID() && usnv[i].getStatus() == 0)
+			if (IDseller == prdv[j]->getIDseller() && usnv[i].getProductName() == prdv[j]->getProductName() && usnv[i].getProductID() == prdv[j]->getID() && usnv[i].getStatus() == 0)
 			{
-				if (prdv[j].stock > usnv[i].getQuantity())
+				if (prdv[j]->stock > usnv[i].getQuantity())
 				{
-					prdv[j].stock -= usnv[i].getQuantity();
+					prdv[j]->stock -= usnv[i].getQuantity();
 				}
 				else
 				{
-					cout << "Product " << prdv[j].productName << " doesn't have eough supplies for user " << usnv[i].getCustomerID() << endl;
-					cout << "It lacks " << usnv[i].getQuantity() - prdv[j].stock << endl;
+					cout << "Product " << prdv[j]->productName << " doesn't have eough supplies for user " << usnv[i].getCustomerID() << endl;
+					cout << "It lacks " << usnv[i].getQuantity() - prdv[j]->stock << endl;
 				}
 				usnv[i].setStatus(1);
 			}
@@ -568,7 +579,7 @@ bool Product::listSearchProduct()
 	Product::loadListProduct();
 	UserNotif::loadListNotif();
 	string search;
-	vector<Product> temp;
+//	vector<Product> temp;
 	int n1 = usnv.size();
 	cin.ignore();
 	cout << "Enter ID or name to search: ";
@@ -580,12 +591,12 @@ bool Product::listSearchProduct()
 	for (int i = 0; i < prdv.size(); i++)
 	{
 		int found = -1;
-		string tmp = prdv[i].getProductName();
+		string tmp = prdv[i]->getProductName();
 		for (int i = 0; i < tmp.size(); i++)
 			tmp[i] = toupper(tmp[i]);
 
 		found = tmp.find(search);
-		if (prdv[i].getID() == search || prdv[i].getProductName() == search || found != -1) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
+		if (prdv[i]->getID() == search || prdv[i]->getProductName() == search || found != -1) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
 		{
 			flag = 1;
 			filterProduct.push_back(prdv[i]);
@@ -599,7 +610,7 @@ bool Product::listFilterProduct()
 	Product::loadListProduct();
 	UserNotif::loadListNotif();
 	int search;
-	vector<Product> temp;
+//	vector<Product> temp;
 	int n1 = usnv.size();
 	cout << "1. Food" << endl;
 	cout << "2. Fashion" << endl;
@@ -611,7 +622,8 @@ bool Product::listFilterProduct()
 	bool flag = 0;
 	for (int i = 0; i < prdv.size(); i++)
 	{
-		if (prdv[i].getType() == search) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
+	//	cout << "TYPEEEE: " << prdv[i]->getType() << endl;
+		if (prdv[i]->getType() == search) /////////Hàm tìm keyword sẽ review sau https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
 		{
 			flag = 1;
 			filterProduct.push_back(prdv[i]);
@@ -624,9 +636,24 @@ void Product::viewStoreOfSeller(string IDseller)
 	loadListProduct();
 	cout << setw(4) << left << "ID" << "\t" << setw(15) << left << "ID's Seller" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(15) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(20) << left << "Type" << "\t" << setw(20) << left << "Rate" << endl;
 	for (int i = 0; i < prdv.size(); i++) {
-		if (prdv[i].IDseller == IDseller)
-			prdv[i].display();
+		if (prdv[i]->IDseller == IDseller)
+			prdv[i]->display();
 	}
+}
+void Product::prdvClear()
+{
+	for (int i = 0; i < prdv.size(); i++)
+		delete prdv[i];
+}
+void Product::ordvClear()
+{
+	/*for (int i = 0; i < prdv.size(); i++)
+		delete ordv[i];*/
+}
+void Product::filterProductClear()
+{
+	for (int i = 0; i < prdv.size(); i++)
+		delete filterProduct[i];
 }
 void Product::setupCart(int quantity, Product p)
 {

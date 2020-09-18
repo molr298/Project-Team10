@@ -17,9 +17,9 @@ private:
 	int type; //1. Food; 2. Fashion; 3. Technological; 4. Houseware; 5. Other
 	string descript;
 protected:
-	vector<Product> prdv;
-	vector<Product> ordv;
-	vector<Product> filterProduct;
+	vector<Product*> prdv;
+	vector<Product*> ordv;
+	vector<Product*> filterProduct;
 
 public:
 	Product() { ID = IDseller = productName = ""; price = 0; stock = 0; };
@@ -49,7 +49,7 @@ public:
 	void loadListProduct();
 	void saveListProduct();
 
-	Product loadOneProduct(ifstream& fin);
+	Product& loadOneProduct(ifstream& fin);
 	void saveOneProduct(ofstream& fout);
 	void displayListProduct();
 	void inputProduct();
@@ -72,6 +72,10 @@ public:
 	bool listSearchProduct();
 	bool listFilterProduct();
 	void viewStoreOfSeller(string IDseller);
+
+	void prdvClear();
+	void ordvClear();
+	void filterProductClear();
 };
 
 class Rate {

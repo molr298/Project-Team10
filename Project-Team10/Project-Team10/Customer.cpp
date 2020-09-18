@@ -4,7 +4,7 @@ int ship = 0;
 
 void Customer::buyStuff(UserNotif usn, string customerID, bool flag)
 {
-	vector<Product> temp;
+	vector<Product*> temp;
 	if (flag == 0)
 	{
 		cout << "Items not found" << endl;
@@ -18,7 +18,7 @@ void Customer::buyStuff(UserNotif usn, string customerID, bool flag)
 		{
 			cout << endl;
 			cout << i + 1 << "\t";
-			filterProduct[i].display();
+			filterProduct[i]->display();
 			cout << "__________________________________________________________________________________________________________________________________" << endl;
 		}
 		cout << "Make your choice: ";
@@ -29,40 +29,41 @@ void Customer::buyStuff(UserNotif usn, string customerID, bool flag)
 		}
 		int n;
 		system("cls");
-		if (filterProduct[choice - 1].getIDseller() == customerID) {
+		if (filterProduct[choice - 1]->getIDseller() == customerID) {
 			cout << "You are selling this product" << endl;
 			return;
 		}
 		cout << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(20) << left << "Type\t" << setw(20) << left << "Rating " << endl;
-		filterProduct[choice - 1].display();
-		cout << "Description: " << filterProduct[choice - 1].getDescr() << endl;
-		Comment commentOfProduct(filterProduct[choice - 1].getID(), filterProduct[choice - 1].getIDseller());
-		commentOfProduct.displayComment(filterProduct[choice - 1].getID(), filterProduct[choice - 1].getIDseller());
+		filterProduct[choice - 1]->display();
+		cout << "Description: " << filterProduct[choice - 1]->getDescr() << endl;
+		Comment commentOfProduct(filterProduct[choice - 1]->getID(), filterProduct[choice - 1]->getIDseller());
+		commentOfProduct.displayComment(filterProduct[choice - 1]->getID(), filterProduct[choice - 1]->getIDseller());
 		cout << "___________________________________________________________________" << endl;
 
 		cout << "How many do you buy ?: ";
 		cin >> n;
-		cout << endl << "Are you sure you want to purchase ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n)" << endl;
-		char ans;
-		cin >> ans;
-		switch (ans)
+		cout << endl << "Add to cart?(Y/N): ";
+		while (true)
 		{
-		case 'YES': case 'Y': case 'yes': case 'y':
-		{
-			temp = filterProduct;
-			temp[choice - 1].setQuantity(n);
-			ordv.push_back(temp[choice - 1]);
-			Customer::viewCart(ship);
-			cout << "Your cart has been updated" << endl;
-			system("pause");
-			system("cls");
-			break;
-		}
-		case 'NO': case 'N': case 'no': case 'n':
-		{
-			cout << "Returning..." << endl;
-			break;
-		}
+			char ch;
+			cin >> ch;
+			if (ch == 'y' || ch == 'Y')
+			{
+				temp = filterProduct;
+				temp[choice - 1]->setQuantity(n);
+				ordv.push_back(temp[choice - 1]);
+				Customer::viewCart(ship);
+				cout << "Your cart has been updated" << endl;
+				system("pause");
+				system("cls");
+				break;
+			}
+			else if (ch == 'n' || ch == 'N') {
+				cout << "Returning..." << endl;
+				break;
+			}
+			else
+				cout << "Bad choice, try again\n";
 		}
 	}
 }
@@ -70,7 +71,7 @@ void Customer::confirmCart(string customerID)
 {
 	int n = usnv.size();
 	UserNotif::loadListNotif();
-	cout << endl << "Are you sure you want to purchase ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n)" << endl;
+	cout << endl << "Are you sure you want to purchase?(Y/N): ";
 	char ans;
 	cin >> ans;
 	switch (ans)
@@ -79,7 +80,7 @@ void Customer::confirmCart(string customerID)
 	{
 		for (int i = 0; i < ordv.size(); i++)
 		{
-			Product::setupCart(ordv[i].getStock(), ordv[i]);
+			Product::setupCart(ordv[i]->getStock(), *ordv[i]);
 		}
 		remove("Notification/Notif_User.csv");
 		ofstream fout("Notification/Notif_User.csv");
@@ -103,7 +104,10 @@ void Customer::confirmCart(string customerID)
 		cout << "Your cart has been renewed" << endl;
 		break;
 	}
+	default:
+		break;
 	}
+	ordvClear();
 	ordv.clear();
 }
 
@@ -119,9 +123,9 @@ void Customer::viewCart(int ship1)
 	cout << setw(4) << left << "Number" << "\t" << setw(4) << left << "ID" << "\t" << setw(12) << left << "Seller's ID" << "\t" << setw(20) << left << "Product's name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Stock" << "\t" << setw(20) << left << "Type\t" << setw(20) << left << "Rating " << endl;
 	for (int i = 0; i < ordv.size(); i++)
 	{
-		total += ordv[i].getPrice() * ordv[i].getStock();
+		total += ordv[i]->getPrice() * ordv[i]->getStock();
 		cout << i + 1 << "       ";
-		ordv[i].display();
+		ordv[i]->display();
 		cout << "__________________________________________________________________________________________________________________________________" << endl;
 	}
 	if (ship == 0)
@@ -218,9 +222,11 @@ void Customer::setOrder(string customerID)
 		{
 			cout << "Choose one order to remove: ";
 			cin >> num;
-			ordv.erase(ordv.begin() + num - 1);
-			cout << "This order has been remove" << endl;
-
+			if (num != 0) {
+				ordv.erase(ordv.begin() + num - 1);
+				cout << "This order has been remove" << endl;
+			}
+			break;
 		}
 		if (option == 2)
 		{
@@ -229,12 +235,14 @@ void Customer::setOrder(string customerID)
 			cin >> num;
 			cout << "Quantity: ";
 			cin >> quantity;
-			ordv[num - 1].setQuantity(quantity);
+			ordv[num - 1]->setQuantity(quantity);
+			break;
 		}
 		if (option == 3)
 		{
 			Customer::setVoucher();
 			system("pause");
+			break;
 		}
 	}
 }
@@ -310,8 +318,8 @@ void Customer::setVoucher()
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
-					ordv[j].setPrice(ordv[j].getPrice() - (ordv[j].getPrice() * vouv[i].getPer() / 100));
-					cout << ordv[j].getPrice() << endl;
+					ordv[j]->setPrice(ordv[j]->getPrice() - (ordv[j]->getPrice() * vouv[i].getPer() / 100));
+					cout << ordv[j]->getPrice() << endl;
 				}
 				cout << endl << vouv[i].getDescrip() << endl;
 				_getch();
@@ -321,9 +329,9 @@ void Customer::setVoucher()
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
-					if (ordv[j].getType() == 1)
+					if (ordv[j]->getType() == 1)
 					{
-						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
 					}
 				}
 				cout << endl << vouv[i].getDescrip() << endl;
@@ -334,9 +342,9 @@ void Customer::setVoucher()
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
-					if (ordv[j].getType() == 2)
+					if (ordv[j]->getType() == 2)
 					{
-						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
 					}
 				}
 				cout << endl << vouv[i].getDescrip() << endl;
@@ -347,9 +355,9 @@ void Customer::setVoucher()
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
-					if (ordv[j].getType() == 3)
+					if (ordv[j]->getType() == 3)
 					{
-						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
 					}
 				}
 				cout << endl << vouv[i].getDescrip() << endl;
@@ -360,9 +368,9 @@ void Customer::setVoucher()
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
-					if (ordv[j].getType() == 4)
+					if (ordv[j]->getType() == 4)
 					{
-						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
 					}
 				}
 				cout << endl << vouv[i].getDescrip() << endl;
@@ -373,9 +381,9 @@ void Customer::setVoucher()
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
-					if (ordv[j].getType() == 5)
+					if (ordv[j]->getType() == 5)
 					{
-						ordv[j].setPrice(ordv[j].getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
 					}
 				}
 				cout << endl << vouv[i].getDescrip() << endl;
