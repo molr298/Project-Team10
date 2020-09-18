@@ -80,12 +80,14 @@ void Seller::saleStatistic(string IDseller)
 	cout << "Lowest: " << lowestTotal << endl;
 	cout << "Total: " << total << endl << endl;
 	char ans;
-	cout << endl << "View more information ? " << endl << "YES(yes) (Y,y)" << endl << "NO(no) (N,n) to return" << endl;
+	cout << endl << "View more information?(Y/N): ";
 	cin >> ans;
 	switch (ans)
 	{
 	case 'YES': case 'Y': case 'yes': case 'y':
 	{
+		system("cls");
+		cout << "_____________________________________________________________________________________________" << endl;
 		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
 		for (int i = 0; i < temp.size(); i++)
 		{
@@ -93,8 +95,9 @@ void Seller::saleStatistic(string IDseller)
 			temp[i].print();
 			cout << "_____________________________________________________________________________________________" << endl;
 		}
-
-		cout << "Total: " << total << endl << endl;
+		cout << endl;
+		cout << "TOTAL: " << total << endl << endl;
+		cout << "_____________________________________________________________________________________________" << endl;
 		cout << "Most Buying Product Quantity: " << endl;
 		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
 		for (int i = 0; i < temp.size(); i++)
@@ -107,6 +110,7 @@ void Seller::saleStatistic(string IDseller)
 			}
 		}
 		cout << endl;
+		cout << "_____________________________________________________________________________________________" << endl;
 		cout << "Least Buying Product Quantity: " << endl;
 		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
 		for (int i = 0; i < temp.size(); i++)
@@ -119,6 +123,7 @@ void Seller::saleStatistic(string IDseller)
 			}
 		}
 		
+		cout << "_____________________________________________________________________________________________" << endl;
 		cout << "\nBest sale: " << endl;
 		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
 		for (int i = 0; i < temp.size(); i++)
@@ -131,6 +136,7 @@ void Seller::saleStatistic(string IDseller)
 			}
 		}
 
+		cout << "_____________________________________________________________________________________________" << endl;
 		cout << "\nLeast sale: " << endl;
 		cout << setw(4) << left << "Product ID" << "\t" << setw(20) << left << "Product's Name" << "\t" << setw(10) << left << "Price" << "\t" << setw(10) << left << "Quantity" << "\t" << setw(10) << left << "Type" << "\t" << setw(10) << "Total" << endl;
 		for (int i = 0; i < temp.size(); i++)
@@ -142,7 +148,7 @@ void Seller::saleStatistic(string IDseller)
 				cout << "_____________________________________________________________________________________________" << endl;
 			}
 		}
-
+		cout << "_____________________________________________________________________________________________" << endl;
 		break;
 	}
 	case 'NO': case 'N':case 'n': case 'no':
@@ -150,7 +156,8 @@ void Seller::saleStatistic(string IDseller)
 
 		break;
 	}
-
+	default:
+		break;
 	}
 }
 void Seller ::sendReport(string senderID1)

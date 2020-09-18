@@ -197,6 +197,12 @@ void Customer::requestToBeSeller(string senderID)
 	AdminNotif::saveListNotif();
 }
 
+void Customer::voucherClear()
+{
+	for (int i = 0; i < vouv.size(); i++)
+		delete vouv[i];
+}
+
 
 void Customer::setOrder(string customerID)
 {
@@ -246,7 +252,7 @@ void Customer::setOrder(string customerID)
 		}
 	}
 }
-Customer Customer::readOneVoucher(ifstream& fin)
+Customer& Customer::readOneVoucher(ifstream& fin)
 {
 	getline(fin, code, ';');
 	fin >> percent;
@@ -255,6 +261,7 @@ Customer Customer::readOneVoucher(ifstream& fin)
 	getline(fin, description, '\n');
 	return *this;
 }
+
 int countLines1(ifstream& filein)
 {
 	string line;
@@ -279,27 +286,39 @@ void Customer::loadListVoucher()
 	fin.open("Voucher/Sale_Code.csv");
 	string line;
 	getline(fin, line);
+
+	Customer* cusVoucher = nullptr;
 	for (int i = 0; i < n; i++)
 	{
-		vouv.push_back(Customer::readOneVoucher(fin));
+		cusVoucher = new Customer;
+		cusVoucher->readOneVoucher(fin);
+		vouv.push_back(cusVoucher);
 		//getline(fin, line);
 	}
 	fin.close();
 }
 void Customer::print()
 {
+	cout << "SHIPFREE: FREE YOUR SHIPING FEE" << endl;
 	for (int i = 0; i < vouv.size(); i++)
 	{
-		cout << vouv[i].getCode() << endl;
-		cout << vouv[i].getPer() << endl;
-		cout << vouv[i].getType() << endl;
-		cout << vouv[i].getDescrip() << endl;
+		cout << vouv[i]->getCode() << ": ";
+		cout << vouv[i]->getPer() << "% - SALE FOR ";
+		string type = vouv[i]->getType();
+		if (type == "1")		cout << "FOOD";
+		else if (type == "2")	cout << "FASHION";
+		else if (type == "3")	cout << "TECH";
+		else if (type == "4")	cout << "HOUSEWARE";
+		else if (type == "5")	cout << "OTHER";
+		else cout << "ALL";
+		cout << endl;
+		//cout << vouv[i]->getDescrip() << endl;
 	}
 }
 void Customer::setVoucher()
 {
-	Customer::loadListVoucher();
-	//Customer::print();
+	loadListVoucher();
+	print();
 	string voucher;
 	cin.ignore();
 	cout << "Enter your voucher here: ";
@@ -312,84 +331,85 @@ void Customer::setVoucher()
 	}
 	for (int i = 0; i < vouv.size(); i++)
 	{
-		if (vouv[i].getCode() == voucher)
+		if (vouv[i]->getCode() == voucher)
 		{
-			if (vouv[i].getType() == "ALL")
+			if (vouv[i]->getType() == "ALL")
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
-					ordv[j]->setPrice(ordv[j]->getPrice() - (ordv[j]->getPrice() * vouv[i].getPer() / 100));
+					ordv[j]->setPrice(ordv[j]->getPrice() - (ordv[j]->getPrice() * vouv[i]->getPer() / 100));
 					cout << ordv[j]->getPrice() << endl;
 				}
-				cout << endl << vouv[i].getDescrip() << endl;
+				cout << endl << vouv[i]->getDescrip() << endl;
 				_getch();
 				return;
 			}
-			else if (vouv[i].getType() == "1")
+			else if (vouv[i]->getType() == "1")
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
 					if (ordv[j]->getType() == 1)
 					{
-						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i]->getPer()) / 100));
 					}
 				}
-				cout << endl << vouv[i].getDescrip() << endl;
+				cout << endl << vouv[i]->getDescrip() << endl;
 				_getch();
 				return;
 			}
-			else if (vouv[i].getType() == "2")
+			else if (vouv[i]->getType() == "2")
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
 					if (ordv[j]->getType() == 2)
 					{
-						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i]->getPer()) / 100));
 					}
 				}
-				cout << endl << vouv[i].getDescrip() << endl;
+				cout << endl << vouv[i]->getDescrip() << endl;
 				_getch();
 				return;
 			}
-			else if (vouv[i].getType() == "3")
+			else if (vouv[i]->getType() == "3")
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
 					if (ordv[j]->getType() == 3)
 					{
-						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i]->getPer()) / 100));
 					}
 				}
-				cout << endl << vouv[i].getDescrip() << endl;
+				cout << endl << vouv[i]->getDescrip() << endl;
 				_getch();
 				return;
 			}
-			else if (vouv[i].getType() == "4")
+			else if (vouv[i]->getType() == "4")
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
 					if (ordv[j]->getType() == 4)
 					{
-						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i]->getPer()) / 100));
 					}
 				}
-				cout << endl << vouv[i].getDescrip() << endl;
+				cout << endl << vouv[i]->getDescrip() << endl;
 				_getch();
 				return;
 			}
-			else if (vouv[i].getType() == "5")
+			else if (vouv[i]->getType() == "5")
 			{
 				for (int j = 0; j < ordv.size(); j++)
 				{
 					if (ordv[j]->getType() == 5)
 					{
-						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i].getPer()) / 100));
+						ordv[j]->setPrice(ordv[j]->getPrice() * ((100 - vouv[i]->getPer()) / 100));
 					}
 				}
-				cout << endl << vouv[i].getDescrip() << endl;
+				cout << endl << vouv[i]->getDescrip() << endl;
 				_getch();
 				return;
 			}
 		}
 	}
+	voucherClear();
 }

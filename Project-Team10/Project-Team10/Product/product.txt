@@ -25,7 +25,7 @@ Made in China
 Gucci
 Made in Italy
 1000
-400
+399
 2
 105T
 19127001
@@ -64,7 +64,7 @@ Made in Taiwan
 1
 109T
 19127002
-11 Pro Max phone case
+IPhone 11 Pro Max phone case
 Made in China
 15
 800
@@ -81,7 +81,7 @@ Made in Taiwan
 Macbook Pro 2020
 Made in China
 5e+07
-100
+99
 3
 863J
 19127008

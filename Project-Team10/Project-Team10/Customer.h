@@ -13,7 +13,7 @@ private:
 	int percent;
 	string type;
 	string description;
-	vector<Customer> vouv;
+	vector<Customer*> vouv;
 public:
 	Customer()
 	{
@@ -32,11 +32,11 @@ public:
 	void sendReport(string senderID1);
 	void setOrder(string customerID);
 	void setVoucher();
-	Customer readOneVoucher(ifstream& fin);
+	Customer& readOneVoucher(ifstream& fin);
 	void loadListVoucher();
 	void print();
 	void requestToBeSeller(string senderID);
-	void HistoryShopping(string customerID);
+	void voucherClear();
 };
 
 #endif // !_CUSTOMER_H

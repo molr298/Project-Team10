@@ -402,7 +402,7 @@ void Menu::ShowMenuShopping(AccountInfo& accInfo, Customer& cusShopping, UserNot
 			bool flag = cusShopping.listSearchProduct();
 			cusShopping.buyStuff(usn, accInfo.getID(), flag);
 			system("pause");
-			cusShopping.filterProductClear();
+			//cusShopping.filterProductClear();
 			break;
 		}
 		case 2:
