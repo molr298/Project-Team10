@@ -5,6 +5,8 @@
 #include "Product.h"
 #include "Customer.h"
 #include "Seller.h"
+
+
 int main() {
 
 	srand(time(NULL));
@@ -24,13 +26,16 @@ int main() {
 		cout << "\t\t 0. END PROGRAM" << endl;
 		string choice;
 		cout << "________________________________________________" << endl;
-		cout << "Enter your choice: ";	cin >> choice;
+		cout << "Enter your choice: ";	
+		getline(cin, choice);
 		if (choice == "1")
 			menu.Login(accountLogin, listAcc, accInfo, username, password);
 		else if (choice == "2")
 			menu.SignUp(accountLogin, AccountSignUp, listAcc, accInfo, username, password);
-		else if(choice == "0")
+		else if (choice == "0")
 			return -1;
+		else if (choice == "")
+			exit(0);
 	}
 
 	return 0;

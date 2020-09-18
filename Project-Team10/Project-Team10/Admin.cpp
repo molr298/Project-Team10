@@ -110,15 +110,15 @@ void Admin::acceptSeller()
 		cout << "No Seller's Registration now" << endl;
 		return;
 	}
-	int choice;
-	cout << "Choose users to grant Seller's priviledge or press 0 to apply all (-1 to cancel): ";
+	char choice;
+	cout << "Accept all request? (Y/N): ";
 	cin >> choice;
-	if (choice == -1)
+	if (choice == 'N' || choice == 'n')
 	{
 		cout << "Exiting..." << endl;
 		return;
 	}
-	if (choice == 0)
+	else if (choice == 'Y' || choice == 'y')
 	{
 		for (int j = 0; j < user.size(); j++)
 		{
