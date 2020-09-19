@@ -24,22 +24,20 @@ int main() {
 		menu.ShowTitle();
 		cout << endl << "\t\t 1. LOGIN" << endl;
 		cout << "\t\t 2. SIGN UP" << endl;
-	//	cout << "\t\t 0. END PROGRAM" << endl;
+		cout << "\t\t 0. END PROGRAM" << endl;
 		string choice;
 		cout << "________________________________________________" << endl;
-		cout << "Press Enter to end program..." << endl;
+//		cout << "Press Enter to end program..." << endl;
 		cout << "Enter your choice: ";	
 
-		getline(cin, choice);
+		cin >> choice;
 //		cin.ignore();
 		if (choice == "1")
 			menu.Login(accountLogin, listAcc, accInfo, username, password);
 		else if (choice == "2")
 			menu.SignUp(accountLogin, AccountSignUp, listAcc, accInfo, username, password);
-		else if (choice == "0")
+		else 
 			return -1;
-		else if (choice == "")
-			exit(0);
 	}
 
 	return 0;

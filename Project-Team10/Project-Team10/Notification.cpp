@@ -250,7 +250,7 @@ bool UserNotif::checkNotif(string customerID1, string sellerID1)
 	//cout << usnv.size() << endl;
 	loadListNotif();
 	int count = 0;
-	cout << "________________________________________________________________________________________________________________" << endl;
+	cout << "______________________________________________________________________________" << endl;
 
 	for (int i = 0; i < usnv.size(); i++)
 	{

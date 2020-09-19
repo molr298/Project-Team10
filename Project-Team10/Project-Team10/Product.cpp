@@ -235,7 +235,6 @@ void Product::saveListProduct()
 		prdv[i]->saveOneProduct(fout);
 	}
 	fout.close();
-	Product::prdvClear();
 	prdv.clear();
 }
 
@@ -293,7 +292,10 @@ void Product::inputProduct()
 void Product::addProduct(Product prd)
 {
 	Product::loadListProduct();
-	prdv.push_back(&prd);
+	Product* pAdd = nullptr;
+	pAdd = new Product;
+	pAdd = &prd;
+	prdv.push_back(pAdd);
 	Product::saveListProduct();
 }
 
@@ -642,7 +644,7 @@ void Product::viewStoreOfSeller(string IDseller)
 }
 void Product::prdvClear()
 {
-	for (int i = 0; i < prdv.size(); i++)
+	for (int i = 0; i < prdv.size()-1; i++)
 		delete prdv[i];
 }
 void Product::ordvClear()

@@ -191,7 +191,7 @@ void Seller ::sendReport(string senderID1)
 	AdminNotif::adnv.push_back(adn);
 	AdminNotif::saveListNotif();
 }
-void Seller::addProduct(const Product& a) {
+void Seller::addProduct(Product& a) {
 	this->Customer::Product::addProduct(a);
 }
 void Seller::removeProduct(const string& id) {

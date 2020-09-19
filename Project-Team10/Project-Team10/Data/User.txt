@@ -1,4 +1,4 @@
-8
+10
 19127001
 nguyenvanA
 Nguyen Van A
@@ -62,4 +62,20 @@ Ho Tuan Thanh
 912436287
 0
 1
+
+19127009
+nHuy
+Nhat Huy
+14/3/2001
+777801402
+0
+1
+
+19127010
+TrinhPham123
+Pham Doan Ngoc Trinh
+10/10/2001
+123456789
+1
+0
 

@@ -154,8 +154,9 @@ void Customer::sendReport(string senderID1)
 	};
 	for (int i = 0; i < 4; i++)
 		cout << command[i] << endl;
-	cout << "Choose Problem Type: " << endl;
+	cout << "Choose Problem Type: ";
 	cin >> type;
+	cin.ignore();
 	if (type == 1)
 	{
 		takerID1 = "Ad1";
@@ -163,6 +164,11 @@ void Customer::sendReport(string senderID1)
 	if (type == 2)
 	{
 		takerID1 = "Ad2";
+		cout << "Enter ID of user: ";
+		string IDUser;
+		getline(cin, IDUser);
+		AccountInfo* anotherUser = nullptr;
+		anotherUser->findUser(IDUser)->displayAccountInfo();
 	}
 	if (type == 3)
 	{
@@ -172,7 +178,7 @@ void Customer::sendReport(string senderID1)
 	{
 		takerID1 = "Ad4";
 	}
-	cin.ignore();
+	
 	cout << "Describe Problem: ";
 	getline(cin, problem);
 	AdminNotif adn;
@@ -182,6 +188,7 @@ void Customer::sendReport(string senderID1)
 	adn.setStatus("0");
 	AdminNotif::adnv.push_back(adn);
 	AdminNotif::saveListNotif();
+	cout << "We regret the inconvenience caused to you. The report was sent to admin, we will try to fix it as soon as possible!\n Thank you!!!" << endl;
 }
 
 void Customer::requestToBeSeller(string senderID)

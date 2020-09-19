@@ -23,6 +23,7 @@ public:
 	void ShowMenuEdit(AccountInfo&, Account&);
 
 	void ShowMenuUserFindUser(AccountInfo);
+	void ShowMenuReport(AccountInfo& user);
 
 	void ShowMenuShopping(AccountInfo&, Customer&, UserNotif&);	//Thêm bất cứ biến gì vào parameters nếu cần
 	void ShowMenuStore(AccountInfo&);

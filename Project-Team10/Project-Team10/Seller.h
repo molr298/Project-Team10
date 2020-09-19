@@ -10,7 +10,7 @@ public:
 	void approveCart(bool approveOrder, string IDseller);
 	void saleStatistic(string IDseller);
 	void sendReport(string senderID1);
-	void addProduct(const Product&);
+	void addProduct(Product&);
 	void removeProduct(const string&);
 	void edit(Product obj);
 };

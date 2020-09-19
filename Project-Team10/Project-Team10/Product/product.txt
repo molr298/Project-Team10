@@ -1,9 +1,9 @@
-14
+19
 101T
 19127002
 Moon Cake
-Made in Vietnam
-10
+Made in VietNam
+15000
 806
 1
 102T
@@ -15,10 +15,10 @@ Made in USA
 1
 103T
 19127002
-Wireless earphone
-Made in China
-40
-800
+Airpods 2
+
+4e+06
+750
 3
 104T
 19127002
@@ -64,8 +64,8 @@ Made in Taiwan
 1
 109T
 19127002
-IPhone 11 Pro Max phone case
-Made in China
+Iphone 11 case
+
 15
 800
 3
@@ -81,7 +81,7 @@ Made in Taiwan
 Macbook Pro 2020
 Made in China
 5e+07
-99
+96
 3
 863J
 19127008
@@ -97,3 +97,38 @@ Made in China
 2e+06
 500
 3
+167B
+19127002
+Laptop ASUS
+Made in China
+1.5e+07
+100
+3
+591B
+19127002
+Iphone 12
+Made in China
+5e+07
+10
+3
+790T
+19127002
+Inox table
+Made in Vietnam
+10000
+100
+4
+178S
+19127002
+Cup
+None
+15000
+1000
+4
+789W
+19127002
+Mirror
+None
+10000
+500
+4

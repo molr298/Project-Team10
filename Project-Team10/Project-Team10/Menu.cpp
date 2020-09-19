@@ -135,9 +135,10 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 		"Shopping",	//search product, filter, cart
 		"Notification",
 		"History",	//View history, rate product? rate seller?
+		"Report",
 		"Log out"
 	};
-	int nCommandPart = 6;
+	int nCommandPart = 7;
 			Customer cusShopping;
 			UserNotif usn;
 
@@ -181,7 +182,12 @@ void Menu::ShowMenuCustomer(AccountInfo& customerInfo, Account& customerAcc)
 			ShowMenuHistory(customerInfo);
 			break;
 		}
-		case 6://Log out 
+		case 6:
+		{
+			ShowMenuReport(customerInfo);
+			break;
+		}
+		case 7://Log out 
 		{
 			cin.ignore();
 			return;
@@ -204,9 +210,10 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 		"Store",	//store of seller
 		"Notification",
 		"History", //View shopping history, selling history, selling static \rate other seller? rate customer? rate product?
+		"Report",
 		"Log out"
 	};
-	int nCommandPart = 7;
+	int nCommandPart = 8;
 	Customer cusShopping;
 	UserNotif usn;
 	while (true) {
@@ -255,7 +262,12 @@ void Menu::ShowMenuSeller(AccountInfo& sellerInfo, Account& sellerAcc)
 			ShowMenuHistory(sellerInfo);
 			break;
 		}
-		case 7://Log out 
+		case 7:
+		{
+			ShowMenuReport(sellerInfo);
+			break;
+		}
+		case 8://Log out 
 		{
 			cin.ignore();
 			return;
@@ -351,21 +363,21 @@ void Menu::ShowMenuUserFindUser(AccountInfo userInfo)
 			return;
 		}
 
-		AccountInfo* anotherUser;
+		AccountInfo* anotherUser = nullptr;
 		anotherUser = userInfo.findUser(IDUser);
+		if (anotherUser == nullptr)
+		{
+			cout << "Cannot find this user..." << endl;
+			return;
+		}
 		anotherUser->displayAccountInfo();
-		cout << "1. Report this user" << endl;
-		(anotherUser->getStatus() == 1) ? cout << "2. View store of seller" << endl : cout << "";
+		(anotherUser->getStatus() == 1) ? cout << "1. View store of seller" << endl : cout << "";
 		cout << "0. Return" << endl;
 		cout << "_____________________________________" << endl;
 		int choice = 0;
 		cout << "Enter your choice: ";	cin >> choice;
 		Customer cus;
-		if (choice == 1) {
-			ShowTitle();
-			cus.sendReport(userInfo.getID());
-		}
-		else if (choice == 2 && anotherUser->getStatus() == 1) {
+		if (choice == 1 && anotherUser->getStatus() == 1) {
 
 			Product storeOfSeller;
 			storeOfSeller.viewStoreOfSeller(anotherUser->getID());
@@ -378,6 +390,12 @@ void Menu::ShowMenuUserFindUser(AccountInfo userInfo)
 		}
 		else return;
 	}
+}
+
+void Menu::ShowMenuReport(AccountInfo& user)
+{
+	Customer cus;
+	cus.sendReport(user.getID());
 }
 
 void Menu::ShowMenuShopping(AccountInfo& accInfo, Customer& cusShopping, UserNotif& usn)
@@ -470,6 +488,7 @@ void Menu::ShowMenuStore(AccountInfo& sellerInfo)
 		case 1:
 		{
 			Product AddProduct;
+			
 			AddProduct.addProduct(AddProduct.inputNewProduct(sellerInfo.getID()));
 			break;
 		}
@@ -497,31 +516,6 @@ void Menu::ShowMenuNotification(AccountInfo& accInfo)
 	ShowTitle();
 	if (accInfo.getStatus() == 2 ) 	//admin
 	{
-		//int notifChoice;
-		//AdminNotif admin;
-		//cout << "Handling User's report" << endl;
-		//admin.checkNotif(accInfo.getID(), "");
-		//if (accInfo.getID() == "Ad5") {
-		//	cout << "Do you want to accept all? (Y/N): ";
-		//	while (true)
-		//	{
-		//		char ch;
-		//		cin >> ch;
-		//		if (ch == 'y' || ch == 'Y')
-		//		{
-		//			Admin sellerRegistation;
-		//			sellerRegistation.acceptSeller();
-		//		}
-		//		else if (ch == 'n' || ch == 'N')
-		//		{
-		//			cout << "Chose one request you want to accept: ";
-		//			cin >> notifChoice;
-		//		}
-		//		else
-		//			cout << "Bad choice, try again\n";
-		//	}
-		//	
-		//}
 		AdminNotif admin;
 		cout << "Handling User's report" << endl;
 		if (admin.checkNotif(accInfo.getID(), "")) {
@@ -708,7 +702,7 @@ void Menu::ShoppingHistoryDetail(AccountInfo& accInfo, string ProductID, string 
 						for (int i = 0; i < 5; i++) {
 							cout << "\t" << i + 1 << ".";
 							for (int j = 0; j < i + 1; j++)
-								wcout << "★";
+								wcout << "*";
 						}
 						cout << "Rate:";
 						int ratePoint;
